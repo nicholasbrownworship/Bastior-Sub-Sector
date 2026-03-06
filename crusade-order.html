@@ -1,169 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order of Battle — Bastior Crusade</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<nav id="site-nav">
-  <div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="lore.html">Lore</a></li>
-    <li><a href="sector-map.html">Sector Map</a></li>
-    <li><a href="roster.html">Roster</a></li>
-    <li><a href="battle-log.html">Battle Log</a></li>
-    <li><a href="crusade-order.html">Order of Battle</a></li>
-    <li><a href="agendas.html">Agendas</a></li>
-    <li><a href="honour-roll.html">Honours</a></li>
-    <li><a href="rules-ref.html">Rules Ref</a></li>
-    <li><a href="tracker.html">Tracker</a></li>
-  </ul>
-  <button class="nav-toggle"><span></span><span></span><span></span></button>
-</nav>
-
+<nav id="site-nav"><div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="sector-map.html">Sector Map</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="agendas.html">Agendas</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="rules-ref.html">Rules Ref</a></li><li><a href="tracker.html">Tracker</a></li></ul><button class="nav-toggle"><span></span><span></span><span></span></button></nav>
 <div class="page-hero">
-  <div class="corner-tl"></div><div class="corner-tr"></div>
-  <div class="corner-bl"></div><div class="corner-br"></div>
-  <div class="eyebrow">Strategic Command — Imperium Nihilus Protocols</div>
+  <div class="hero-corner tl"></div><div class="hero-corner tr"></div><div class="hero-corner bl"></div><div class="hero-corner br"></div>
+  <p class="hero-eyebrow">Muster Rolls — Adeptus Administratum</p>
   <h1>Order of Battle</h1>
-  <p class="subtitle">The complete disposition of crusade forces across all players and factions in the Bastior campaign.</p>
+  <p class="subtitle">Registered Crusade forces, campaign special rules, and supply limits.</p>
+  <div class="hero-rule"><span>✦</span></div>
 </div>
-
-<main>
-  <div class="hive-fleet-ticker mb-4"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span></div>
-
-  <p class="section-title">Crusade Forces — Registered Armies</p>
-
-  <div class="alert alert-warning animate-in">
-    <span class="alert-icon">📋</span>
-    <div>Edit this page to add your own crusade force cards. Each player in the campaign should have a card listing their army, supply limit, and current crusade points.</div>
-  </div>
-
-  <!-- EXAMPLE FORCE CARDS — Edit these for your players -->
+<main><div class="ticker mb-3"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
+  <p class="sec-head reveal">Registered Crusade Forces</p>
+  <div class="alert alert-warn reveal"><span class="alert-icon">📋</span><div>Edit this page to fill in your players' force cards. Replace the bracketed placeholders with your actual army names, factions, and stats.</div></div>
   <div class="card-grid">
-
-    <div class="card animate-in">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
-        <div>
-          <div class="card-title">[ Player 1 Force Name ]</div>
-          <div class="card-meta">[ Faction — e.g. Space Marines ]</div>
-        </div>
-        <span class="badge badge-gold">Imperial</span>
-      </div>
-      <div class="stat-row"><span class="stat-label">Crusade Points</span><span class="stat-value warning">0</span></div>
-      <div class="stat-row"><span class="stat-label">Supply Limit</span><span class="stat-value">50 PL</span></div>
-      <div class="stat-row"><span class="stat-label">Supply Used</span><span class="stat-value">0 PL</span></div>
-      <div class="stat-row"><span class="stat-label">Battles Played</span><span class="stat-value">0</span></div>
-      <div class="stat-row"><span class="stat-label">Victories</span><span class="stat-value success">0</span></div>
-      <div class="threat-bar mt-2">
-        <div class="threat-bar-label"><span>Supply Used</span><span>0%</span></div>
-        <div class="threat-bar-track"><div class="threat-bar-fill imperial" style="width:0%"></div></div>
-      </div>
-      <div style="margin-top:0.75rem;font-style:italic;font-size:0.82rem;color:var(--text-dim)">[ Add force description here ]</div>
+    <div class="card reveal">
+      <div class="card-label"><span class="tag tag-gold">Player 1</span></div>
+      <div class="card-title">[ Force Name Here ]</div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">[ Faction — e.g. Space Marines / Astra Militarum ]</div>
+      <div class="stat-row"><span class="stat-key">Crusade Points</span><span class="stat-val warning">0 CP</span></div>
+      <div class="stat-row"><span class="stat-key">Supply Used</span><span class="stat-val">0 / 50 PL</span></div>
+      <div class="stat-row"><span class="stat-key">Battles Played</span><span class="stat-val">0</span></div>
+      <div class="stat-row"><span class="stat-key">Victories</span><span class="stat-val ok">0</span></div>
+      <div class="bar-wrap mt-2"><div class="bar-labels"><span>Supply Used</span><span>0%</span></div><div class="bar-track"><div class="bar-fill imperial" style="width:0%"></div></div></div>
+      <p style="font-style:italic;font-size:0.95rem;color:var(--text-dim);margin-top:0.9rem;">[ Add your force description and special character here ]</p>
     </div>
-
-    <div class="card animate-in animate-in-delay-1">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
-        <div>
-          <div class="card-title">[ Player 2 Force Name ]</div>
-          <div class="card-meta">[ Faction — e.g. Astra Militarum ]</div>
-        </div>
-        <span class="badge badge-gold">Imperial</span>
-      </div>
-      <div class="stat-row"><span class="stat-label">Crusade Points</span><span class="stat-value warning">0</span></div>
-      <div class="stat-row"><span class="stat-label">Supply Limit</span><span class="stat-value">50 PL</span></div>
-      <div class="stat-row"><span class="stat-label">Supply Used</span><span class="stat-value">0 PL</span></div>
-      <div class="stat-row"><span class="stat-label">Battles Played</span><span class="stat-value">0</span></div>
-      <div class="stat-row"><span class="stat-label">Victories</span><span class="stat-value success">0</span></div>
-      <div class="threat-bar mt-2">
-        <div class="threat-bar-label"><span>Supply Used</span><span>0%</span></div>
-        <div class="threat-bar-track"><div class="threat-bar-fill imperial" style="width:0%"></div></div>
-      </div>
-      <div style="margin-top:0.75rem;font-style:italic;font-size:0.82rem;color:var(--text-dim)">[ Add force description here ]</div>
+    <div class="card reveal d1">
+      <div class="card-label"><span class="tag tag-gold">Player 2</span></div>
+      <div class="card-title">[ Force Name Here ]</div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">[ Faction ]</div>
+      <div class="stat-row"><span class="stat-key">Crusade Points</span><span class="stat-val warning">0 CP</span></div>
+      <div class="stat-row"><span class="stat-key">Supply Used</span><span class="stat-val">0 / 50 PL</span></div>
+      <div class="stat-row"><span class="stat-key">Battles Played</span><span class="stat-val">0</span></div>
+      <div class="stat-row"><span class="stat-key">Victories</span><span class="stat-val ok">0</span></div>
+      <div class="bar-wrap mt-2"><div class="bar-labels"><span>Supply Used</span><span>0%</span></div><div class="bar-track"><div class="bar-fill imperial" style="width:0%"></div></div></div>
+      <p style="font-style:italic;font-size:0.95rem;color:var(--text-dim);margin-top:0.9rem;">[ Add your force description here ]</p>
     </div>
-
-    <div class="card animate-in animate-in-delay-2">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
-        <div>
-          <div class="card-title">[ Player 3 Force Name ]</div>
-          <div class="card-meta">[ Faction — e.g. Tyranids ]</div>
-        </div>
-        <span class="badge badge-hive">Hive Mind</span>
-      </div>
-      <div class="stat-row"><span class="stat-label">Crusade Points</span><span class="stat-value warning">0</span></div>
-      <div class="stat-row"><span class="stat-label">Supply Limit</span><span class="stat-value">50 PL</span></div>
-      <div class="stat-row"><span class="stat-label">Supply Used</span><span class="stat-value">0 PL</span></div>
-      <div class="stat-row"><span class="stat-label">Battles Played</span><span class="stat-value">0</span></div>
-      <div class="stat-row"><span class="stat-label">Victories</span><span class="stat-value success">0</span></div>
-      <div class="threat-bar mt-2">
-        <div class="threat-bar-label"><span>Supply Used</span><span>0%</span></div>
-        <div class="threat-bar-track"><div class="threat-bar-fill tyranid" style="width:0%"></div></div>
-      </div>
-      <div style="margin-top:0.75rem;font-style:italic;font-size:0.82rem;color:var(--text-dim)">[ Add force description here ]</div>
+    <div class="card reveal d2">
+      <div class="card-label"><span class="tag tag-hive">Player 3</span></div>
+      <div class="card-title">[ Force Name Here ]</div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">[ Faction — e.g. Tyranids ]</div>
+      <div class="stat-row"><span class="stat-key">Crusade Points</span><span class="stat-val warning">0 CP</span></div>
+      <div class="stat-row"><span class="stat-key">Supply Used</span><span class="stat-val">0 / 50 PL</span></div>
+      <div class="stat-row"><span class="stat-key">Battles Played</span><span class="stat-val">0</span></div>
+      <div class="stat-row"><span class="stat-key">Victories</span><span class="stat-val ok">0</span></div>
+      <div class="bar-wrap mt-2"><div class="bar-labels"><span>Supply Used</span><span>0%</span></div><div class="bar-track"><div class="bar-fill tyranid" style="width:0%"></div></div></div>
+      <p style="font-style:italic;font-size:0.95rem;color:var(--text-dim);margin-top:0.9rem;">[ Add force description here ]</p>
     </div>
-
   </div>
 
-  <div class="divider"><span class="divider-icon">✦</span></div>
+  <div class="divider"><span>✦</span></div>
+  <p class="sec-head reveal">Supply Limit by Crusade Points</p>
+  <table class="tbl reveal"><thead><tr><th>Crusade Points</th><th>Supply Limit</th><th>Increase</th></tr></thead><tbody>
+    <tr><td class="mono">0 – 5 CP</td><td class="mono">50 PL</td><td>Starting limit</td></tr>
+    <tr><td class="mono">6 – 10 CP</td><td class="mono">60 PL</td><td>+10 PL</td></tr>
+    <tr><td class="mono">11 – 20 CP</td><td class="mono">75 PL</td><td>+15 PL</td></tr>
+    <tr><td class="mono">21 – 30 CP</td><td class="mono">85 PL</td><td>+10 PL</td></tr>
+    <tr><td class="mono">31 – 50 CP</td><td class="mono">100 PL</td><td>+15 PL</td></tr>
+    <tr><td class="mono">51+ CP</td><td class="mono">125 PL</td><td>+25 PL</td></tr>
+  </tbody></table>
 
-  <p class="section-title">Campaign Supply Rules</p>
-  <div class="content-wide animate-in">
-    <p class="lore-text">Each crusade force begins with a Supply Limit of <strong class="text-gold">50 Power Level</strong>. As forces earn Crusade Points, their Supply Limit increases, allowing them to field more powerful units.</p>
-    <table class="data-table mt-3">
-      <thead><tr><th>Crusade Points</th><th>Supply Limit Increase</th><th>Total Supply Limit</th></tr></thead>
-      <tbody>
-        <tr><td class="mono">0–5 CP</td><td>—</td><td>50 PL</td></tr>
-        <tr><td class="mono">6–10 CP</td><td>+10 PL</td><td>60 PL</td></tr>
-        <tr><td class="mono">11–20 CP</td><td>+15 PL</td><td>75 PL</td></tr>
-        <tr><td class="mono">21–30 CP</td><td>+10 PL</td><td>85 PL</td></tr>
-        <tr><td class="mono">31–50 CP</td><td>+15 PL</td><td>100 PL</td></tr>
-        <tr><td class="mono">51+ CP</td><td>+25 PL</td><td>125 PL</td></tr>
-      </tbody>
-    </table>
-
-    <div class="divider"><span class="divider-icon">✦</span></div>
-
-    <p class="section-title">Tyrannic War Campaign Rules — Force Modifiers</p>
-
-    <h3 class="lore-sub">The Devourer's Hunger</h3>
-    <p class="lore-text">Tyranid forces in this campaign gain the following special rules:</p>
-    <ul class="honour-list">
-      <li><strong>Endless Swarm:</strong> When a Tyranid unit is destroyed, on a roll of 5+ it returns with D3 models at the start of the following battle round.</li>
-      <li><strong>Synaptic Adaptation:</strong> After each battle, the Tyranid player may swap one unit's Crusade Boon for one from the <em>Adaptive Physiology</em> table.</li>
-      <li><strong>Biomass Harvest:</strong> At the end of each battle, the Tyranid player gains +1 CP for each unit they destroyed (max +3).</li>
-    </ul>
-
-    <h3 class="lore-sub">The Emperor's Shield</h3>
-    <p class="lore-text">Imperial forces gain the following special rules:</p>
-    <ul class="honour-list">
-      <li><strong>Defenders of Humanity:</strong> Imperial units gain +1 to Battle-shock tests when within 6" of an objective marker.</li>
-      <li><strong>Last Stand:</strong> Once per battle, when an Imperial unit would be destroyed, roll a D6. On a 6, it survives with 1 model remaining.</li>
-      <li><strong>Crusade of Faith:</strong> Imperial forces earn +1 CP whenever they complete a narrative agenda.</li>
-    </ul>
-
-    <h3 class="lore-sub">The Shadow in the Warp</h3>
-    <div class="alert alert-hive mt-2">
-      <span class="alert-icon hive-pulse">⬡</span>
-      <div>
-        While Tyranid forces are present on the battlefield, all <strong>Psychic</strong> abilities used by non-Tyranid units suffer a -1 to their roll. Units within 12" of a Tyranid unit with the <em>Shadow in the Warp</em> ability cannot use Stratagems that cost 3+ CP. This rule is suspended for units with the <em>Survivors of the Shadow</em> battle honour.
+  <div class="divider"><span>✦</span></div>
+  <p class="sec-head reveal">Campaign Special Rules</p>
+  <div class="two-col">
+    <div>
+      <div class="panel reveal">
+        <div class="panel-title">🧬 Tyranid Faction Rules</div>
+        <h3 class="lore-sh" style="margin-top:0;">Endless Swarm</h3>
+        <p>When a Tyranid unit with 5+ models is destroyed, roll a D6. On a 5+, the unit returns at the start of the next battle round with D3 models, placed within 6" of a table edge.</p>
+        <h3 class="lore-sh">Synaptic Adaptation</h3>
+        <p>After each battle, the Tyranid player may swap one unit's Crusade Boon for a different one from the Adaptive Physiology list (see Rules Reference).</p>
+        <h3 class="lore-sh">Biomass Harvest</h3>
+        <p>At the end of each battle, the Tyranid player gains +1 CP for each enemy unit completely destroyed during the battle, to a maximum of +3 CP.</p>
+      </div>
+      <div class="panel reveal d1">
+        <div class="panel-title">⚜ Imperial Faction Rules</div>
+        <h3 class="lore-sh" style="margin-top:0;">Defenders of Humanity</h3>
+        <p>Imperial units gain +1 to Battle-shock tests while within 6" of an objective marker. This stacks with other modifiers.</p>
+        <h3 class="lore-sh">Last Stand</h3>
+        <p>Once per battle, when an Imperial unit would be destroyed, roll a D6. On a 6, that unit instead survives with 1 model remaining at 1 Wound. May not be used by Titanic units.</p>
+        <h3 class="lore-sh">Crusade of Faith</h3>
+        <p>Imperial forces earn +1 bonus CP (not added to roster total) whenever they complete a narrative Agenda in full. This bonus may be spent immediately on Stratagems.</p>
       </div>
     </div>
+    <aside class="sidebar">
+      <div class="panel reveal">
+        <div class="panel-title">Requisition Costs</div>
+        <div class="stat-row"><span class="stat-key">Resupply</span><span class="stat-val">1 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Fresh Recruits</span><span class="stat-val">1 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Rearm &amp; Resupply</span><span class="stat-val">1 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Choosing Agendas</span><span class="stat-val">0 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Field Promotion</span><span class="stat-val">1 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Specialist Reinforcement</span><span class="stat-val">2 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Lord of War permit</span><span class="stat-val">3 CP</span></div>
+      </div>
+      <div class="panel reveal d1">
+        <div class="panel-title">Current Tracker</div>
+        <div class="stat-row"><span class="stat-key">Your CP</span><span class="stat-val warning"><span class="cp-live">0</span></span></div>
+        <div class="stat-row"><span class="stat-key">Supply Used</span><span class="stat-val"><span class="sup-used-live">0</span> PL</span></div>
+        <div class="stat-row"><span class="stat-key">Supply Limit</span><span class="stat-val"><span class="sup-max-live">50</span> PL</span></div>
+        <div style="margin-top:1rem;"><a href="tracker.html" class="btn" style="width:100%;text-align:center;display:block;clip-path:none;padding:0.6rem;font-size:0.7rem;"><span>Open Tracker →</span></a></div>
+      </div>
+    </aside>
   </div>
 </main>
-
-<footer>
-  <div class="footer-seal">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div>
-  <p class="footer-text">For the glory of the Emperor and the preservation of Mankind.</p>
-  <ul class="footer-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="roster.html">Roster</a></li>
-    <li><a href="agendas.html">Agendas</a></li>
-    <li><a href="rules-ref.html">Rules Ref</a></li>
-  </ul>
-</footer>
+<footer><div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div><p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="roster.html">Roster</a></li><li><a href="tracker.html">Tracker</a></li><li><a href="rules-ref.html">Rules Ref</a></li></ul></footer>
 <script src="js/main.js"></script>
 </body>
 </html>
