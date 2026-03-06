@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factions — Bastior Crusade</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .faction-hero-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: rgba(212,164,32,0.15);
+      border: 1px solid rgba(212,164,32,0.25);
+      margin-bottom: 3rem;
+    }
+    .faction-hero-cell {
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .fhc-imperial { background: linear-gradient(160deg, rgba(20,16,28,0.95), rgba(14,12,18,0.98)); }
+    .fhc-tyranid  { background: linear-gradient(160deg, rgba(8,20,4,0.95),  rgba(4,12,2,0.98)); }
+    .fhc-neutral  { background: linear-gradient(160deg, rgba(20,16,10,0.95), rgba(12,10,6,0.98)); }
+    .fhc-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.04em;
+    }
+    .fhc-imperial .fhc-title { color: var(--gold-bright); }
+    .fhc-tyranid  .fhc-title { color: var(--hive-bright); }
+    .fhc-neutral  .fhc-title { color: var(--text-dim); }
+    .fhc-count {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .fhc-imperial .fhc-count { color: var(--gold-dim); }
+    .fhc-tyranid  .fhc-count { color: rgba(136,208,48,0.5); }
+    .fhc-neutral  .fhc-count { color: var(--text-faint); }
+    .fhc-factions {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-style: italic;
+      margin-top: 0.5rem;
+      line-height: 1.6;
+    }
+    .fhc-imperial .fhc-factions { color: var(--text-main); }
+    .fhc-tyranid  .fhc-factions { color: rgba(136,208,48,0.7); }
+    .fhc-neutral  .fhc-factions { color: var(--text-dim); }
+
+    /* Faction entry card */
+    .faction-entry {
+      margin-bottom: 3.5rem;
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid rgba(212,164,32,0.12);
+    }
+    .faction-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .faction-header {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 0 1.5rem;
+      align-items: start;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(212,164,32,0.15);
+    }
+    .faction-sigil {
+      width: 80px; height: 80px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem;
+      flex-shrink: 0;
+      border: 1px solid currentColor;
+      position: relative;
+    }
+    .faction-sigil.imperial { color: var(--gold-dim); background: rgba(212,164,32,0.06); }
+    .faction-sigil.tyranid  { color: rgba(136,208,48,0.45); background: rgba(136,208,48,0.05); }
+    .faction-sigil.neutral  { color: var(--steel-light); background: rgba(90,96,112,0.07); }
+    .faction-sigil.chaos    { color: rgba(200,80,80,0.5); background: rgba(160,40,40,0.07); }
+
+    .faction-name {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+    .faction-name.imperial { color: var(--gold-bright); text-shadow: var(--glow-gold); }
+    .faction-name.tyranid  { color: var(--hive-bright); text-shadow: var(--glow-hive); }
+    .faction-name.neutral  { color: var(--steel-light); }
+    .faction-name.chaos    { color: var(--blood-pale); text-shadow: var(--glow-blood); }
+
+    .faction-epithet {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-dim);
+      margin-bottom: 0.6rem;
+      line-height: 1.5;
+    }
+    .faction-meta {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+
+    .faction-stats {
+      display: grid;
+      grid-template-rows: repeat(4, auto);
+      gap: 0.3rem;
+      min-width: 160px;
+      padding: 0.9rem 1.1rem;
+      background: rgba(212,164,32,0.04);
+      border: 1px solid rgba(212,164,32,0.15);
+      align-self: start;
+      flex-shrink: 0;
+    }
+    .fs-row { display: flex; flex-direction: column; }
+    .fs-label { font-family: var(--font-mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); }
+    .fs-val   { font-family: var(--font-heading); font-size: 0.82rem; font-weight: 600; color: var(--text-bright); line-height: 1.3; }
+
+    .faction-entry p { font-size: 1rem; line-height: 1.82; color: var(--text-main); margin-bottom: 1rem; }
+    .faction-entry p:last-child { margin-bottom: 0; }
+
+    .faction-motivation {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      border-left: 3px solid currentColor;
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+    .faction-motivation.imperial { border-color: var(--gold-dim); background: rgba(212,164,32,0.05); color: var(--text-bright); }
+    .faction-motivation.tyranid  { border-color: var(--hive-bright); background: rgba(136,208,48,0.06); color: var(--text-bright); }
+    .faction-motivation.neutral  { border-color: var(--steel-light); background: rgba(90,96,112,0.07); color: var(--text-bright); }
+    .faction-motivation.chaos    { border-color: var(--blood-pale); background: rgba(160,40,40,0.07); color: var(--text-bright); }
+    .faction-motivation strong { display: block; font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.4rem; }
+    .faction-motivation.imperial strong { color: var(--gold-bright); }
+    .faction-motivation.tyranid  strong { color: var(--hive-bright); }
+    .faction-motivation.neutral  strong { color: var(--steel-light); }
+    .faction-motivation.chaos    strong { color: var(--blood-pale); }
+
+    .side-divider {
+      display: flex; align-items: center; gap: 1.5rem;
+      margin: 3.5rem 0 2.5rem;
+    }
+    .side-divider::before, .side-divider::after { content: ''; flex: 1; height: 2px; }
+    .sd-imperial::before, .sd-imperial::after { background: linear-gradient(90deg, transparent, var(--gold-dim)); }
+    .sd-imperial::after  { background: linear-gradient(90deg, var(--gold-dim), transparent); }
+    .sd-tyranid::before  { background: linear-gradient(90deg, transparent, var(--hive-bright)); }
+    .sd-tyranid::after   { background: linear-gradient(90deg, var(--hive-bright), transparent); }
+    .sd-neutral::before  { background: linear-gradient(90deg, transparent, var(--steel)); }
+    .sd-neutral::after   { background: linear-gradient(90deg, var(--steel), transparent); }
+    .side-divider-label {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid currentColor;
+    }
+    .sd-imperial .side-divider-label { color: var(--gold-bright); border-color: var(--gold-dim); background: rgba(212,164,32,0.06); text-shadow: var(--glow-gold); }
+    .sd-tyranid  .side-divider-label { color: var(--hive-bright); border-color: rgba(136,208,48,0.4); background: rgba(136,208,48,0.05); }
+    .sd-neutral  .side-divider-label { color: var(--steel-light); border-color: rgba(90,96,112,0.4); background: rgba(90,96,112,0.06); }
+
+    @media (max-width: 700px) {
+      .faction-header { grid-template-columns: 60px 1fr; }
+      .faction-stats { grid-column: 1 / -1; grid-row: 2; }
+      .faction-sigil { width: 60px; height: 60px; font-size: 2rem; }
+      .faction-name { font-size: 1.3rem; }
+      .faction-hero-bar { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<nav id="site-nav"><div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="sector-map.html">Sector Map</a></li><li><a href="factions.html">Factions</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="agendas.html">Agendas</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="rules-ref.html">Rules Ref</a></li><li><a href="tracker.html">Tracker</a></li></ul><button class="nav-toggle"><span></span><span></span><span></span></button></nav>
+
+<div class="page-hero">
+  <div class="hero-corner tl"></div><div class="hero-corner tr"></div><div class="hero-corner bl"></div><div class="hero-corner br"></div>
+  <p class="hero-eyebrow">Order of Battle — All Factions — Bastior Sub-Sector</p>
+  <h1>Factions</h1>
+  <p class="subtitle">Thirteen forces. Three agendas. One dying sub-sector. Not all of them want it to survive.</p>
+  <div class="hero-rule"><span>✦</span></div>
+</div>
+
+<main>
+  <div class="ticker mb-3"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
+
+  <!-- ALIGNMENT OVERVIEW -->
+  <div class="faction-hero-bar reveal">
+    <div class="faction-hero-cell fhc-imperial">
+      <div class="fhc-title">⚜ Imperial</div>
+      <div class="fhc-count">5 Factions — Defending the Cordon</div>
+      <div class="fhc-factions">Dark Angels · Grey Knights · Black Templars · Salamanders · Astra Militarum</div>
+    </div>
+    <div class="faction-hero-cell fhc-tyranid">
+      <div class="fhc-title">⬡ Tyranid</div>
+      <div class="fhc-count">3 Factions — The Devouring Tide</div>
+      <div class="fhc-factions">Tyranids · World Eaters · Emperor's Children</div>
+    </div>
+    <div class="faction-hero-cell fhc-neutral">
+      <div class="fhc-title">✦ Opportunist</div>
+      <div class="fhc-count">4 Factions — Their Own Agenda</div>
+      <div class="fhc-factions">Orks · Necrons · T'au · T'au</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+
+      <!-- ===== IMPERIAL SIDE ===== -->
+      <div class="side-divider sd-imperial reveal">
+        <div class="side-divider-label">⚜ The Imperial Defenders</div>
+      </div>
+
+      <!-- DARK ANGELS -->
+      <div class="faction-entry reveal" id="dark-angels">
+        <div class="faction-header">
+          <div class="faction-sigil imperial">🌑</div>
+          <div>
+            <div class="faction-name imperial">Dark Angels</div>
+            <div class="faction-epithet">First Legion. Unforgiven. Hunters of secrets in the shadow of duty.</div>
+            <div class="faction-meta">
+              <span class="tag tag-gold">Imperial</span>
+              <span class="tag tag-steel">Space Marines</span>
+              <span class="tag tag-steel">First Legion</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val">Imperial</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Hunt the Fallen</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">Hold the Cordon</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--gold-bright);">Guarded</div></div>
+          </div>
+        </div>
+        <p>The Dark Angels did not come to the Bastior Sub-Sector to fight Tyranids. That is not to say they fight poorly — they do not — but anyone who has spent time observing their deployment patterns will notice something the Chapter's officers have not bothered to conceal: they are searching for something. Strike forces arrive ahead of the main swarm's approach vector, sweep an area thoroughly, and then reposition in ways that have no clear tactical relationship to the defensive cordon's needs. Requests for explanation from Lord Commander Hemmont's staff are met with polite, absolute silence.</p>
+        <p>What the Dark Angels are actually hunting is one of their own — a Fallen, a traitor from the Legion's ancient sundering at Caliban, who is believed to have been operating in the Bastior Sub-Sector for decades before the Tyranid invasion provided useful cover. The Chapter's Interrogator-Chaplains are convinced that the chaos of the war is being deliberately exploited by this individual to disappear. They are equally convinced that finding him matters more than anything else happening in this sub-sector.</p>
+        <p>The rank-and-file Dark Angels fight with absolute discipline and a ferocity that makes them invaluable to the defence cordon. Their Deathwing and Ravenwing elements have broken several Tyranid breakthroughs that would otherwise have been catastrophic. Lord Commander Hemmont has learned not to ask why they are where they are, and simply to be grateful that they are there.</p>
+        <div class="faction-motivation imperial">
+          <strong>Motivation in Theatre</strong>
+          The Fallen must not escape into the chaos of a consumed sub-sector. Whatever it takes to keep the war going long enough to find him — that is what the Dark Angels will do. If defending Bastior Prime keeps the hunt viable, they defend Bastior Prime. Their loyalty to the Imperium is genuine. It is simply not their first priority.
+        </div>
+      </div>
+
+      <!-- GREY KNIGHTS -->
+      <div class="faction-entry reveal" id="grey-knights">
+        <div class="faction-header">
+          <div class="faction-sigil imperial">🔱</div>
+          <div>
+            <div class="faction-name imperial">Grey Knights</div>
+            <div class="faction-epithet">Daemon hunters. Secret keepers. The silver blade in the dark.</div>
+            <div class="faction-meta">
+              <span class="tag tag-gold">Imperial</span>
+              <span class="tag tag-steel">Space Marines</span>
+              <span class="tag tag-purple">Ordo Malleus</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val">Imperial</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Contain Chaos Presence</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">Purge &amp; Sanctify</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--hive-bright);">High</div></div>
+          </div>
+        </div>
+        <p>The Grey Knights' presence in Bastior was, initially, not about the Tyranids at all. They were dispatched in response to the Genestealer cult uprisings on Morthix IV — not because cults fall under the Ordo Malleus's remit, but because the Inquisitorial intelligence attached to those uprisings suggested the involvement of a Chaos cult operating beneath the Genestealer infestation, exploiting the psychic disruption caused by the Shadow in the Warp to conduct daemonic rituals that would otherwise have been detectable. The Grey Knights came to burn that out.</p>
+        <p>They found what they were looking for, destroyed it with characteristic thoroughness, and then discovered that leaving was no longer straightforward. Fleet Venorath's advance had closed off their extraction routes. More significantly, their Chief Librarian — a psyker of formidable capability — had begun experiencing visions during the campaign on Morthix IV that he could not easily dismiss: images of the Bastior Sub-Sector's fate in multiple possible futures, most of them involving outcomes that were, by any measure, unacceptable. He has not shared the content of these visions with anyone outside his immediate brotherhood. He has shared his recommendation that they stay.</p>
+        <p>For the defence cordon, the Grey Knights' presence is an enormous asset and a continual source of anxiety. Their psychic capabilities are without equal among the sub-sector's defenders. They also make everyone around them slightly uneasy, in ways that are difficult to articulate but impossible to ignore.</p>
+        <div class="faction-motivation imperial">
+          <strong>Motivation in Theatre</strong>
+          The Chaos cult on Morthix IV was destroyed. But the visions persist. The Chief Librarian believes that something in the Bastior Sub-Sector — the Architrave, perhaps, or something connected to it — represents a threat that extends beyond the Tyranid invasion itself. He does not yet know what. He knows he cannot leave until he does.
+        </div>
+      </div>
+
+      <!-- BLACK TEMPLARS -->
+      <div class="faction-entry reveal" id="black-templars">
+        <div class="faction-header">
+          <div class="faction-sigil imperial">✝</div>
+          <div>
+            <div class="faction-name imperial">Black Templars</div>
+            <div class="faction-epithet">Eternal Crusaders. No retreat. No mercy. No end to the war.</div>
+            <div class="faction-meta">
+              <span class="tag tag-gold">Imperial</span>
+              <span class="tag tag-steel">Space Marines</span>
+              <span class="tag tag-gold">Crusading Chapter</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val">Imperial</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Crusade. Always.</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">Protect Rho-Kethis</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--hive-bright);">Absolute</div></div>
+          </div>
+        </div>
+        <p>Of all the forces defending the Bastior Sub-Sector, the Black Templars require the least explanation for why they are here. They are here because there is a war, and a war is a crusade, and a crusade is what the Black Templars do. It is what they have done since their founding, without pause, across ten thousand years of unbroken campaigning. When the call for aid reached their nearest crusade fleet — six weeks' warp travel away — Marshal Brennan Voth did not deliberate. He gave the order to translate, and his warriors spent the journey sharpening blades and praying.</p>
+        <p>The Black Templars hold the defensive lines around Rho-Kethis with a ferocity that has become, among the sub-sector's other defenders, the subject of something between admiration and awe. They do not build fortifications. They build kill-zones. Their approach to defence is essentially offensive in character — every position they hold is held by making the ground in front of it too expensive for the enemy to cross, rather than by making the ground behind it too strong to break through. This works extraordinarily well against Tyranids, who do not adjust their assault approach based on expected casualties.</p>
+        <p>Marshal Voth's personal vendetta against the Void-Stalker Lictors on Rho-Kethis has become something of a legend among the sub-sector's forces. He has personally led seven hunts into the mausoleum districts. He has returned from all seven. He regards Whisper-Nine as a personal affront to everything holy, and the feeling, insofar as a Tyranid organism can be said to have feelings, may be mutual.</p>
+        <div class="faction-motivation imperial">
+          <strong>Motivation in Theatre</strong>
+          The Rho-Kethis shrine worlds are sacred ground. The graves of the honoured dead will not be dissolved into alien biomass while a single Black Templar draws breath. Beyond the specific, there is the general: the Black Templars do not leave a crusade unfinished. They will be the last ones standing, if it comes to that.
+        </div>
+      </div>
+
+      <!-- SALAMANDERS -->
+      <div class="faction-entry reveal" id="salamanders">
+        <div class="faction-header">
+          <div class="faction-sigil imperial">🔥</div>
+          <div>
+            <div class="faction-name imperial">Salamanders</div>
+            <div class="faction-epithet">Forged in Noctan fire. They fight for the living, not for glory.</div>
+            <div class="faction-meta">
+              <span class="tag tag-gold">Imperial</span>
+              <span class="tag tag-steel">Space Marines</span>
+              <span class="tag tag-steel">XVIII Legion</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val">Imperial</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Protect Civilians</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">Hold Morthix IV</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--hive-bright);">Beloved</div></div>
+          </div>
+        </div>
+        <p>The Salamanders came to the Bastior Sub-Sector because 1.4 billion displaced refugees on Pentarch were starving, and that was unacceptable. That is not a strategic calculation. That is not a political decision. That is a Chapter that has, since the days of Vulkan himself, measured its worth by the number of civilians who survive to see the next dawn, and which saw a number it could not walk away from.</p>
+        <p>Captain Asha Vor'taan of the 4th Company made the decision to respond to Pentarch's refugee crisis on his own authority after receiving a civilian aid request that had been passed up the Administratum's chain of command for six months without action. He brought forge expertise, medicae support, agricultural engineering, and three full tactical squads to an overcrowded staging world that had been running on institutional desperation, and within four months had measurably reduced the death rate from supply failure. He then stayed, because the war had not ended and the people had not stopped needing help.</p>
+        <p>On the battlefield, the Salamanders fight with the controlled fury of warriors who have something specific to protect — not abstract ideals but the people behind the line, whose faces they know and whose names they have learned. This makes them, in some measurable tactical sense, better fighters in defensive scenarios than their counterparts who fight for honour or doctrine. They have also become, without particularly trying, the most beloved force in the sub-sector among the civilian population, which generates its own strategic value.</p>
+        <div class="faction-motivation imperial">
+          <strong>Motivation in Theatre</strong>
+          The refugees of Calyx Secundus and Ostria Reach have already lost everything once. The Salamanders will not allow them to lose what remains. Pentarch holds, the cordon holds, and 1.4 billion people live. That is the equation, and there is no version of it where the Salamanders walk away.
+        </div>
+      </div>
+
+      <!-- ASTRA MILITARUM -->
+      <div class="faction-entry reveal" id="astra-militarum">
+        <div class="faction-header">
+          <div class="faction-sigil imperial">⚙</div>
+          <div>
+            <div class="faction-name imperial">Astra Militarum</div>
+            <div class="faction-epithet">The hammer of the Imperium. Ten billion soldiers. Not enough.</div>
+            <div class="faction-meta">
+              <span class="tag tag-gold">Imperial</span>
+              <span class="tag tag-steel">Astra Militarum</span>
+              <span class="tag tag-steel">Bastior Regiments</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val">Imperial</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Hold Every Inch</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">Survive</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--hive-bright);">Foundational</div></div>
+          </div>
+        </div>
+        <p>The Astra Militarum regiments of the Bastior Sub-Sector did not choose to be here. They were born here, raised here, and conscripted here, and when the Tyranids came they were handed weapons and told to stand in front of them. The Bastior 1st through 9th Infantry Regiments, the Morthix Armoured Divisions, the Pentarch Pioneer Corps — these are not glory-seeking warriors. They are people doing the most terrible job imaginable because there is nobody else to do it.</p>
+        <p>Three years of war have ground the original regiment compositions down significantly. The 3rd Infantry Regiment was destroyed entirely at the defence of Ostria Reach and reconstituted from survivors, new conscripts, and soldiers transferred from other units in numbers that have no tactical logic but a powerful symbolic one — the 3rd exists because Hemmont needs the regiments to exist, because the people fighting under their banners need the continuity of identity that a regimental number provides. You fight harder when you know what you are. You survive longer when you know the person next to you is fighting for the same thing.</p>
+        <p>The Guard's greatest asset in this campaign is the one that is never mentioned in strategic assessments: they know the terrain. The industrial corridors of Bastior Prime, the hive spire underhives of Morthix IV, the deep bore-tunnels of Pentarch — these are not abstract battlefields. They are home. Every soldier in the Bastior regiments has a family somewhere in this sub-sector. That knowledge does not make them braver. It makes them, in the coldest sense, more efficient. They cannot afford to lose.</p>
+        <div class="faction-motivation imperial">
+          <strong>Motivation in Theatre</strong>
+          Home. Family. The names of people they love who are somewhere behind the line, depending on them not to fail. There is no ideology in it. There is no glory. There is only the fact that they are here and the enemy is there and between those two facts there is a line that will not move.
+        </div>
+      </div>
+
+      <!-- ===== TYRANID SIDE ===== -->
+      <div class="side-divider sd-tyranid reveal">
+        <div class="side-divider-label">⬡ The Tyranid Tide</div>
+      </div>
+
+      <!-- TYRANIDS -->
+      <div class="faction-entry reveal" id="tyranids">
+        <div class="faction-header">
+          <div class="faction-sigil tyranid">⬡</div>
+          <div>
+            <div class="faction-name tyranid">Tyranids</div>
+            <div class="faction-epithet">Fleet Venorath. The Great Devourer. It has no name for itself — only hunger.</div>
+            <div class="faction-meta">
+              <span class="tag tag-hive">Tyranid Side</span>
+              <span class="tag tag-hive">Fleet Venorath</span>
+              <span class="tag tag-hive">Hive Fleet Leviathan</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val" style="color:var(--hive-bright);">Tyranid</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Total Consumption</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">None. This is the goal.</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--blood-bright);">None</div></div>
+          </div>
+        </div>
+        <p>Fleet Venorath does not have motivations in any sense a human mind can easily grasp. It is not angry. It is not malicious. It does not hate the Bastior Sub-Sector or the billions of people who live in it. It is hungry in a way that has no emotional content — a biological drive operating at a scale that makes the concepts of "want" and "need" seem quaint and small. The sub-sector is biomass. The biomass will be consumed. The Hive Mind has been working toward this outcome for longer than the oldest living person in the sub-sector has been alive.</p>
+        <p>What makes Fleet Venorath distinctive, and what has sustained the Imperial defence far longer than probability suggested it should, is the patience of whatever directs it. Standard Tyranid assault doctrine prizes speed and momentum — overwhelming force delivered faster than the defender can respond. Venorath probes. It withdraws. It learns. Each failed assault provides data that the next assault incorporates. Three years of war have made Venorath, by some measures, better at fighting the specific defenders of the Bastior Sub-Sector than any Tyranid force has any right to be.</p>
+        <p>The Chaos forces that have aligned themselves with the Tyranid side are not, in any meaningful sense, allies of the swarm. The Hive Mind has no interest in them beyond the biomass they represent. They are not controlled, not protected, and will be consumed with the same thoroughness as the Imperials when the time comes. They simply have the same short-term objective — the destruction of the Imperial cordon — and the Hive Mind has adapted its assault patterns to exploit the disruption they cause. This is not cooperation. It is resource efficiency.</p>
+        <div class="faction-motivation tyranid">
+          <strong>Motivation in Theatre</strong>
+          Consume. There is nothing else. The sub-sector's biomass is the target. The defenders are the obstacle. The Chaos forces are a tool. Everything else is irrelevant.
+        </div>
+      </div>
+
+      <!-- WORLD EATERS -->
+      <div class="faction-entry reveal" id="world-eaters">
+        <div class="faction-header">
+          <div class="faction-sigil chaos">💀</div>
+          <div>
+            <div class="faction-name chaos">World Eaters</div>
+            <div class="faction-epithet">The Blood God's war finds them everywhere. They did not come here. The killing brought them.</div>
+            <div class="faction-meta">
+              <span class="tag tag-hive">Tyranid Side</span>
+              <span class="tag tag-blood">Chaos</span>
+              <span class="tag tag-blood">Khorne</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val" style="color:var(--blood-pale);">Tyranid Side</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Slaughter</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">More Slaughter</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--blood-bright);">Zero</div></div>
+          </div>
+        </div>
+        <p>A warband of World Eaters arrived at the Bastior Sub-Sector's edge in 998.M41, drawn by what their Khornate seers described as a "tide of blood-thunder" — the psychic resonance of billions dying in a relatively small area of space, which for a follower of the Blood God is essentially a homing beacon. They did not plan to come here. They were drawn here, as iron filings are drawn to a magnet, by the scale of the killing.</p>
+        <p>Their alignment with the Tyranid side is not ideological or cooperative. It is purely a matter of direction. The World Eaters want to kill. The Tyranid assault creates maximum opportunities to kill things that fight back — specifically, the hardened Imperial defenders of the Bastior cordon, who are exactly the kind of opposition that Khornate warriors find most satisfying. The Tyranid advance disrupts the Imperial lines in ways that open paths for the World Eaters to charge through. The World Eaters break things that the Tyranids can then consume. This is not an alliance. It is two separate processes that happen to produce complementary outputs.</p>
+        <p>The World Eaters will fight Tyranids if they encounter them, because they will fight anything if it is standing in front of them. They have, in fact, fought several significant engagements against Venorath organisms when the swarm's assault patterns happened to cross paths with the warband's assault patterns. The Hive Mind has, in a development that should concern everyone, adapted its local deployment to route around the World Eaters when possible. Even the Great Devourer has apparently decided that the opportunity cost of directing a warband of Khornate berserkers is not worth the biomass gain.</p>
+        <div class="faction-motivation chaos">
+          <strong>Motivation in Theatre</strong>
+          Blood for the Blood God. Skulls for the Skull Throne. The specific identity of the bleeding and decapitated is genuinely irrelevant — Imperial, Tyranid, Ork, or each other. The Bastior Sub-Sector is a war zone, and the World Eaters are a force of nature that gravitates toward war zones the way storms gravitate toward coastlines.
+        </div>
+      </div>
+
+      <!-- EMPEROR'S CHILDREN -->
+      <div class="faction-entry reveal" id="emperors-children">
+        <div class="faction-header">
+          <div class="faction-sigil chaos">♪</div>
+          <div>
+            <div class="faction-name chaos">Emperor's Children</div>
+            <div class="faction-epithet">They came for the screaming. There is so much screaming here.</div>
+            <div class="faction-meta">
+              <span class="tag tag-hive">Tyranid Side</span>
+              <span class="tag tag-blood">Chaos</span>
+              <span class="tag tag-blood">Slaanesh</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val" style="color:var(--blood-pale);">Tyranid Side</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Sensation &amp; Excess</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">Corrupt &amp; Consume</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--blood-bright);">Zero</div></div>
+          </div>
+        </div>
+        <p>The Emperor's Children warband that descended on the Bastior Sub-Sector in 998.M41 was not drawn by the same Khornate resonance that attracted the World Eaters. They were drawn by something more specific and, in its way, more disturbing: the Spore-Singer Termagants. Their unique subsonic vocalisation — the frequency that causes psychological distress in human combatants and writes subconscious Tyranid attack patterns into the minds of exposed psykers — registers in a sensory spectrum that Slaaneshi devotees have spent millennia cultivating the ability to perceive. To them, it is beautiful. They crossed significant distances of dangerous space to hear it more closely.</p>
+        <p>The warband's Lord — a towering figure whose name has been redacted from all Imperial intelligence documents and replaced with the designation MUSE-PRIME — has shown an unusual interest in the Spore-Singer phenomenon that Magos Kael has found simultaneously horrifying and academically fascinating. Where Kael theorises about the Spore-Singers' synaptic imprinting effects from behind heavily shielded vault walls, MUSE-PRIME appears to seek direct exposure, and has been documented voluntarily standing within range of Spore-Singer vocalisation during combat, eyes closed, expression unreadable.</p>
+        <p>Like the World Eaters, the Emperor's Children's alignment with the Tyranid side is one of shared short-term objective rather than cooperation. They want the Imperial cordon broken not to allow the Hive Mind to consume the sub-sector, but because the breaking of things — the suffering, the loss, the desperate last stands — is itself the point. They have no more interest in a consumed, silent sub-sector than the defenders do. They simply want to enjoy the destruction before it concludes.</p>
+        <div class="faction-motivation chaos">
+          <strong>Motivation in Theatre</strong>
+          The intersection of Slaaneshi excess and Tyranid horror is, for the Emperor's Children, a uniquely intoxicating environment. The Spore-Singers sing. The civilians suffer. The defenders fight with the desperate intensity of people who have nothing left to lose. All of it is sensation. All of it feeds the Prince of Pleasure. They will stay until it ends, and perhaps help ensure it ends as dramatically as possible.
+        </div>
+      </div>
+
+      <!-- ===== OPPORTUNISTS ===== -->
+      <div class="side-divider sd-neutral reveal">
+        <div class="side-divider-label">✦ The Opportunists</div>
+      </div>
+
+      <!-- ORKS -->
+      <div class="faction-entry reveal" id="orks">
+        <div class="faction-header">
+          <div class="faction-sigil neutral">💥</div>
+          <div>
+            <div class="faction-name neutral">Orks</div>
+            <div class="faction-epithet">They heard there was a proper fight on. That was enough.</div>
+            <div class="faction-meta">
+              <span class="tag tag-steel">Opportunist</span>
+              <span class="tag tag-steel">Ork Waaagh!</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val">Themselves</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">A Proper Fight</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">See Primary Goal</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--blood-bright);">None</div></div>
+          </div>
+        </div>
+        <p>Word travels among Ork warbands in ways that the Imperium has never fully understood — not through astropathic communication or vox-relay, but through some deep biological resonance that draws Orks toward conflict the way the spores of their reproduction draw them toward nutrients. Whatever the mechanism, word reached the Bastior Sub-Sector's neighbouring region of space that there was a "proppa scrap" happening, involving bug-things in numbers that were genuinely impressive even by Ork standards, fighting Imperial forces with notable enthusiasm and desperation. The warbands came.</p>
+        <p>The Ork force that has established itself in the Bastior Sub-Sector operates on a simple principle: fight the most interesting thing available. This makes them genuinely unpredictable as a tactical factor. They have fought Imperial forces, Tyranid swarms, the World Eaters warband (reportedly an experience that both parties found extremely satisfying), the Emperor's Children (less satisfying, more confusing), and each other on at least three occasions. Their Warboss — a particularly enormous individual who has been described by survivors as "too big to be legal" — has articulated his campaign strategy in terms that, when translated, amount to: whoever is doing the best fighting gets fought first.</p>
+        <p>For the Imperial defence cordon, the Orks are a chaotic wildcard that can, on a good day, be aimed at the enemy. On a bad day, they are simply another thing trying to kill you. Lord Commander Hemmont has assigned an entire staff officer to the task of monitoring Ork movements and attempting to position other threats in their path, with mixed results.</p>
+        <div class="faction-motivation neutral">
+          <strong>Motivation in Theatre</strong>
+          The fight. That's it. The Bastior Sub-Sector has the best fight available in several sectors' worth of space, with multiple different opponents of varying levels of challenge, in an environment that rewards aggression and punishes caution. For an Ork, this is as close to paradise as the galaxy offers.
+        </div>
+      </div>
+
+      <!-- NECRONS -->
+      <div class="faction-entry reveal" id="necrons">
+        <div class="faction-header">
+          <div class="faction-sigil neutral">☽</div>
+          <div>
+            <div class="faction-name neutral">Necrons</div>
+            <div class="faction-epithet">They were here before the sub-sector existed. They are displeased by its current state.</div>
+            <div class="faction-meta">
+              <span class="tag tag-steel">Opportunist</span>
+              <span class="tag tag-steel">Necron Dynasty</span>
+              <span class="tag tag-purple">Unknown Designation</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val">Ancient Agenda</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Classified</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">Exterminate Tyranids</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--gold-bright);">Wary</div></div>
+          </div>
+        </div>
+        <p>Before the Bastior Sub-Sector had planets, before it had stars in their current configuration, before any organic life had evolved in this region of space, there was a Necron tomb world beneath what is now the third moon of Bastior Prime. It has been there for sixty million years. It has been active — quietly, selectively, in ways designed to avoid detection — for approximately the last three hundred, since its automated systems made the calculation that the local stellar configuration had stabilised enough to permit the first phase of reactivation protocols.</p>
+        <p>The arrival of Fleet Venorath was not part of the tomb world's reactivation schedule. The Tyranid threat to Necron tomb worlds is existential and well-understood among the Silent King's forces: Tyranids do not merely kill Necrons, they consume the organic matter that Necrons require for certain long-delayed processes of biological restoration that sit at the heart of the Necrontyr race's ultimate ambition. The phaeron who leads this dynasty — identified in what fragmentary intelligence exists only as a dynastic sigil that translates roughly as "the Architect of Silences" — has emerged from stasis specifically because of the invasion, and specifically to prevent the sub-sector's biological matter from being fed to the hive fleet.</p>
+        <p>The Necrons' status as opportunists rather than Imperial allies is a technicality of strategic significance. They have engaged Imperial forces when those forces have come too close to the tomb world. They have engaged Tyranid forces with considerably more ferocity and consistency. They have declined all communication attempts from Lord Commander Hemmont's staff except for a single, untranslated transmission in an archaic Necrontyr dialect that the Administratum's best cryptographers have been working on for six months. The current best guess at its meaning is either "this sector is ours" or "leave and live." The difference matters enormously and the answer is not yet known.</p>
+        <div class="faction-motivation neutral">
+          <strong>Motivation in Theatre</strong>
+          The tomb world's reactivation requires organic biological matter that Fleet Venorath will consume if not stopped. The Necrons will fight the Tyranids comprehensively and without mercy. They will also fight anything that comes too close to the tomb world, including Imperial forces. Their agenda is their own, sixty million years in the making, and it takes precedence over everything else happening in this sub-sector.
+        </div>
+      </div>
+
+      <!-- TAU 1 -->
+      <div class="faction-entry reveal" id="tau-one">
+        <div class="faction-header">
+          <div class="faction-sigil neutral">◎</div>
+          <div>
+            <div class="faction-name neutral">T'au — First Cadre</div>
+            <div class="faction-epithet">The Greater Good does not end at the edge of the Imperium.</div>
+            <div class="faction-meta">
+              <span class="tag tag-steel">Opportunist</span>
+              <span class="tag tag-steel">T'au Empire</span>
+              <span class="tag tag-steel">Fire Caste</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val">Greater Good</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Strategic Assessment</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">Expand Influence</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--gold-bright);">Cautious</div></div>
+          </div>
+        </div>
+        <p>The T'au have no formal interest in the Bastior Sub-Sector as Imperial territory. They have considerable interest in it as a data point. The Tyrannic Wars represent the most significant Tyranid incursion in recorded history, and the T'au Water Caste has spent considerable resources building models of Tyranid strategic behaviour using available intelligence. The Bastior Sub-Sector offers something uniquely valuable: a live, ongoing, multi-year engagement with a Tyranid splinter fleet of documented tactical sophistication, in a theatre that the T'au can reach and observe without committing to formal war with the Imperium.</p>
+        <p>The first T'au cadre arrived under the cover of what was, technically, a diplomatic mission — an offer of "collaborative defence arrangements" that Lord Commander Hemmont rejected formally but did not, crucially, act to remove. In practice, the cadre has operated with increasing autonomy in the sub-sector's outer regions, fighting Tyranid organisms that threaten positions of observation value, avoiding Imperial forces where possible, and transmitting an enormous volume of tactical data back to their Sept. They have shared some of this data with Imperial forces, selectively, in ways that serve T'au interests without surrendering the full intelligence picture.</p>
+        <p>The Greater Good, from the T'au perspective, extends to all species that can be reasoned with, protected, and eventually incorporated. The Bastior Sub-Sector's humans cannot be incorporated yet — the Imperium is hostile to the concept. But a sub-sector that survives the Tyranid invasion will be, decades from now, a sub-sector that might be open to new conversations. The T'au are playing a very long game.</p>
+        <div class="faction-motivation neutral">
+          <strong>Motivation in Theatre</strong>
+          Intelligence. Strategic positioning. The sub-sector's survival is aligned with T'au interests because a consumed sub-sector is a dead end diplomatically and strategically. They will help it survive, on their terms, in ways that leave the T'au better positioned when the war ends.
+        </div>
+      </div>
+
+      <!-- TAU 2 -->
+      <div class="faction-entry reveal" id="tau-two">
+        <div class="faction-header">
+          <div class="faction-sigil neutral">◉</div>
+          <div>
+            <div class="faction-name neutral">T'au — Second Cadre</div>
+            <div class="faction-epithet">A different Sept. A different reading of the Greater Good's demands.</div>
+            <div class="faction-meta">
+              <span class="tag tag-steel">Opportunist</span>
+              <span class="tag tag-steel">T'au Empire</span>
+              <span class="tag tag-purple">Rival Sept</span>
+            </div>
+          </div>
+          <div class="faction-stats">
+            <div class="fs-row"><div class="fs-label">Allegiance</div><div class="fs-val">Greater Good</div></div>
+            <div class="fs-row"><div class="fs-label">Primary Goal</div><div class="fs-val">Counter First Cadre</div></div>
+            <div class="fs-row"><div class="fs-label">Secondary Goal</div><div class="fs-val">Territorial Claim</div></div>
+            <div class="fs-row"><div class="fs-label">Trust Level</div><div class="fs-val" style="color:var(--gold-bright);">Cautious</div></div>
+          </div>
+        </div>
+        <p>The second T'au cadre arrived six months after the first, from a different Sept, with a mandate that overlaps with the first cadre's in some areas and contradicts it in others. Both serve the Greater Good. Both are Fire Caste warriors of considerable capability. Both regard the other's presence in the Bastior Sub-Sector as, at minimum, a complication and, at maximum, a direct challenge to their Sept's claim to whatever strategic value this region represents.</p>
+        <p>The specific nature of the inter-Sept rivalry that has manifested in the Bastior Sub-Sector is, from an Imperial perspective, incomprehensible in its detail but entirely recognisable in its broad outline: two bureaucratic factions with adjacent but non-identical goals, operating in the same space, attempting to achieve slightly different versions of the same outcome while ensuring the other faction does not get credit for it. The Earth Caste representatives who occasionally appear to mediate these disputes have adopted expressions that experienced observers describe as "professionally pained."</p>
+        <p>In practice, the second cadre fights with the same competence and tactical sophistication as the first. It targets Tyranid forces with the same analytical precision. It avoids Imperial forces with the same careful calculation. It simply also, on several documented occasions, has targeted the positions of the first cadre in ways that were technically within the parameters of "competitive strategic positioning" and technically indistinguishable from an attack. Both Shas'O commanders have filed formal objections with each other. Neither has stopped doing it.</p>
+        <div class="faction-motivation neutral">
+          <strong>Motivation in Theatre</strong>
+          Whatever the first cadre is here for, the second cadre is here to do better. Beyond the inter-Sept competition, the Greater Good genuinely requires this sub-sector's survival, and both cadres will fight to achieve it — ideally in ways that make the other cadre look bad.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="panel reveal">
+        <div class="panel-title">Faction Alignment</div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--gold-bright);margin-bottom:0.6rem;">⚜ Imperial (5)</div>
+        <ul class="honour-list" style="margin-bottom:1rem;">
+          <li><a href="#dark-angels">Dark Angels</a></li>
+          <li><a href="#grey-knights">Grey Knights</a></li>
+          <li><a href="#black-templars">Black Templars</a></li>
+          <li><a href="#salamanders">Salamanders</a></li>
+          <li><a href="#astra-militarum">Astra Militarum</a></li>
+        </ul>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--hive-bright);margin-bottom:0.6rem;">⬡ Tyranid Side (3)</div>
+        <ul class="honour-list" style="margin-bottom:1rem;">
+          <li><a href="#tyranids">Tyranids</a></li>
+          <li><a href="#world-eaters">World Eaters</a></li>
+          <li><a href="#emperors-children">Emperor's Children</a></li>
+        </ul>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--steel-light);margin-bottom:0.6rem;">✦ Opportunists (4)</div>
+        <ul class="honour-list">
+          <li><a href="#orks">Orks</a></li>
+          <li><a href="#necrons">Necrons</a></li>
+          <li><a href="#tau-one">T'au — First Cadre</a></li>
+          <li><a href="#tau-two">T'au — Second Cadre</a></li>
+        </ul>
+      </div>
+
+      <div class="panel reveal d1">
+        <div class="panel-title">Notable Tensions</div>
+        <div class="stat-row"><span class="stat-key">Grey Knights vs WE/EC</span><span class="stat-val danger">Active Hatred</span></div>
+        <div class="stat-row"><span class="stat-key">Dark Angels — Secret</span><span class="stat-val warning">Guarded</span></div>
+        <div class="stat-row"><span class="stat-key">Necrons vs Everyone</span><span class="stat-val warning">Cold</span></div>
+        <div class="stat-row"><span class="stat-key">T'au vs T'au</span><span class="stat-val warning">Rivalry</span></div>
+        <div class="stat-row"><span class="stat-key">Orks vs Anyone</span><span class="stat-val danger">Enthusiastic</span></div>
+        <div class="stat-row"><span class="stat-key">WE vs EC</span><span class="stat-val warning">Mutual Contempt</span></div>
+      </div>
+
+      <div class="panel reveal d2">
+        <div class="panel-title">Navigate</div>
+        <ul class="honour-list">
+          <li><a href="lore.html">Sub-Sector Lore →</a></li>
+          <li><a href="tracker.html">Campaign Tracker →</a></li>
+          <li><a href="crusade-order.html">Order of Battle →</a></li>
+          <li><a href="sector-map.html">Sector Map →</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div>
+  <p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p>
+  <ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="tracker.html">Tracker</a></li><li><a href="roster.html">Roster</a></li></ul>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>
