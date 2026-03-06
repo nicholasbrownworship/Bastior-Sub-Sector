@@ -147,7 +147,7 @@ window.Roster = {
   add(u)   { const d=this.all(); u.id=Date.now(); u.xp=0; u.rank='Battle-Ready'; d.push(u); this.save(d); return u; },
   upd(id,c){ const d=this.all(), i=d.findIndex(x=>x.id===id); if(i!==-1){Object.assign(d[i],c);this.save(d);return d[i];} return null; },
   del(id)  { this.save(this.all().filter(x=>x.id!==id)); },
-  rank(xp) { if(xp>=16)return'Legendary'; if(xp>=11)return'Heroic'; if(xp>=6)return'Blooded'; if(xp>=3)return'Battle-Hardened'; return'Battle-Ready'; }
+  rank(xp) { if(xp>=36)return'Legendary'; if(xp>=26)return'Heroic'; if(xp>=16)return'Blooded'; if(xp>=6)return'Battle-Hardened'; return'Battle-Ready'; }
 };
 
 /* ---- BATTLE LOG ---- */
@@ -161,7 +161,7 @@ window.BattleLog = {
 /* ---- TRACKER ---- */
 window.Tracker = {
   KEY: 'bastior_tracker',
-  def()   { return {cp:0,supUsed:0,supMax:500,ig:6,w:10,wMax:10,hist:[]}; },
+  def()   { return {cp:0,supMax:1000,ig:6,rp:5,rpHist:[],hist:[]}; },
   load()  { try{return JSON.parse(localStorage.getItem(this.KEY))||this.def();}catch{return this.def();} },
   save(d) { try{localStorage.setItem(this.KEY,JSON.stringify(d));}catch{} },
   log(d,a,r){ d.hist.unshift({a,r,t:Date.now()}); if(d.hist.length>80)d.hist.pop(); },
