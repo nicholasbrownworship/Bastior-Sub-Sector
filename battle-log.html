@@ -1,216 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Battle Log — Bastior Crusade</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .modal-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;align-items:center;justify-content:center;padding:2rem;opacity:0;transition:opacity 0.3s ease; }
-    .modal-overlay.is-open { opacity:1; }
-    .modal-box { background:var(--dark3);border:1px solid var(--border-bright);max-width:580px;width:100%;padding:2rem;box-shadow:var(--shadow-gold),0 20px 60px rgba(0,0,0,0.9);max-height:90vh;overflow-y:auto; }
-    .modal-title { font-family:var(--font-heading);font-size:1rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border); }
-    .form-field { margin-bottom:1rem; }
-    .form-label { display:block;font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-dim);margin-bottom:0.35rem; }
-    .form-input,.form-select,.form-textarea { width:100%;background:var(--dark2);border:1px solid var(--border);color:var(--text-main);padding:0.5rem 0.75rem;font-family:var(--font-body);font-size:0.9rem;outline:none;transition:border-color 0.2s; }
-    .form-input:focus,.form-select:focus,.form-textarea:focus { border-color:var(--gold-dim); }
-    .form-grid { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
-    .form-select option { background:var(--dark3); }
-    .result-victory { border-left-color: var(--gold) !important; }
-    .result-defeat  { border-left-color: var(--blood-bright) !important; }
-    .result-draw    { border-left-color: var(--steel) !important; }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<nav id="site-nav">
-  <div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="lore.html">Lore</a></li>
-    <li><a href="sector-map.html">Sector Map</a></li>
-    <li><a href="roster.html">Roster</a></li>
-    <li><a href="battle-log.html">Battle Log</a></li>
-    <li><a href="crusade-order.html">Order of Battle</a></li>
-    <li><a href="agendas.html">Agendas</a></li>
-    <li><a href="honour-roll.html">Honours</a></li>
-    <li><a href="rules-ref.html">Rules Ref</a></li>
-    <li><a href="tracker.html">Tracker</a></li>
-  </ul>
-  <button class="nav-toggle"><span></span><span></span><span></span></button>
-</nav>
+<nav id="site-nav"><div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="sector-map.html">Sector Map</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="agendas.html">Agendas</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="rules-ref.html">Rules Ref</a></li><li><a href="tracker.html">Tracker</a></li></ul><button class="nav-toggle"><span></span><span></span><span></span></button></nav>
 
-<div class="page-hero">
-  <div class="corner-tl"></div><div class="corner-tr"></div>
-  <div class="corner-bl"></div><div class="corner-br"></div>
-  <div class="eyebrow">Campaign Record — Liber Bellum</div>
-  <h1>Battle Log</h1>
-  <p class="subtitle">The recorded history of every engagement in the Bastior Sub-Sector campaign.</p>
-</div>
+<div class="page-hero"><div class="hero-corner tl"></div><div class="hero-corner tr"></div><div class="hero-corner bl"></div><div class="hero-corner br"></div><p class="hero-eyebrow">Campaign Record — Liber Bellum</p><h1>Battle Log</h1><p class="subtitle">The recorded history of every engagement in the Bastior Sub-Sector campaign.</p></div>
 
 <main>
-  <div class="hive-fleet-ticker mb-4"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span></div>
+  <div class="ticker mb-3"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
 
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;">
-    <p class="section-title" style="margin:0;border:none;padding:0;">Campaign History</p>
-    <button class="btn" onclick="Modal.open('add-battle-modal')"><span>+ Log Battle</span></button>
+    <p class="sec-head" style="margin:0;border:none;padding:0;">Campaign History</p>
+    <button class="btn" onclick="Modal.open('log-battle-modal')"><span>+ Log Battle</span></button>
   </div>
 
-  <!-- Summary Stats -->
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:2.5rem;" class="animate-in">
-    <div style="background:var(--dark2);padding:1.25rem;text-align:center;">
-      <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);line-height:1;" id="stat-total">0</div>
-      <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.2em;margin-top:0.25rem;">Total Battles</div>
-    </div>
-    <div style="background:var(--dark2);padding:1.25rem;text-align:center;">
-      <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);line-height:1;" id="stat-vic">0</div>
-      <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.2em;margin-top:0.25rem;">Victories</div>
-    </div>
-    <div style="background:var(--dark2);padding:1.25rem;text-align:center;">
-      <div style="font-family:var(--font-display);font-size:2rem;color:var(--blood-bright);line-height:1;" id="stat-def">0</div>
-      <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.2em;margin-top:0.25rem;">Defeats</div>
-    </div>
-    <div style="background:var(--dark2);padding:1.25rem;text-align:center;">
-      <div style="font-family:var(--font-display);font-size:2rem;color:var(--steel-light);line-height:1;" id="stat-draw">0</div>
-      <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.2em;margin-top:0.25rem;">Draws</div>
-    </div>
-    <div style="background:var(--dark2);padding:1.25rem;text-align:center;">
-      <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);line-height:1;" id="stat-cp">0</div>
-      <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.2em;margin-top:0.25rem;">Total CP Earned</div>
-    </div>
+  <!-- Summary stats -->
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(184,134,11,0.15);border:1px solid rgba(184,134,11,0.2);margin-bottom:2.5rem;" class="reveal">
+    <div style="background:var(--ink2);padding:1.2rem;text-align:center;"><div style="font-family:var(--font-display);font-size:2.2rem;line-height:1;color:var(--brass);text-shadow:var(--glow-brass);" id="s-total">0</div><div style="font-family:var(--font-mono);font-size:0.55rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Battles</div></div>
+    <div style="background:var(--ink2);padding:1.2rem;text-align:center;border-left:1px solid rgba(184,134,11,0.1);"><div style="font-family:var(--font-display);font-size:2.2rem;line-height:1;color:var(--brass);text-shadow:var(--glow-brass);" id="s-vic">0</div><div style="font-family:var(--font-mono);font-size:0.55rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Victories</div></div>
+    <div style="background:var(--ink2);padding:1.2rem;text-align:center;border-left:1px solid rgba(184,134,11,0.1);"><div style="font-family:var(--font-display);font-size:2.2rem;line-height:1;color:var(--rust-bright);text-shadow:var(--glow-rust);" id="s-def">0</div><div style="font-family:var(--font-mono);font-size:0.55rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Defeats</div></div>
+    <div style="background:var(--ink2);padding:1.2rem;text-align:center;border-left:1px solid rgba(184,134,11,0.1);"><div style="font-family:var(--font-display);font-size:2.2rem;line-height:1;color:var(--iron-light);" id="s-draw">0</div><div style="font-family:var(--font-mono);font-size:0.55rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Draws</div></div>
+    <div style="background:var(--ink2);padding:1.2rem;text-align:center;border-left:1px solid rgba(184,134,11,0.1);"><div style="font-family:var(--font-display);font-size:2.2rem;line-height:1;color:var(--brass);text-shadow:var(--glow-brass);" id="s-cp">0</div><div style="font-family:var(--font-mono);font-size:0.55rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">CP Earned</div></div>
   </div>
 
   <div class="timeline" id="battle-timeline">
-    <p class="text-dim" style="font-style:italic;font-size:0.9rem;padding-left:0.5rem;">No battles recorded. Click "Log Battle" to begin the campaign record.</p>
+    <p style="font-style:italic;color:var(--text-dim);font-size:0.9rem;padding-left:0.5rem;">No battles recorded yet. Click "Log Battle" to begin the campaign record.</p>
   </div>
 </main>
 
-<!-- ADD BATTLE MODAL -->
-<div id="add-battle-modal" class="modal-overlay">
+<!-- MODAL -->
+<div id="log-battle-modal" class="modal-backdrop" style="display:none;">
   <div class="modal-box">
     <div class="modal-title">Log Battle Record</div>
-    <div class="form-grid">
-      <div class="form-field">
-        <label class="form-label">Battle Title / Name</label>
-        <input class="form-input" id="b-title" placeholder="e.g. Defence of Hex 7" type="text">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Date (Imperial)</label>
-        <input class="form-input" id="b-date" placeholder="e.g. 045.999.M41" type="text">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Mission</label>
-        <input class="form-input" id="b-mission" placeholder="e.g. Annihilation, Hold the Line" type="text">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Opponent</label>
-        <input class="form-input" id="b-opponent" placeholder="e.g. Hive Fleet Leviathan" type="text">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Result</label>
-        <select class="form-select" id="b-result">
-          <option value="Victory">Victory</option>
-          <option value="Defeat">Defeat</option>
-          <option value="Draw">Draw</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label class="form-label">CP Earned</label>
-        <input class="form-input" id="b-cp" type="number" min="0" max="20" placeholder="3">
-      </div>
+    <div class="f-grid">
+      <div class="f-row"><label class="f-label">Battle Title</label><input class="f-input" id="b-title" placeholder="e.g. Defence of Hex 7" type="text"></div>
+      <div class="f-row"><label class="f-label">Imperial Date</label><input class="f-input" id="b-date" placeholder="e.g. 045.999.M41" type="text"></div>
+      <div class="f-row"><label class="f-label">Mission</label><input class="f-input" id="b-mission" placeholder="e.g. Annihilation, Hold the Line" type="text"></div>
+      <div class="f-row"><label class="f-label">Opponent</label><input class="f-input" id="b-opponent" placeholder="e.g. Hive Fleet Leviathan" type="text"></div>
+      <div class="f-row"><label class="f-label">Result</label><select class="f-select" id="b-result"><option value="Victory">Victory</option><option value="Defeat">Defeat</option><option value="Draw">Draw</option></select></div>
+      <div class="f-row"><label class="f-label">CP Earned</label><input class="f-input" id="b-cp" type="number" min="0" max="20" placeholder="3"></div>
     </div>
-    <div class="form-field">
-      <label class="form-label">Location / Theatre</label>
-      <input class="form-input" id="b-location" placeholder="e.g. Bastior Prime Outer Defences" type="text">
-    </div>
-    <div class="form-field">
-      <label class="form-label">Battle Notes</label>
-      <textarea class="form-textarea" id="b-notes" rows="3" placeholder="Key moments, heroic acts, casualties, narrative events..."></textarea>
-    </div>
-    <div class="form-field">
-      <label class="form-label">Honours Earned (comma separated)</label>
-      <input class="form-input" id="b-honours" placeholder="e.g. Slayer of Monsters, Survivors of the Shadow" type="text">
-    </div>
+    <div class="f-row"><label class="f-label">Location / Theatre</label><input class="f-input" id="b-location" placeholder="e.g. Bastior Prime Outer Defences" type="text"></div>
+    <div class="f-row"><label class="f-label">Battle Notes</label><textarea class="f-input" id="b-notes" rows="3" placeholder="Key moments, heroic acts, casualties, narrative events..." style="resize:vertical;"></textarea></div>
+    <div class="f-row"><label class="f-label">Honours Earned (comma separated)</label><input class="f-input" id="b-honours" placeholder="e.g. Slayer of Monsters, Survivors of the Shadow" type="text"></div>
     <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;">
-      <button class="btn btn-danger" data-modal-close="add-battle-modal"><span>Cancel</span></button>
+      <button class="btn btn-danger" data-close="log-battle-modal"><span>Cancel</span></button>
       <button class="btn" onclick="submitBattle()"><span>Record Battle</span></button>
     </div>
   </div>
 </div>
 
-<footer>
-  <div class="footer-seal">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div>
-  <p class="footer-text">For the glory of the Emperor and the preservation of Mankind.</p>
-  <ul class="footer-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="roster.html">Roster</a></li>
-    <li><a href="honour-roll.html">Honours</a></li>
-    <li><a href="tracker.html">Tracker</a></li>
-  </ul>
-</footer>
+<footer><div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div><p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="roster.html">Roster</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="tracker.html">Tracker</a></li></ul></footer>
 <script src="js/main.js"></script>
 <script>
-  function updateStats() {
-    const log = window.BattleLog.getAll();
-    document.getElementById('stat-total').textContent = log.length;
-    document.getElementById('stat-vic').textContent = log.filter(b => b.result === 'Victory').length;
-    document.getElementById('stat-def').textContent = log.filter(b => b.result === 'Defeat').length;
-    document.getElementById('stat-draw').textContent = log.filter(b => b.result === 'Draw').length;
-    document.getElementById('stat-cp').textContent = log.reduce((a, b) => a + (parseInt(b.cp) || 0), 0);
-  }
-
-  function renderLog() {
-    const container = document.getElementById('battle-timeline');
-    const log = window.BattleLog.getAll();
-    if (!log.length) {
-      container.innerHTML = '<p class="text-dim" style="font-style:italic;font-size:0.9rem;padding-left:0.5rem;">No battles recorded. Click "Log Battle" to begin the campaign record.</p>';
-      return;
-    }
-    container.innerHTML = log.map(b => `
-      <div class="timeline-entry animate-in result-${(b.result||'').toLowerCase()}">
-        <div class="timeline-date">${b.date || 'Unknown Date'} — ${b.mission || 'Unknown Mission'}</div>
-        <div class="timeline-title">${b.title || 'Battle Record'}</div>
-        <div class="timeline-body">
-          <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;margin-bottom:0.5rem;">
-            <span class="badge ${b.result === 'Victory' ? 'badge-gold' : b.result === 'Defeat' ? 'badge-blood' : 'badge-steel'}">${b.result}</span>
-            ${b.opponent ? `<span class="badge badge-steel">vs ${b.opponent}</span>` : ''}
-            ${b.location ? `<span class="badge badge-steel">${b.location}</span>` : ''}
-            ${b.cp ? `<span class="badge badge-gold">+${b.cp} CP</span>` : ''}
-          </div>
-          ${b.notes ? `<p style="font-size:0.88rem;color:var(--text-main);margin-bottom:0.5rem;">${b.notes}</p>` : ''}
-          ${b.honours && b.honours.length ? `<div style="display:flex;gap:0.4rem;flex-wrap:wrap;">${b.honours.map(h => `<span class="badge badge-gold">🏅 ${h}</span>`).join('')}</div>` : ''}
-          <div style="margin-top:0.75rem;">
-            <button class="btn btn-danger" style="font-size:0.6rem;padding:0.25rem 0.6rem;" onclick="deleteBattle(${b.id})"><span>Delete</span></button>
-          </div>
+function updateStats(){
+  const log=window.BattleLog.all();
+  document.getElementById('s-total').textContent=log.length;
+  document.getElementById('s-vic').textContent=log.filter(b=>b.result==='Victory').length;
+  document.getElementById('s-def').textContent=log.filter(b=>b.result==='Defeat').length;
+  document.getElementById('s-draw').textContent=log.filter(b=>b.result==='Draw').length;
+  document.getElementById('s-cp').textContent=log.reduce((a,b)=>a+(parseInt(b.cp)||0),0);
+}
+function renderLog(){
+  const el=document.getElementById('battle-timeline');
+  const log=window.BattleLog.all();
+  if(!log.length){el.innerHTML='<p style="font-style:italic;color:var(--text-dim);font-size:0.9rem;padding-left:0.5rem;">No battles recorded yet. Click "Log Battle" to begin.</p>';updateStats();return;}
+  const resultTag={Victory:'tag-brass',Defeat:'tag-rust',Draw:'tag-iron'};
+  el.innerHTML=log.map(b=>`
+    <div class="tl-entry">
+      <div class="tl-date">${b.date||'Unknown Date'} — ${b.mission||'Unknown Mission'}</div>
+      <div class="tl-title">${b.title||'Battle Record'}</div>
+      <div class="tl-body">
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.5rem;">
+          <span class="tag ${resultTag[b.result]||'tag-iron'}">${b.result||'Unknown'}</span>
+          ${b.opponent?`<span class="tag tag-iron">vs ${b.opponent}</span>`:''}
+          ${b.location?`<span class="tag tag-iron">${b.location}</span>`:''}
+          ${b.cp?`<span class="tag tag-brass">+${b.cp} CP</span>`:''}
         </div>
+        ${b.notes?`<p style="font-size:0.875rem;color:var(--text);margin-bottom:0.5rem;">${b.notes}</p>`:''}
+        ${b.honours&&b.honours.length?`<div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.5rem;">${b.honours.map(h=>`<span class="tag tag-brass">🏅 ${h}</span>`).join('')}</div>`:''}
+        <button class="btn btn-danger" style="font-size:0.55rem;padding:0.25rem 0.6rem;clip-path:none;" onclick="delBattle(${b.id})"><span>Delete</span></button>
       </div>
-    `).join('');
-    updateStats();
-  }
-
-  function submitBattle() {
-    const title = document.getElementById('b-title').value.trim();
-    if (!title) { alert('Please enter a battle title.'); return; }
-    const honoursRaw = document.getElementById('b-honours').value.trim();
-    const honours = honoursRaw ? honoursRaw.split(',').map(h => h.trim()).filter(Boolean) : [];
-    const cp = parseInt(document.getElementById('b-cp').value) || 0;
-    window.BattleLog.add({ title, date: document.getElementById('b-date').value.trim(), mission: document.getElementById('b-mission').value.trim(), opponent: document.getElementById('b-opponent').value.trim(), result: document.getElementById('b-result').value, location: document.getElementById('b-location').value.trim(), notes: document.getElementById('b-notes').value.trim(), cp, honours });
-
-    // Auto-award CP
-    if (cp > 0) window.CrusadeTracker.addPoints(cp, `Battle: ${title}`);
-
-    Modal.close('add-battle-modal');
-    ['b-title','b-date','b-mission','b-opponent','b-cp','b-location','b-notes','b-honours'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-    renderLog();
-  }
-
-  function deleteBattle(id) {
-    if (!confirm('Delete this battle record?')) return;
-    const log = window.BattleLog.getAll().filter(b => b.id !== id);
-    try { localStorage.setItem('bastior_battle_log', JSON.stringify(log)); } catch {}
-    renderLog();
-  }
-
-  document.addEventListener('DOMContentLoaded', () => { renderLog(); updateStats(); });
+    </div>`).join('');
+  updateStats();
+}
+function submitBattle(){
+  const title=document.getElementById('b-title').value.trim();
+  if(!title){alert('Please enter a battle title.');return;}
+  const cp=parseInt(document.getElementById('b-cp').value)||0;
+  const honoursRaw=document.getElementById('b-honours').value.trim();
+  window.BattleLog.add({title,date:document.getElementById('b-date').value.trim(),mission:document.getElementById('b-mission').value.trim(),opponent:document.getElementById('b-opponent').value.trim(),result:document.getElementById('b-result').value,location:document.getElementById('b-location').value.trim(),notes:document.getElementById('b-notes').value.trim(),cp,honours:honoursRaw?honoursRaw.split(',').map(h=>h.trim()).filter(Boolean):[]});
+  if(cp>0)window.Tracker.cp(cp,`Battle: ${title}`);
+  Modal.close('log-battle-modal');
+  ['b-title','b-date','b-mission','b-opponent','b-cp','b-location','b-notes','b-honours'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderLog();
+}
+function delBattle(id){if(!confirm('Delete this battle record?'))return;try{const k='bastior_battles';localStorage.setItem(k,JSON.stringify(JSON.parse(localStorage.getItem(k)||'[]').filter(x=>x.id!==id)));}catch{}renderLog();}
+document.addEventListener('DOMContentLoaded',renderLog);
 </script>
 </body>
 </html>
