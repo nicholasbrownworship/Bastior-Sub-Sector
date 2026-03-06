@@ -2,110 +2,693 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lore — Bastior Crusade</title>
+  <title>Sub-Sector Lore — Bastior Crusade</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Lore-page specific styles */
+    .lore-nav {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      margin-bottom: 2.5rem;
+      padding: 1rem 1.25rem;
+      background: rgba(212,164,32,0.05);
+      border: 1px solid rgba(212,164,32,0.2);
+    }
+    .lore-nav a {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      padding: 0.3rem 0.7rem;
+      border: 1px solid rgba(212,164,32,0.2);
+      transition: all .2s;
+    }
+    .lore-nav a:hover { color: var(--gold-bright); border-color: var(--gold-dim); background: rgba(212,164,32,0.08); text-shadow: none; }
+
+    .world-entry {
+      margin-bottom: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(212,164,32,0.15);
+    }
+    .world-entry:last-child { border-bottom: none; }
+
+    .world-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 1.5rem; flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(212,164,32,0.18);
+    }
+    .world-name {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--gold-bright);
+      text-shadow: var(--glow-gold);
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+    }
+    .world-class {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+    }
+    .world-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.4rem 1.5rem;
+      min-width: 200px;
+    }
+    .ws-row { display: flex; flex-direction: column; }
+    .ws-label { font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); }
+    .ws-val   { font-family: var(--font-heading); font-size: 0.9rem; font-weight: 600; color: var(--text-bright); }
+
+    .char-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 1.5rem;
+      padding: 1.4rem;
+      background: linear-gradient(160deg, var(--plate3), var(--plate2));
+      border: 1px solid rgba(212,164,32,0.22);
+      margin-bottom: 1.25rem;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+      position: relative;
+    }
+    .char-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(212,164,32,0.5), transparent); }
+    .char-sigil {
+      width: 64px; height: 64px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      border: 1px solid rgba(212,164,32,0.3);
+      background: rgba(212,164,32,0.06);
+      flex-shrink: 0;
+      color: var(--gold-dim);
+    }
+    .char-name  { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; color: var(--gold-bright); margin-bottom: 0.1rem; }
+    .char-title { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--blood-bright); margin-bottom: 0.6rem; }
+    .char-body  { font-size: 0.95rem; color: var(--text-main); line-height: 1.75; }
+
+    .bioform-entry {
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 0.85rem;
+      background: linear-gradient(135deg, rgba(10,28,4,0.6), rgba(6,16,2,0.8));
+      border: 1px solid rgba(136,208,48,0.2);
+      border-left: 3px solid var(--hive-bright);
+      position: relative;
+    }
+    .bioform-entry::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--hive-bright), transparent); opacity: 0.4; }
+    .bioform-name  { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; color: var(--hive-bright); margin-bottom: 0.15rem; }
+    .bioform-class { font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(136,208,48,0.55); margin-bottom: 0.5rem; }
+    .bioform-body  { font-size: 0.92rem; color: var(--text-main); line-height: 1.7; }
+
+    .propaganda {
+      position: relative;
+      padding: 2rem 2.25rem;
+      margin: 2rem 0;
+      background: rgba(212,164,32,0.04);
+      border: 2px solid rgba(212,164,32,0.3);
+      text-align: center;
+    }
+    .propaganda::before, .propaganda::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      border-color: var(--gold-dim); border-style: solid;
+    }
+    .propaganda::before { top: 6px; left: 6px; border-width: 2px 0 0 2px; }
+    .propaganda::after  { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+    .propaganda-header {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--gold-bright);
+      text-shadow: var(--glow-gold);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.06em;
+    }
+    .propaganda-sub {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 1.25rem;
+    }
+    .propaganda p { font-size: 1rem; color: var(--bone); font-style: italic; margin: 0; }
+
+    .vox-intercept {
+      padding: 1rem 1.25rem;
+      background: rgba(200,255,200,0.02);
+      border: 1px solid rgba(136,208,48,0.2);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--hive-bright);
+      line-height: 1.8;
+      margin: 1.5rem 0;
+      position: relative;
+    }
+    .vox-intercept::before {
+      content: 'VOX INTERCEPT // CLASSIFIED VERMILLION';
+      display: block;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: var(--blood-bright);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(224,48,48,0.25);
+    }
+    .vox-intercept .vox-noise { color: rgba(136,208,48,0.25); }
+
+    .timeline-major { margin: 2rem 0; }
+    .tl-major-entry {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0 1.5rem;
+      margin-bottom: 0;
+    }
+    .tl-major-entry:not(:last-child) .tl-major-body { border-bottom: 1px solid rgba(212,164,32,0.1); padding-bottom: 1.25rem; margin-bottom: 1.25rem; }
+    .tl-major-year {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      color: var(--gold-bright);
+      text-align: right;
+      padding-right: 1.5rem;
+      border-right: 2px solid var(--gold-dim);
+      padding-top: 0.15rem;
+      line-height: 1.3;
+    }
+    .tl-major-year span { display: block; font-family: var(--font-mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-top: 0.2rem; }
+    .tl-major-heading { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; color: var(--text-bright); margin-bottom: 0.35rem; }
+    .tl-major-body p { font-size: 0.96rem; margin-bottom: 0; color: var(--text-main); line-height: 1.75; }
+
+    .rumour-list { list-style: none; margin: 0; padding: 0; }
+    .rumour-list li {
+      padding: 0.9rem 1rem 0.9rem 3rem;
+      border-bottom: 1px solid rgba(212,164,32,0.1);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      position: relative;
+      color: var(--text-main);
+    }
+    .rumour-list li:last-child { border-bottom: none; }
+    .rumour-list li::before {
+      content: attr(data-truth);
+      position: absolute; left: 0; top: 0.9rem;
+      font-family: var(--font-mono); font-size: 0.58rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      width: 2.2rem; text-align: center;
+      padding: 0.2rem 0.1rem;
+      border: 1px solid currentColor;
+      line-height: 1.2;
+    }
+    .rumour-list li[data-truth="TRUE"]::before   { color: var(--hive-bright); }
+    .rumour-list li[data-truth="FALSE"]::before  { color: var(--blood-pale); }
+    .rumour-list li[data-truth="UNKN"]::before   { color: var(--text-dim); }
+  </style>
 </head>
 <body>
-<nav id="site-nav">
-  <div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="sector-map.html">Sector Map</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="agendas.html">Agendas</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="rules-ref.html">Rules Ref</a></li><li><a href="tracker.html">Tracker</a></li>
-  </ul>
-  <button class="nav-toggle"><span></span><span></span><span></span></button>
-</nav>
+<nav id="site-nav"><div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="sector-map.html">Sector Map</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="agendas.html">Agendas</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="rules-ref.html">Rules Ref</a></li><li><a href="tracker.html">Tracker</a></li></ul><button class="nav-toggle"><span></span><span></span><span></span></button></nav>
 
 <div class="page-hero">
   <div class="hero-corner tl"></div><div class="hero-corner tr"></div><div class="hero-corner bl"></div><div class="hero-corner br"></div>
-  <p class="hero-eyebrow">Segmentum Ultima — Historical Archive</p>
+  <p class="hero-eyebrow">Segmentum Ultima — Historica Imperialis — Archive Level Vermillion</p>
   <h1>Sub-Sector Lore</h1>
-  <p class="subtitle">History, worlds, and peoples of the Bastior Sub-Sector — and the darkness that now consumes them.</p>
+  <p class="subtitle">The history, peoples, and worlds of the Bastior Sub-Sector — and the years of darkness that now consume them.</p>
+  <div class="hero-rule"><span>✦</span></div>
 </div>
 
 <main>
   <div class="ticker mb-3"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
 
+  <!-- PAGE NAV -->
+  <nav class="lore-nav reveal" aria-label="Lore sections">
+    <a href="#history">History</a>
+    <a href="#fleet">Splinter Fleet</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#worlds">The Seven Worlds</a>
+    <a href="#characters">Key Figures</a>
+    <a href="#bestiary">Bestiary</a>
+    <a href="#propaganda">Propaganda</a>
+    <a href="#rumours">Rumours</a>
+  </nav>
+
   <div class="two-col">
     <div>
-      <h2 class="lore-h reveal">The Bastior Sub-Sector</h2>
-      <p class="drop-cap reveal">Located in the trailing reaches of Segmentum Ultima, the Bastior Sub-Sector comprises seven inhabited star systems bound by ancient pacts of mutual defence and trade. For millennia it has been a prosperous backwater — its forge world producing reliable materiel, its agri-worlds feeding Crusade fleets bound for the Eastern Fringe.</p>
-      <p class="reveal">That prosperity ended when the first hive ships were detected crossing the Mandeville point of the Calyx System. Within months, what Imperial intelligence dismissed as a minor tendril had revealed itself as a full feeding tongue of Hive Fleet Leviathan, guided with terrible cunning from below rather than above.</p>
+
+      <!-- ==================== HISTORY ==================== -->
+      <h2 class="lore-h reveal" id="history">The Bastior Sub-Sector</h2>
+
+      <p class="drop-cap reveal">Located in the trailing reaches of Segmentum Ultima, the Bastior Sub-Sector was, for three millennia, among the most unremarkable corners of the Imperium — and that was considered a blessing. Seven star systems, bound by ancient compacts of mutual tithe and defence. A forge world at its heart. Agri-worlds to feed passing crusade fleets. Void stations to repair them. No great Chaos incursions, no Ork Waaagh!, no Necron awakening. Just the slow, grinding dignity of Imperial life, generation after generation, in service to a god they would never see.</p>
+
+      <p class="reveal">That ended in 996.M41, when augur stations on the outer rim of the Calyx System detected gravitational anomalies consistent with a mass translation event. Eighteen months later, the first world was gone.</p>
+
+      <p class="reveal">The Administratum's war projections, submitted in haste to Segmentum Command, estimated the sub-sector could hold for five years before requiring reinforcement. That was three years ago. Reinforcement has not come. The astropathic choir on Bastior Prime sends their screams into the warp and hears only silence in return — or worse, something that is not silence at all, but the vast, patient, hungry hum of something that has no name in any human language.</p>
 
       <blockquote class="scripture reveal">
-        "We have fought the sons of Chaos, the eternal undead, and the arrogant Aeldari — and prevailed. But this is different. This enemy does not want our worlds. It wants to unmake them."
-        <cite>— Canoness Superior Yvelline Rast, Order of the Crimson Shroud</cite>
+        "We thought it would be quick. A splinter — that was the word the Magos used. A splinter. As if something this vast could be a fragment of something larger. As if we could hold a splinter in our bare hands and not bleed to death."
+        <cite>— Last transmission of Planetary Governor Aldous Serevant, Ostria Reach, 997.M41</cite>
       </blockquote>
 
-      <div class="divider"><span>✦</span></div>
+      <p class="reveal">Three years of war have reshaped the sub-sector beyond recognition. Two worlds consumed entirely — stripped to bare rock and left spinning in their orbits like dead eyes. A third fallen and unresponsive. The survivors have become something harder, stranger, and more desperate than the people they were before. Children born on Pentarch since the war began have never known peacetime. The forge temples of Bastior Prime run their machines continuously, cooling systems overwhelmed, workers sleeping in twelve-minute rotations. In the underhive of Morthix IV, people who were once Genestealer cultists now fight the very swarm that awakened them, because survival has no ideology.</p>
 
-      <h2 class="lore-h reveal">The Seven Systems</h2>
-      <div class="card-grid reveal">
-        <div class="card"><div class="card-label"><span class="tag tag-brass">Forge World</span></div><div class="card-title">Bastior Prime</div><p>The administrative capital of the sub-sector. Its manufactoria hammer out weapons day and night. Currently besieged but holding under the iron resolve of its defenders.</p></div>
-        <div class="card"><div class="card-label"><span class="tag tag-hive">FALLEN — Consumed</span></div><div class="card-title">Calyx Secundus</div><p>Once a thriving agri-world of four billion souls. Now a stripped husk, its topsoil digested and atmosphere fouled with spores. The first confirmed planetary consumption.</p></div>
-        <div class="card"><div class="card-label"><span class="tag tag-rust">Contested</span></div><div class="card-title">Morthix IV</div><p>A teeming hive world of eleven billion. Its underhives had been seeded with Genestealer cults for generations — the sleepers awoke when the Tyranid vanguard arrived.</p></div>
-        <div class="card"><div class="card-label"><span class="tag tag-hive">FALLEN</span></div><div class="card-title">Ostria Reach</div><p>A civilised world, the first to fall to direct assault. The last transmission from Governor Serevant was received 47 days into the campaign. Kill-teams confirmed consumption.</p></div>
-        <div class="card"><div class="card-label"><span class="tag tag-iron">Besieged</span></div><div class="card-title">Vethanus Station</div><p>A vital void station and naval yard. If it falls, the Imperial Navy loses its primary repair and resupply point in the sub-sector. Under constant bio-ship pressure.</p></div>
-        <div class="card"><div class="card-label"><span class="tag tag-brass">Staging Ground</span></div><div class="card-title">Pentarch</div><p>A cold mining world repurposed as a major Imperial staging ground and refugee processing centre. Its deep bunkers shelter millions of displaced persons.</p></div>
-        <div class="card"><div class="card-label"><span class="tag tag-purple">Infiltrated</span></div><div class="card-title">Rho-Kethis</div><p>A shrine and cemetery world, sacred to the Ecclesiarchy. Thought safe due to its lack of biomass — now confirmed to host Lictor and Void-Stalker incursion teams.</p></div>
-      </div>
+      <p class="reveal">The Imperium does not retreat. But it has, in the Bastior Sub-Sector, learned what it means to hold ground by the centimetre.</p>
 
       <div class="divider"><span>✦</span></div>
 
-      <h2 class="lore-h reveal">Hive Fleet Leviathan — Splinter Tendril Omicron</h2>
-      <p class="reveal">Unlike the main body of Hive Fleet Leviathan that attacked from below the galactic plane, Splinter Tendril Omicron approaches from the galactic south-east — an angle that Imperial strategists failed to adequately guard. The tendril is estimated at forty-seven capital hive ships and hundreds of smaller bio-vessels.</p>
-      <p class="reveal">What makes Omicron particularly dangerous is its apparent tactical intelligence. Rather than headlong consumption, this tendril probes, feints, and isolates — seeming to learn from each engagement. Magos Biologis Evander Kael has theorised that a Norn-Queen of exceptional cognitive development may be directing the tendril.</p>
+      <!-- ==================== SPLINTER FLEET ==================== -->
+      <h2 class="lore-h reveal" id="fleet">Splinter Fleet Venorath</h2>
+
+      <p class="reveal">The tendril consuming the Bastior Sub-Sector has been designated <strong>Splinter Fleet Venorath</strong> by Imperial xenologists — named for the Venorath Gulf, the deep void region through which it first approached. Unlike the primary body of Hive Fleet Leviathan, which struck from below the galactic plane in the opening years of the Tyrannic Wars, Venorath emerged from an angle that Imperial strategists had assessed as astronomically improbable. It was not improbable. The Hive Mind had simply been patient.</p>
+
+      <p class="reveal">Fleet Venorath is estimated at between forty and sixty capital hive ships, with the count made uncertain by the tendency of smaller vessels to merge, divide, and transform in response to strategic need. Its forward mass — the part currently engaged with Imperial defences — is perhaps a third of its total strength. The remainder lingers in the outer dark, feeding on comets and gas clouds, maintaining the biomass reserves needed to birth new organisms in the quantities this campaign demands.</p>
+
+      <h3 class="lore-sh reveal">Tactical Characteristics</h3>
+      <p class="reveal">What makes Venorath singular — and what has cost the Imperium dearly — is its apparent patience. Most Tyranid assaults are characterised by overwhelming momentum, a biological avalanche that trades individual organisms freely in exchange for speed. Venorath does not behave this way. It probes. It withdraws. It sends scouts ahead to be killed, and then the scouts' genetic memories are absorbed and studied. When it assaults in force, it does so at precisely the weakest point, in precisely the right numbers, at precisely the moment when Imperial reserves are committed elsewhere.</p>
+
+      <p class="reveal">Magos Biologis Evander Kael — who has spent eighteen months studying the tendril's behavioural patterns from the relative safety of Bastior Prime's deepest research vaults — has advanced the theory that a <strong>Norn-Emissary</strong> of unusual cognitive development is directing Venorath at a strategic level. Not a standard Hive Tyrant, which serves as a local synaptic relay. Something older. Something that has consumed the military histories of a dozen civilisations and synthesised them into a single, terrible intelligence operating at the scale of a campaign rather than a battle.</p>
+
+      <p class="reveal">Kael has named this theoretical entity <strong>the Architrave</strong>. He has not been able to prove it exists. He has also not been able to prove it doesn't, and the behavioural evidence keeps mounting.</p>
 
       <div class="alert alert-hive reveal">
         <span class="alert-icon hive-pulse">⬡</span>
-        <div><strong>SHADOW IN THE WARP:</strong> Astropathic communication has been severely degraded across the sub-sector. Messages to Segmentum Command take weeks, if they arrive at all. The sub-sector must fight its battle largely alone.</div>
+        <div><strong>Shadow in the Warp — Fleet-Scale Effect:</strong> The psychic suppression field generated by Fleet Venorath's combined synaptic mass extends well beyond the sub-sector's inhabited systems. Navigators report increasing difficulty charting safe courses through the region. Several supply convoys from Segmentum Command have simply not arrived, their fate unknown. The sub-sector is, for all practical purposes, alone.</div>
       </div>
 
-      <h3 class="lore-sh reveal">Confirmed Bio-form Variants</h3>
-      <table class="tbl reveal">
-        <thead><tr><th>Designation</th><th>Classification</th><th>First Sighted</th><th>Threat</th></tr></thead>
-        <tbody>
-          <tr><td>Thornback Warrior</td><td class="mono">Warrior Variant</td><td>Calyx Secundus</td><td><span class="tag tag-rust">Extreme</span></td></tr>
-          <tr><td>Void-Stalker Lictor</td><td class="mono">Lictor Variant</td><td>Rho-Kethis</td><td><span class="tag tag-rust">Extreme</span></td></tr>
-          <tr><td>Crusher Carnifex</td><td class="mono">Carnifex Variant</td><td>Morthix IV</td><td><span class="tag tag-brass">High</span></td></tr>
-          <tr><td>Acid-Spitter Termagant</td><td class="mono">Termagant Variant</td><td>Ostria Reach</td><td><span class="tag tag-iron">Moderate</span></td></tr>
-          <tr><td>Winged Hive Tyrant</td><td class="mono">Hive Tyrant</td><td>Bastior Prime</td><td><span class="tag tag-rust">CRITICAL</span></td></tr>
-        </tbody>
-      </table>
+      <h3 class="lore-sh reveal">The Seeding Programme</h3>
+      <p class="reveal">Long before the first hive ship crossed the Mandeville point, Fleet Venorath had been preparing. Genestealer cults seeded in the sub-sector's underhives have since been traced back to initial implantation approximately eighty years before the invasion proper — within the lifetime of surviving elders on Morthix IV, who remember the first strange missionaries with their too-wide eyes and their gentle voices. Those missionaries are long dead, absorbed back into the swarm they served, but their genetic legacy persists in millions of citizens who have never met a Tyranid creature and yet carry the gene-seed of one.</p>
+
+      <p class="reveal">The cultists of Morthix IV awoke simultaneously, to the hour, across seventeen separate hive spires on the day the Shadow reached full strength. The Imperial response was almost too slow. Almost.</p>
 
       <div class="divider"><span>✦</span></div>
 
-      <h2 class="lore-h reveal">Imperial Forces in Theatre</h2>
-      <ul class="honour-list reveal">
-        <li><strong>Iron Wardens Chapter</strong> — Third Company deployed in full. Siege specialists holding the outer defence lines of Bastior Prime.</li>
-        <li><strong>Bastior 1st–9th Infantry Regiments</strong> — Raised from the forge world itself. They know this industrial terrain better than any outsider.</li>
-        <li><strong>Order of the Crimson Shroud</strong> — Two Orders Militant deployed to Rho-Kethis and Morthix IV to combat Genestealer cult activity.</li>
-        <li><strong>Skitarii Legio Bastior</strong> — The forge world's augmented warrior servants. Over thirty maniples in active deployment.</li>
-        <li><strong>Battlegroup Severance</strong> — A reduced fleet centred on battlecruiser <em>Inexorable Fury</em>, protecting Vethanus Station.</li>
+      <!-- ==================== TIMELINE ==================== -->
+      <h2 class="lore-h reveal" id="timeline">Timeline of the Invasion</h2>
+
+      <div class="timeline-major reveal">
+        <div class="tl-major-entry">
+          <div class="tl-major-year">996.M41<span>Year Zero</span></div>
+          <div class="tl-major-body">
+            <div class="tl-major-heading">First Contact — The Calyx Anomalies</div>
+            <p>Augur stations detect mass translation events in the Calyx System's outer reaches. Initial assessment: rogue trader vessel or minor void predator migration. The Administratum files a report. Nobody acts on it.</p>
+          </div>
+        </div>
+        <div class="tl-major-entry">
+          <div class="tl-major-year">996.M41<span>+7 months</span></div>
+          <div class="tl-major-body">
+            <div class="tl-major-heading">The Shadow Deepens</div>
+            <p>Astropathic communication from Calyx Secundus becomes erratic, then ceases. A Navy patrol vessel dispatched to investigate does not return. The Administratum upgrades its assessment. The word "Tyranid" appears in an official document for the first time.</p>
+          </div>
+        </div>
+        <div class="tl-major-entry">
+          <div class="tl-major-year">997.M41<span>Year One</span></div>
+          <div class="tl-major-body">
+            <div class="tl-major-heading">Calyx Secundus Falls</div>
+            <p>The agri-world's four billion inhabitants die over a period of eleven days. Some fight. Most simply disappear into the vast digestive processes of the hive fleet. The final transmission is a four-year-old child singing a harvest hymn. It is received at Bastior Prime seventeen hours after the source is already gone.</p>
+          </div>
+        </div>
+        <div class="tl-major-entry">
+          <div class="tl-major-year">997.M41<span>+3 months</span></div>
+          <div class="tl-major-body">
+            <div class="tl-major-heading">The Morthix Uprising</div>
+            <p>Genestealer cults detonate the hive city of Krethavar from within simultaneously across multiple spires. Three million casualties in the first hour. Imperial forces are redirected from outer system defence. This, in retrospect, was exactly what Fleet Venorath intended.</p>
+          </div>
+        </div>
+        <div class="tl-major-entry">
+          <div class="tl-major-year">997.M41<span>+5 months</span></div>
+          <div class="tl-major-body">
+            <div class="tl-major-heading">Ostria Reach — Orbital Engagement</div>
+            <p>Battlegroup Severance intercepts a Venorath splinter tendril attempting to bypass the main cordon and strike at Ostria. The naval engagement lasts sixteen hours. Severance suffers catastrophic losses — three cruisers destroyed, flagship <em>Inexorable Fury</em> crippled. The splinter tendril is destroyed, but the cost is devastating.</p>
+          </div>
+        </div>
+        <div class="tl-major-entry">
+          <div class="tl-major-year">998.M41<span>Year Two</span></div>
+          <div class="tl-major-body">
+            <div class="tl-major-heading">Ostria Reach Falls — The Long Silence</div>
+            <p>With Battlegroup Severance unable to maintain orbital superiority, a second tendril reaches Ostria. Governor Serevant's last transmission is received eleven days after the initial landing. Planetary consumption is confirmed by an Ordo Xenos kill-team who survive long enough to send a single burst-coded message: <em>"Nothing left. Nothing human."</em></p>
+          </div>
+        </div>
+        <div class="tl-major-entry">
+          <div class="tl-major-year">998.M41<span>+6 months</span></div>
+          <div class="tl-major-body">
+            <div class="tl-major-heading">The Bastior Cordon — Last Line</div>
+            <p>Lord Commander Valdris Hemmont formally declares the Bastior Defence Cordon, consolidating all surviving Imperial forces into a defensive perimeter around the remaining four systems. Pentarch is converted from a mining world to the sub-sector's primary staging ground and refugee processing centre. Millions of displaced persons flood in from the fallen worlds. The question of how to feed them is not answered.</p>
+          </div>
+        </div>
+        <div class="tl-major-entry">
+          <div class="tl-major-year">999.M41<span>Year Three — Now</span></div>
+          <div class="tl-major-body">
+            <div class="tl-major-heading">The Grinding Dark</div>
+            <p>The campaign enters its third year. No reinforcement from Segmentum Command has arrived. No astropathic acknowledgement of Imperial distress calls has been received for eight months. The defenders of the Bastior Sub-Sector do not know if the broader Imperium knows they exist. They continue to fight regardless. This is the Crusade.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"><span>✦</span></div>
+
+      <!-- ==================== WORLDS ==================== -->
+      <h2 class="lore-h reveal" id="worlds">The Seven Systems</h2>
+
+      <div class="world-entry reveal">
+        <div class="world-header">
+          <div>
+            <div class="world-name">Bastior Prime</div>
+            <div class="world-class">Forge World — Sub-Sector Capital — Status: Besieged but Holding</div>
+          </div>
+          <div class="world-stats">
+            <div class="ws-row"><div class="ws-label">Population</div><div class="ws-val">~8.4 billion</div></div>
+            <div class="ws-row"><div class="ws-label">Classification</div><div class="ws-val">Forge World</div></div>
+            <div class="ws-row"><div class="ws-label">Gravity</div><div class="ws-val">1.14 standard</div></div>
+            <div class="ws-row"><div class="ws-label">Status</div><div class="ws-val" style="color:var(--gold-bright);">Besieged</div></div>
+          </div>
+        </div>
+        <p>Bastior Prime is an iron world — not in the geological sense, though its crust is unusually metal-rich, but in the cultural one. Its people have been Mechanicus-adjacent for so long that the line between the two has blurred. Workers in the great manufactoria receive routine augmentation as a matter of course. The Skitarii walk openly through hab-blocks. The Omnissiah's prayers are taught alongside the Imperial Creed in the same schola, by the same preachers, who see no contradiction in this.</p>
+        <p>The forge world's output has been on continuous wartime footing since 997.M41. The manufactorium complexes in the southern hemisphere have not cooled in two years. Parts of the northern polar factoria have begun to show signs of structural fatigue from continuous operation, but the Magi who oversee them have calculated that this is preferable to any pause in production. The plasteel for a gun is worth more than the servitor who installs it, in the mathematics of survival.</p>
+        <p>The orbital defences are formidable — a triple ring of void shields, gun platforms, and minefields that has so far repelled three major Venorath assault approaches. The fourth is expected. When it comes, it is expected to be larger than the previous three combined.</p>
+        <blockquote class="scripture">
+          "The forge does not mourn. The forge does not fear. The forge produces. So shall we."
+          <cite>— Fabricator-Locum Tessara Veld, addressing the Mechanicus Conclave, 998.M41</cite>
+        </blockquote>
+      </div>
+
+      <div class="world-entry reveal">
+        <div class="world-header">
+          <div>
+            <div class="world-name">Morthix IV</div>
+            <div class="world-class">Hive World — Status: Contested — Genestealer Insurgency Active</div>
+          </div>
+          <div class="world-stats">
+            <div class="ws-row"><div class="ws-label">Population</div><div class="ws-val">~11.2 billion</div></div>
+            <div class="ws-row"><div class="ws-label">Classification</div><div class="ws-val">Hive World</div></div>
+            <div class="ws-row"><div class="ws-label">Hive Spires</div><div class="ws-val">23 active</div></div>
+            <div class="ws-row"><div class="ws-label">Status</div><div class="ws-val" style="color:var(--gold-bright);">Contested</div></div>
+          </div>
+        </div>
+        <p>Morthix IV is a world of stacked millions — twenty-three hive spires reaching above a toxic, windswept continental shelf, housing a population that has long since forgotten what sky looks like from the inside. The underhives descend for kilometres beneath the surface, older than the spires above them, older than reliable records, a labyrinthine ecosystem of forgotten machinery, feral gangers, and secrets that the surface hab-blocks never wanted to know about.</p>
+        <p>The Genestealer cults that exploded in 997.M41 had been seeded there for at least eighty years — long enough that the cult's upper generations had died of old age without seeing the promised salvation. Their children's children awoke to the Shadow and understood, with a clarity that no indoctrination could have manufactured, exactly what they were for. The uprising in Krethavar was not an act of terrorism. It was a religious rite of completion, three generations in the making.</p>
+        <p>That uprising was crushed — eventually — at enormous cost. But it was not the last. New cult cells surface regularly across all twenty-three spires. The Inquisition has advised that it may be impossible to fully cleanse Morthix IV while Fleet Venorath remains in system, as the Shadow in the Warp continues to provide the psychic signal that activates dormant hybrid generations. The alternative — exterminatus — has been discussed in whispers at the highest levels of the defence council, and not yet discarded.</p>
+      </div>
+
+      <div class="world-entry reveal">
+        <div class="world-header">
+          <div>
+            <div class="world-name">Pentarch</div>
+            <div class="world-class">Mining World — Imperial Staging Ground — Status: Fortified</div>
+          </div>
+          <div class="world-stats">
+            <div class="ws-row"><div class="ws-label">Population</div><div class="ws-val">~340 million (+ refugees)</div></div>
+            <div class="ws-row"><div class="ws-label">Classification</div><div class="ws-val">Mining/Staging</div></div>
+            <div class="ws-row"><div class="ws-label">Temperature</div><div class="ws-val">−18°C average</div></div>
+            <div class="ws-row"><div class="ws-label">Status</div><div class="ws-val" style="color:var(--hive-bright);">Fortified</div></div>
+          </div>
+        </div>
+        <p>Pentarch is cold, dark, and ugly, and it has never been more important. A mining world of middling output before the war, it sits at the trailing edge of the sub-sector in a position that makes it strategically awkward for Fleet Venorath to assault without exposing flanks to the remaining Imperial naval assets. Lord Commander Hemmont made the decision to fortify it as the staging ground for the defence cordon in 998.M41, and the transformation has been total.</p>
+        <p>Its deep bore-tunnels have been converted to bunker complexes housing millions of refugees from Calyx Secundus and Ostria Reach — people who lost everything and were given a pick and told to dig deeper. The surface is covered with prefabricated fortifications, landing pads, and the temporary cities that spring up around any large military concentration. The permanent population of 340 million has been joined by an estimated 1.4 billion displaced persons, a number that strains every supply system on the planet.</p>
+        <p>The refugees do not complain. The survivors of Calyx Secundus and Ostria Reach have seen what comes after complaint. They dig. They work. They teach their children the names of worlds that no longer exist.</p>
+      </div>
+
+      <div class="world-entry reveal">
+        <div class="world-header">
+          <div>
+            <div class="world-name">Vethanus Station</div>
+            <div class="world-class">Void Station — Naval Yard — Status: Under Siege</div>
+          </div>
+          <div class="world-stats">
+            <div class="ws-row"><div class="ws-label">Population</div><div class="ws-val">~12 million</div></div>
+            <div class="ws-row"><div class="ws-label">Classification</div><div class="ws-val">Void Station</div></div>
+            <div class="ws-row"><div class="ws-label">Orbital</div><div class="ws-val">Bastior-Vethanus L4</div></div>
+            <div class="ws-row"><div class="ws-label">Status</div><div class="ws-val" style="color:var(--blood-pale);">Besieged</div></div>
+          </div>
+        </div>
+        <p>Vethanus Station is not a planet. It is a vast artificial construct — a city in space, built over centuries, expanded by degrees, now a habitat of twelve million souls and the most important piece of infrastructure in the sub-sector's defence. Every Imperial vessel in the region depends on it for repair, resupply, and the fuel processing that keeps warships running. If Vethanus falls, Battlegroup Severance ceases to be an effective fighting force within weeks. If Battlegroup Severance ceases to be effective, there is nothing to stop Fleet Venorath from achieving orbital superiority over Bastior Prime.</p>
+        <p>The bio-ship attacks on Vethanus have been relentless — not devastating assaults, but constant pressure, probing attacks that the garrison repels at steady cost. Every hull breach is sealed. Every boarder is killed. Every night cycle, the repair crews count their dead and start again. The station's commander, Admiral-Delegate Mira Shourn, has not left the command deck in four months. She sleeps in her chair when she sleeps at all.</p>
+      </div>
+
+      <div class="world-entry reveal">
+        <div class="world-header">
+          <div>
+            <div class="world-name">Rho-Kethis</div>
+            <div class="world-class">Shrine World — Cemetery World — Status: Infiltrated</div>
+          </div>
+          <div class="world-stats">
+            <div class="ws-row"><div class="ws-label">Population</div><div class="ws-val">~80 million</div></div>
+            <div class="ws-row"><div class="ws-label">Classification</div><div class="ws-val">Shrine/Cemetery</div></div>
+            <div class="ws-row"><div class="ws-label">Bio-threat</div><div class="ws-val" style="color:var(--blood-pale);">Confirmed Lictors</div></div>
+            <div class="ws-row"><div class="ws-label">Status</div><div class="ws-val" style="color:var(--blood-pale);">Infiltrated</div></div>
+          </div>
+        </div>
+        <p>Rho-Kethis was considered safe, and that assumption has proven nearly fatal. A shrine world of eighty million, it is covered in mausoleums, templums, and the graves of the honoured dead stretching back ten thousand years. The Ecclesiarchy's logic was sound on the surface: the world has relatively little biomass by Tyranid standards, no significant industrial output, and no strategic value beyond its spiritual one. Fleet Venorath should have no interest in it.</p>
+        <p>Fleet Venorath does not share this reasoning. Lictor teams have been confirmed in at least fourteen locations across the world's surface — not consuming, but watching. Mapping. The presence of Void-Stalker variants (a sub-type unique to Venorath, documented first on Rho-Kethis itself) suggests an interest in the world's void-facing sensor arrays, which provide long-range augur coverage that the Bastior cordon depends on. If those arrays are destroyed or compromised, the cordon goes partially blind.</p>
+        <p>The reason the Ecclesiarchy has not simply evacuated Rho-Kethis is that eighty million people refuse to leave. The graves of their ancestors are here. They will not abandon them to the Great Devourer. This position is simultaneously theologically admirable and tactically catastrophic.</p>
+      </div>
+
+      <div class="world-entry reveal" style="border-color:rgba(136,208,48,0.2);">
+        <div class="world-header">
+          <div>
+            <div class="world-name" style="color:var(--hive-bright);text-shadow:var(--glow-hive);">Ostria Reach</div>
+            <div class="world-class" style="color:rgba(136,208,48,0.6);">FALLEN — Confirmed Consumed — No Survivors</div>
+          </div>
+          <div class="world-stats">
+            <div class="ws-row"><div class="ws-label">Former Population</div><div class="ws-val" style="color:var(--text-dim);">~2.1 billion</div></div>
+            <div class="ws-row"><div class="ws-label">Former Class</div><div class="ws-val" style="color:var(--text-dim);">Civilised World</div></div>
+            <div class="ws-row"><div class="ws-label">Year of Fall</div><div class="ws-val" style="color:var(--blood-pale);">998.M41</div></div>
+            <div class="ws-row"><div class="ws-label">Status</div><div class="ws-val" style="color:var(--hive-bright);">Consumed</div></div>
+          </div>
+        </div>
+        <p style="color:var(--text-dim);">What remains of Ostria Reach is a stripped world — topsoil digested, oceans drained, atmosphere toxic with spore residue. The hive fleet consumed it with the thoroughness that only a multi-billion-year-old organism can achieve. Orbital surveys show a planet that looks like a wound: raw rock, grey-brown, stripped of everything that was ever alive on it.</p>
+        <p style="color:var(--text-dim);">Governor Serevant's final transmission was received at Bastior Prime seventeen hours after the main fleet engaged. He spoke for four minutes. His voice was steady throughout. The Administratum has classified the content of the transmission at Vermillion clearance. Those who were in the room when it was received do not speak of it.</p>
+        <p style="color:var(--text-dim);">The world is still used on navigation charts, because removing it would require updating every navcomp in the sub-sector. Navigators steer past the coordinates by habit now, eyes averted.</p>
+      </div>
+
+      <div class="world-entry reveal" style="border-color:rgba(136,208,48,0.2);">
+        <div class="world-header">
+          <div>
+            <div class="world-name" style="color:var(--hive-bright);text-shadow:var(--glow-hive);">Calyx Secundus</div>
+            <div class="world-class" style="color:rgba(136,208,48,0.6);">FALLEN — First Consumption — Year One of the War</div>
+          </div>
+          <div class="world-stats">
+            <div class="ws-row"><div class="ws-label">Former Population</div><div class="ws-val" style="color:var(--text-dim);">~4 billion</div></div>
+            <div class="ws-row"><div class="ws-label">Former Class</div><div class="ws-val" style="color:var(--text-dim);">Agri-World</div></div>
+            <div class="ws-row"><div class="ws-label">Year of Fall</div><div class="ws-val" style="color:var(--blood-pale);">997.M41</div></div>
+            <div class="ws-row"><div class="ws-label">Status</div><div class="ws-val" style="color:var(--hive-bright);">Consumed</div></div>
+          </div>
+        </div>
+        <p style="color:var(--text-dim);">Calyx Secundus was the first. Four billion people who grew food for passing fleets, who sang harvest hymns under three moons, who built nothing more martial than irrigation channels — gone in eleven days. It was the speed that broke the sub-sector's collective nerve for months afterward. Not the scale, which the mind cannot comprehend anyway. The speed. Eleven days is the length of a festival. The length of a moderately long illness. The time it takes a bureaucratic form to process through the Administratum.</p>
+        <p style="color:var(--text-dim);">The last confirmed transmission from Calyx Secundus was an automated weather beacon cycling through pre-recorded weather reports for agricultural planning. It continued transmitting for six days after the world had been consumed, updating no one on conditions that no longer existed for crops that had been digested, for farmers who were part of something vast and incomprehensible and far away by then.</p>
+      </div>
+
+      <div class="divider"><span>✦</span></div>
+
+      <!-- ==================== CHARACTERS ==================== -->
+      <h2 class="lore-h reveal" id="characters">Key Figures</h2>
+      <p class="reveal" style="margin-bottom:1.75rem;">The war in the Bastior Sub-Sector has, over three years, produced its share of figures who define the conflict — commanders, martyrs, monsters, and mysteries.</p>
+
+      <h3 class="lore-sh reveal">The Defenders</h3>
+
+      <div class="char-card reveal">
+        <div class="char-sigil">⚔</div>
+        <div>
+          <div class="char-name">Lord Commander Valdris Hemmont</div>
+          <div class="char-title">Supreme Commander — Bastior Defence Cordon</div>
+          <p class="char-body">Hemmont was a theatre commander of no great distinction before the war — a competent, unremarkable man who had spent three decades managing logistics and minor pacification operations in the outer reaches of the sub-sector. He has been transformed by three years of impossible command decisions into something colder and more precise. Those who knew him before the war say he sleeps four hours a night and spends the rest of his waking hours in the strategium, re-examining models of engagements that have already happened, searching for errors he might be able to avoid the next time. He has not smiled since 997.M41. He has not lost a world since 998.M41, which is the only thing that matters now.</p>
+        </div>
+      </div>
+
+      <div class="char-card reveal d1">
+        <div class="char-sigil">⚙</div>
+        <div>
+          <div class="char-name">Fabricator-Locum Tessara Veld</div>
+          <div class="char-title">Adeptus Mechanicus — Bastior Prime Forge Temple</div>
+          <p class="char-body">Veld is more machine than human at this point — augmentation percentages that would be considered extreme even by Mechanicus standards, a voice synthesiser that has not produced a biological sound in twenty years, eyes that see in seventeen spectra simultaneously. She manages the forge world's wartime production with a computational elegance that has kept the defence cordon supplied against all projections. Her single-minded devotion to output has also resulted in what can charitably be described as a lack of concern for worker welfare — servitor conversion rates in her manufactory complexes have increased 340% since the war began, which nobody in the defence council has yet found the courage to formally object to.</p>
+        </div>
+      </div>
+
+      <div class="char-card reveal d2">
+        <div class="char-sigil">🜁</div>
+        <div>
+          <div class="char-name">Magos Biologis Evander Kael</div>
+          <div class="char-title">Senior Xenologist — Bastior Prime Research Vaults</div>
+          <p class="char-body">Kael has devoted eighteen months to the study of Fleet Venorath's behavioural patterns, emerging from his research vault only to give briefings that leave the defence council visibly disturbed. He is the author of the Architrave Theory — the proposal that an unprecedented synaptic intelligence is directing Venorath at a strategic level. He is also the author of eleven other classified reports, the titles of which have been redacted from all documents below Vermillion clearance. What is known is that Kael has requested, repeatedly, a meeting with Lord Commander Hemmont that is classified as priority one. Hemmont has, repeatedly, declined the meeting. Those who know both men speculate that Hemmont does not want to hear what Kael has to say.</p>
+        </div>
+      </div>
+
+      <div class="char-card reveal d3">
+        <div class="char-sigil">⚓</div>
+        <div>
+          <div class="char-name">Admiral-Delegate Mira Shourn</div>
+          <div class="char-title">Naval Commander — Battlegroup Severance, Vethanus Station</div>
+          <p class="char-body">Shourn inherited command of Battlegroup Severance after its previous commander died in the orbital engagement at Ostria Reach — promoted in the field, confirmed by necessity, running on stimulants and institutional stubbornness. The battlegroup she commands is a shadow of what it was: three cruisers, eleven escort frigates, and a number of system defence monitors that were never designed for fleet engagement. She stretches this force across patrol routes that would require three times the ships to properly cover, and she has not lost a station asset to enemy boarding in fourteen months. How she achieves this is a matter of heated debate among naval analysts. Shourn's answer, on the one occasion she was asked directly: "We get there first."</p>
+        </div>
+      </div>
+
+      <h3 class="lore-sh reveal" style="margin-top:2rem;">The Devourer's Named</h3>
+      <p class="reveal" style="margin-bottom:1.25rem;">Tyranid organisms do not have names in any human sense — they are nodes in a synaptic web, extensions of a singular will. But Imperial forces have, over three years, designated certain recurrent or extraordinary organisms that appear to operate with unusual independence or persistence.</p>
+
+      <div class="char-card reveal" style="border-color:rgba(136,208,48,0.35);">
+        <div class="char-sigil" style="border-color:rgba(136,208,48,0.4);background:rgba(136,208,48,0.06);color:var(--hive-bright);">⬡</div>
+        <div>
+          <div class="char-name" style="color:var(--hive-bright);">The Architrave <span style="font-size:0.7rem;font-family:var(--font-mono);color:rgba(136,208,48,0.5);letter-spacing:0.1em;text-transform:uppercase;"> (Theoretical)</span></div>
+          <div class="char-title" style="color:rgba(136,208,48,0.7);">Norn-Emissary — Strategic Director — Fleet Venorath</div>
+          <p class="char-body">The Architrave has not been confirmed to exist. No specimen has been captured, no body recovered, no sensor reading unambiguously attributed. What has been observed is a pattern of strategic decision-making across Fleet Venorath's three years of operation that is inconsistent with standard Hive Mind behaviour and consistent with the presence of a high-level cognitive director operating at campaign scale. Kael's projections suggest a Norn-Emissary variant approximately twice the mass of a standard Hive Tyrant, residing within a heavily protected bio-ship at the fleet's centre. The projections also suggest that the Architrave is learning — that each Imperial stratagem employed against Venorath has been absorbed, analysed, and counteracted, and that the entity directing this process grows more capable with each engagement. Whether it exists is debatable. Whether something is learning from the Imperium's mistakes is not.</p>
+        </div>
+      </div>
+
+      <div class="char-card reveal d1" style="border-color:rgba(136,208,48,0.35);">
+        <div class="char-sigil" style="border-color:rgba(136,208,48,0.4);background:rgba(136,208,48,0.06);color:var(--hive-bright);">🦷</div>
+        <div>
+          <div class="char-name" style="color:var(--hive-bright);">The Thornback</div>
+          <div class="char-title" style="color:rgba(136,208,48,0.7);">Warrior Prime Variant — First Sighted Calyx Secundus</div>
+          <p class="char-body">The Thornback designation covers a specific Warrior variant first encountered during the fall of Calyx Secundus and subsequently appearing in engagements across all five active theatres of the war. The defining characteristics — oversized dorsal spine arrays, a combat behaviour that prioritises the elimination of synapse-equivalent targets, and a resilience to anti-personnel weapons that suggests significantly enhanced carapace chitin — have led some xenologists to speculate that the Thornback represents a mid-campaign adaptation, a bioform developed specifically in response to Imperial tactical patterns observed during the war's first year. If so, it is a deeply unsettling demonstration of the Hive Mind's adaptive capacity.</p>
+        </div>
+      </div>
+
+      <div class="char-card reveal d2" style="border-color:rgba(136,208,48,0.35);">
+        <div class="char-sigil" style="border-color:rgba(136,208,48,0.4);background:rgba(136,208,48,0.06);color:var(--hive-bright);">👁</div>
+        <div>
+          <div class="char-name" style="color:var(--hive-bright);">Designation: Whisper-Nine</div>
+          <div class="char-title" style="color:rgba(136,208,48,0.7);">Void-Stalker Lictor — Confirmed Active, Rho-Kethis</div>
+          <p class="char-body">Nine separate Lictor sightings on Rho-Kethis have been attributed to the same organism based on consistent wound patterns, movement signatures, and the distinctive three-toed track that Void-Stalker variants leave on soft ground. "Whisper-Nine" — the designation is an Inquisition field nickname — has been hunted by three separate kill-teams over fourteen months, each time disappearing before engagement could be forced. The most recent hunt ended when the six-member kill-team was found dead in the mausoleum district of the Shrine of the Undying Flame, arranged in a precise geometric pattern that xenologists have been unable to explain. There were no signs of a struggle.</p>
+        </div>
+      </div>
+
+      <div class="divider"><span>✦</span></div>
+
+      <!-- ==================== BESTIARY ==================== -->
+      <h2 class="lore-h reveal" id="bestiary">Bestiary — Venorath Bio-form Variants</h2>
+      <p class="reveal" style="margin-bottom:1.5rem;">The following bio-forms are unique to or notably prevalent in Fleet Venorath's order of battle. Several appear to represent mid-campaign adaptations not previously catalogued in Imperial xenological databases.</p>
+
+      <div class="bioform-entry reveal">
+        <div class="bioform-name">Thornback Warrior</div>
+        <div class="bioform-class">Warrior Variant — Threat Classification: Extreme — First Sighted: Calyx Secundus, 997.M41</div>
+        <p class="bioform-body">The Thornback is visually distinguished from standard Tyranid Warriors by a dramatically enlarged dorsal spine array — not the usual paired back-spines but a dense forest of quill-like projections that can be launched as a short-range barrage or used to impale close-combat opponents. Combat data indicates a tactical preference for targeting command units and communications equipment, which has led to speculation that Thornbacks receive specific synaptic instructions to decapitate leadership structures rather than simply inflicting casualties. Three Astra Militarum commanders have been killed by Thornbacks in circumstances where standard Warriors would have bypassed them to engage rank-and-file targets.</p>
+      </div>
+
+      <div class="bioform-entry reveal d1">
+        <div class="bioform-name">Void-Stalker Lictor</div>
+        <div class="bioform-class">Lictor Variant — Threat Classification: Extreme — First Sighted: Rho-Kethis, 997.M41</div>
+        <p class="bioform-body">The Void-Stalker is a Lictor variant adapted for operation in vacuum and low-gravity environments — its chameleonic skin functions in the infrared spectrum used by naval sensors, its claws can anchor to hull plating, and it appears able to survive hard vacuum exposure for extended periods. It was the Void-Stalker's ability to traverse the outer hull of Vethanus Station undetected that led to the first confirmed boarding of the station in 998.M41. Since then, every hull panel on Vethanus has been fitted with pressure sensors, which has reduced incursions significantly but not eliminated them. One Void-Stalker is believed to have been inside the station's outer infrastructure layer for over eight months, surviving by feeding on maintenance servitors and evading systematic search efforts.</p>
+      </div>
+
+      <div class="bioform-entry reveal d2">
+        <div class="bioform-name">Bonecrusher Carnifex</div>
+        <div class="bioform-class">Carnifex Variant — Threat Classification: High — First Sighted: Morthix IV, 997.M41</div>
+        <p class="bioform-body">The Bonecrusher is a heavily armoured assault Carnifex variant that appears to have been specifically designed to breach fortified structures. Its forelimbs are notably different from standard Carnifex builds — the crushing claws are larger, denser, and reinforced with a bone-like material that analysis suggests is harder than most industrial ceramics. Observed in use against the hive city walls of Morthix IV, where they were deployed in small groups to breach sections of the defensive perimeter before the main swarm poured through. Their carapace plating has proven resistant to anti-tank weapons at close range, which implies a level of deliberate adaptive upscaling that standard swarm creatures do not exhibit.</p>
+      </div>
+
+      <div class="bioform-entry reveal d3">
+        <div class="bioform-name">Spore-Singer Termagant</div>
+        <div class="bioform-class">Termagant Variant — Threat Classification: Moderate — First Sighted: Ostria Reach, 997.M41</div>
+        <p class="bioform-body">The most unsettling feature of the Spore-Singer variant is not its weapon — an acid-fleshborer that causes significantly more tissue damage than standard fleshborer rounds — but its vocalisation. Spore-Singers emit a sub-sonic frequency during combat that has no apparent tactical purpose but causes severe psychological distress in human combatants. Veterans describe it as feeling like something is reading their memories. Psychic-null individuals report no effect. Psykers report effects severe enough to require immediate evacuation from the combat zone. Several have been subsequently found to have minor synaptic imprinting — subconscious knowledge of Tyranid attack patterns that appears to have been written into their memory during exposure. The Inquisition considers all individuals exposed to significant Spore-Singer vocalisation to be potential intelligence compromises.</p>
+      </div>
+
+      <div class="bioform-entry reveal">
+        <div class="bioform-name">The Shrouded Hive Tyrant</div>
+        <div class="bioform-class">Hive Tyrant — Threat Classification: Critical — First Sighted: Bastior Prime orbital, 998.M41</div>
+        <p class="bioform-body">A winged Hive Tyrant of unusual size that has been encountered in three separate engagements over the Bastior Prime outer defence lines. The "Shrouded" designation comes from a documented capacity to generate a localised psychic interference field that disrupts targeting systems and causes visual distortion — engaged units describe trying to aim at something that is simultaneously very close and very far away, in a location that keeps being slightly wrong. It has been wounded in two of three engagements and has withdrawn each time before being killed. The current working hypothesis is that it carries some form of enhanced regenerative capability, as wounds inflicted in the first engagement should have been fatal by any standard assessment. Lord Commander Hemmont has assigned a dedicated kill-team to hunting it. The kill-team has been assigned twice. Both teams did not return.</p>
+      </div>
+
+      <div class="divider"><span>✦</span></div>
+
+      <!-- ==================== PROPAGANDA ==================== -->
+      <h2 class="lore-h reveal" id="propaganda">Imperial Propaganda</h2>
+      <p class="reveal" style="margin-bottom:1.75rem;">The Ministorum's propagandists have worked continuously since 997.M41 to maintain morale across the surviving systems. The following represent examples of distributed materials.</p>
+
+      <div class="propaganda reveal">
+        <div class="propaganda-header">THE BASTIOR CORDON HOLDS</div>
+        <div class="propaganda-sub">Distributed by Order of the Ministorum — Bastior Prime</div>
+        <p>Three years. Three years the Great Devourer has hurled itself against the walls of human civilisation, and three years we have held. Not because our walls are impregnable — they are not. Not because our weapons are unlimited — they diminish. We hold because the Emperor's servants do not know how to stop. Every wall that falls, we build another behind it. Every soldier who dies, ten more take up the oath. The Bastior Sub-Sector will not be remembered as the place humanity ended. It will be remembered as the place the tide turned.</p>
+      </div>
+
+      <div class="propaganda reveal d1">
+        <div class="propaganda-header">KNOW YOUR NEIGHBOURS</div>
+        <div class="propaganda-sub">Morthix IV Arbites Bulletin — Cult Recognition Guidance</div>
+        <p>The enemy is not only in space. It walks among us. It has walked among us for generations. It speaks our language, lives in our corridors, eats at our tables. Look for the signs: the too-wide smile, the slight wrongness in the eyes, the family who moved here from somewhere else and whose neighbours cannot quite remember their old address. Report anything unusual to your local Arbites precinct. You cannot be too careful. The Hive Mind already knows where you live. Make sure you know who your neighbours are.</p>
+      </div>
+
+      <div class="propaganda reveal d2">
+        <div class="propaganda-header">FEED THE FORGE — FEED THE FRONT</div>
+        <div class="propaganda-sub">Manufactorum Output Drive — Bastior Prime — Third Year of War</div>
+        <p>Every gun that leaves this forge complex is a soldier who doesn't have to fight with their bare hands. Every round machined is a Tyranid organism that dies before it reaches our walls. You are not assembly line workers. You are warriors. Your weapons are your hands and your hours and your willingness to give both without limit. The Omnissiah sees your sacrifice. The Emperor demands it. Give everything. There is no civilian in this war — only those who have not yet been asked to bleed.</p>
+      </div>
+
+      <div class="vox-intercept reveal">
+        <span class="vox-noise">/// </span>INTERCEPT DATE: 999.M41 / SOURCE: BASTIOR PRIME ASTROPATHIC RELAY / STATUS: PARTIAL DECODE<br>
+        <span class="vox-noise">/// </span>MESSAGE TO: SEGMENTUM COMMAND — OBSCURA — PRIORITY: VERMILLION<br>
+        <span class="vox-noise">/// </span>— — —<br>
+        THREE YEARS NO ACKNOWLEDGEMENT. CORDON HOLDING BUT DEGRADING. SUPPLY CRITICAL. REQUEST IMMEDIATE [CORRUPTED]. ESTIMATED EIGHTEEN MONTHS TO CORDON FAILURE WITHOUT [CORRUPTED]. THE FORGE RUNS. THE SOLDIERS HOLD. WE NEED [CORRUPTED]. IN THE EMPEROR'S NAME DO NOT LET BASTIOR DIE IN THE DARK WITHOUT [CORRUPTED].<br>
+        <span class="vox-noise">/// </span>MESSAGE ENDS — SUBSEQUENT TRANSMISSION LOST TO SHADOW IN THE WARP
+      </div>
+
+      <div class="divider"><span>✦</span></div>
+
+      <!-- ==================== RUMOURS ==================== -->
+      <h2 class="lore-h reveal" id="rumours">Rumours — Field Reports &amp; Underhive Whispers</h2>
+      <p class="reveal" style="margin-bottom:0.75rem;">In three years of isolated war, rumour has become a secondary information network. The following circulate among the defenders. Verdicts reflect current Inquisition assessment where available.</p>
+
+      <ul class="rumour-list reveal">
+        <li data-truth="TRUE">Segmentum Command has received the sub-sector's distress calls. The reinforcements are not coming because they cannot come — Hive Fleet Leviathan's main body is simultaneously engaged with multiple priority targets, and Bastior has been formally assessed as a sustainable loss. This assessment has not been shared with the sub-sector's defenders.</li>
+        <li data-truth="FALSE">The Genestealer cults on Morthix IV have been completely eradicated following the Arbites purges of 998.M41. Seventeen confirmed cult cells remain active across at least nine hive spires. The Arbites knows this. The public statement exists to prevent panic.</li>
+        <li data-truth="UNKN">Magos Kael's eleven classified reports contain evidence that the Architrave is not simply a Tyranid organism but something older — something the Hive Mind consumed in the far past that has persisted within it, growing, and which has now been deployed against the Bastior Sub-Sector because it recognises something here. Nobody knows what it recognises.</li>
+        <li data-truth="TRUE">Lord Commander Hemmont has a standing order, classified at Vermillion, that authorises the use of cyclonic torpedoes against Morthix IV if the hive world's population reaches a tipping point of cult infiltration beyond which purging becomes impossible. The threshold has been assessed three times. Each time, it has been judged to be very close but not yet reached.</li>
+        <li data-truth="UNKN">Whisper-Nine is not alone. There are others of its kind on Rho-Kethis, in the mausoleum districts, and they have been there not for months but for years. The kill-team members who were found arranged in a geometric pattern in the Shrine of the Undying Flame were not killed. They were left as a message. Nobody has been able to decode what the message says.</li>
+        <li data-truth="FALSE">Battlegroup Severance has received covert supply drops from an unidentified source — possibly Inquisitorial, possibly Aeldari — that have allowed it to maintain operational capacity beyond what its official supply chain should support. Admiral Shourn's unexplained operational efficiency has a mundane explanation: she runs her vessels at 140% rated capacity and replaces crews rather than ships when they break down.</li>
+        <li data-truth="UNKN">The final transmission from Ostria Reach — Governor Serevant's four-minute message, classified Vermillion — contained something that has caused three of the seven people who heard it to subsequently apply for voluntary servitor conversion. The remaining four will not speak about it under any circumstances, including direct Inquisitorial questioning.</li>
+        <li data-truth="TRUE">The children born on Pentarch since the war began are statistically significantly more likely to score in the upper psychic sensitivity ranges than the galactic average. Nobody has published a study on this. Several people have privately noted it and said nothing.</li>
       </ul>
+
     </div>
 
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="panel reveal">
         <div class="panel-title">Current Status</div>
-        <div class="bar-wrap"><div class="bar-labels"><span>Threat Level</span><span style="color:var(--rust-bright)">CRITICAL</span></div><div class="bar-track"><div class="bar-fill danger" style="width:78%"></div></div></div>
+        <div class="bar-wrap"><div class="bar-labels"><span>Threat Level</span><span style="color:var(--blood-bright)">CRITICAL</span></div><div class="bar-track"><div class="bar-fill danger" style="width:78%"></div></div></div>
         <div class="bar-wrap"><div class="bar-labels"><span>Imperial Control</span><span>44%</span></div><div class="bar-track"><div class="bar-fill imperial" style="width:44%"></div></div></div>
-        <div class="bar-wrap"><div class="bar-labels"><span>Hive Biomass</span><span>62%</span></div><div class="bar-track"><div class="bar-fill tyranid" style="width:62%"></div></div></div>
+        <div class="bar-wrap"><div class="bar-labels"><span>Hive Biomass</span><span style="color:var(--hive-bright)">62%</span></div><div class="bar-track"><div class="bar-fill tyranid" style="width:62%"></div></div></div>
       </div>
+
       <div class="panel reveal d1">
-        <div class="panel-title">Campaign Status</div>
+        <div class="panel-title">Sub-Sector At A Glance</div>
         <div class="stat-row"><span class="stat-key">Imperial Date</span><span class="stat-val">999.M41</span></div>
-        <div class="stat-row"><span class="stat-key">Phase</span><span class="stat-val warning">Active</span></div>
-        <div class="stat-row"><span class="stat-key">Worlds Lost</span><span class="stat-val danger">3</span></div>
+        <div class="stat-row"><span class="stat-key">Years of War</span><span class="stat-val danger">3</span></div>
         <div class="stat-row"><span class="stat-key">Worlds Held</span><span class="stat-val warning">4</span></div>
-        <div class="stat-row"><span class="stat-key">Your CP</span><span class="stat-val warning"><span class="cp-live">0</span></span></div>
+        <div class="stat-row"><span class="stat-key">Worlds Lost</span><span class="stat-val danger">3</span></div>
+        <div class="stat-row"><span class="stat-key">Splinter Fleet</span><span class="stat-val">Venorath</span></div>
+        <div class="stat-row"><span class="stat-key">Estimated Hive Ships</span><span class="stat-val danger">40–60</span></div>
+        <div class="stat-row"><span class="stat-key">Reinforcement</span><span class="stat-val danger">None</span></div>
       </div>
+
       <div class="panel reveal d2">
+        <div class="panel-title">Lore Sections</div>
+        <ul class="honour-list">
+          <li><a href="#history">Sub-Sector History</a></li>
+          <li><a href="#fleet">Splinter Fleet Venorath</a></li>
+          <li><a href="#timeline">Invasion Timeline</a></li>
+          <li><a href="#worlds">The Seven Worlds</a></li>
+          <li><a href="#characters">Key Figures</a></li>
+          <li><a href="#bestiary">Venorath Bestiary</a></li>
+          <li><a href="#propaganda">Imperial Propaganda</a></li>
+          <li><a href="#rumours">Rumours &amp; Whispers</a></li>
+        </ul>
+      </div>
+
+      <div class="panel reveal d3">
         <div class="panel-title">Navigate</div>
         <ul class="honour-list">
-          <li><a href="sector-map.html">Sector Map →</a></li>
+          <li><a href="sector-map.html">Interactive Sector Map →</a></li>
           <li><a href="crusade-order.html">Order of Battle →</a></li>
           <li><a href="rules-ref.html">Tyrannic War Rules →</a></li>
-          <li><a href="roster.html">Force Roster →</a></li>
+          <li><a href="battle-log.html">Battle Log →</a></li>
         </ul>
+      </div>
+
+      <div class="panel reveal d4" style="border-color:rgba(136,208,48,0.3);">
+        <div class="panel-title" style="color:var(--hive-bright);">Fleet Venorath</div>
+        <div class="stat-row"><span class="stat-key">Designation</span><span class="stat-val">Splinter Tendril</span></div>
+        <div class="stat-row"><span class="stat-key">Parent Fleet</span><span class="stat-val">Leviathan</span></div>
+        <div class="stat-row"><span class="stat-key">Approach Vector</span><span class="stat-val">Galactic South-East</span></div>
+        <div class="stat-row"><span class="stat-key">Capital Hive Ships</span><span class="stat-val danger">~40–60</span></div>
+        <div class="stat-row"><span class="stat-key">Strategic Director</span><span class="stat-val" style="color:var(--text-dim);">Unknown / Theoretical</span></div>
+        <div class="stat-row"><span class="stat-key">Seeding Duration</span><span class="stat-val danger">80+ years</span></div>
       </div>
     </aside>
   </div>
