@@ -10,59 +10,175 @@
 
 <div class="page-hero">
   <div class="hero-corner tl"></div><div class="hero-corner tr"></div><div class="hero-corner bl"></div><div class="hero-corner br"></div>
-  <p class="hero-eyebrow">Muster Rolls — Adeptus Administratum</p>
+  <p class="hero-eyebrow">Muster Rolls — Your Personal Crusade Force</p>
   <h1>Force Roster</h1>
-  <p class="subtitle">Track your Crusade force, unit experience, battle honours, and ranks.</p>
+  <p class="subtitle">Your army, your CP, your supply, and your battle history — all in one place.</p>
   <div class="hero-rule"><span>✦</span></div>
 </div>
 
 <main>
   <div class="ticker mb-3"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
 
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
-    <p class="sec-head" style="margin:0;border:none;padding:0;">Your Forces</p>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-      <button class="btn" onclick="Modal.open('add-unit-modal')"><span>+ Add Unit</span></button>
-      <button class="btn btn-danger" onclick="if(confirm('Clear all roster data?')){localStorage.removeItem('bastior_roster');location.reload();}"><span>Clear Roster</span></button>
+  <!-- TOP STATS BAR -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:rgba(212,164,32,0.18);border:1px solid rgba(212,164,32,0.28);margin-bottom:2.5rem;" class="reveal">
+    <div style="background:var(--plate2);padding:1.25rem;text-align:center;">
+      <div style="font-family:var(--font-display);font-size:2.6rem;line-height:1;color:var(--gold-bright);text-shadow:var(--glow-gold);" id="stat-cp">0</div>
+      <div style="font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Crusade Points</div>
+    </div>
+    <div style="background:var(--plate2);padding:1.25rem;text-align:center;border-left:1px solid rgba(212,164,32,0.12);">
+      <div style="font-family:var(--font-display);font-size:2.6rem;line-height:1;color:var(--gold-bright);text-shadow:var(--glow-gold);"><span id="stat-sup-used">0</span></div>
+      <div style="font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Supply Used (pts)</div>
+    </div>
+    <div style="background:var(--plate2);padding:1.25rem;text-align:center;border-left:1px solid rgba(212,164,32,0.12);">
+      <div style="font-family:var(--font-display);font-size:2.6rem;line-height:1;color:var(--text-bright);" id="stat-sup-max">500</div>
+      <div style="font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Supply Limit (pts)</div>
+    </div>
+    <div style="background:var(--plate2);padding:1.25rem;text-align:center;border-left:1px solid rgba(212,164,32,0.12);">
+      <div style="font-family:var(--font-display);font-size:2.6rem;line-height:1;color:var(--gold-bright);" id="stat-units">0</div>
+      <div style="font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Units Mustered</div>
+    </div>
+    <div style="background:var(--plate2);padding:1.25rem;text-align:center;border-left:1px solid rgba(212,164,32,0.12);">
+      <div style="font-family:var(--font-display);font-size:2.6rem;line-height:1;color:var(--hive-bright);" id="stat-battles">0</div>
+      <div style="font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Battles Fought</div>
+    </div>
+    <div style="background:var(--plate2);padding:1.25rem;text-align:center;border-left:1px solid rgba(212,164,32,0.12);">
+      <div style="font-family:var(--font-display);font-size:2.6rem;line-height:1;color:var(--gold-bright);" id="stat-victories">0</div>
+      <div style="font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-top:0.3rem;">Victories</div>
     </div>
   </div>
 
-  <!-- 10th ed: filter by keyword, not role -->
-  <div data-tabs>
-    <div class="tab-bar">
-      <button class="tab-btn active" data-tab="all">All Units</button>
-      <button class="tab-btn" data-tab="character">Characters</button>
-      <button class="tab-btn" data-tab="battleline">Battleline</button>
-      <button class="tab-btn" data-tab="infantry">Infantry</button>
-      <button class="tab-btn" data-tab="vehicle">Vehicles</button>
-      <button class="tab-btn" data-tab="monster">Monsters</button>
-      <button class="tab-btn" data-tab="other">Other</button>
-    </div>
-    <div class="tab-pane active" data-pane="all"><div id="r-all" class="card-grid"></div></div>
-    <div class="tab-pane" data-pane="character"><div id="r-character" class="card-grid"></div></div>
-    <div class="tab-pane" data-pane="battleline"><div id="r-battleline" class="card-grid"></div></div>
-    <div class="tab-pane" data-pane="infantry"><div id="r-infantry" class="card-grid"></div></div>
-    <div class="tab-pane" data-pane="vehicle"><div id="r-vehicle" class="card-grid"></div></div>
-    <div class="tab-pane" data-pane="monster"><div id="r-monster" class="card-grid"></div></div>
-    <div class="tab-pane" data-pane="other"><div id="r-other" class="card-grid"></div></div>
-  </div>
+  <div class="two-col">
+    <div>
 
-  <div class="divider"><span>✦</span></div>
-  <p class="sec-head reveal">10th Edition — Experience Ranks</p>
-  <div class="alert alert-info reveal">
-    <span class="alert-icon">ℹ</span>
-    <div>In 10th Edition Crusade there are no Force Organisation Slots (no HQ/Troops/etc). Units are simply part of your Crusade force up to your Supply limit. They are categorised by their keywords — Character, Battleline, Infantry, Vehicle, Monster, and so on — which appear on their datacard.</div>
+      <!-- SUPPLY BAR -->
+      <div class="panel reveal">
+        <div class="panel-title">Supply</div>
+        <div class="bar-wrap" style="margin-bottom:0.5rem;">
+          <div class="bar-labels"><span>Points Used</span><span id="sup-pct">0%</span></div>
+          <div class="bar-track"><div class="bar-fill imperial" id="sup-bar" style="width:0%"></div></div>
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-top:0.9rem;flex-wrap:wrap;align-items:center;">
+          <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;">Adjust Used:</span>
+          <button class="ctrl-btn" onclick="supAdj(50)">+50</button>
+          <button class="ctrl-btn" onclick="supAdj(25)">+25</button>
+          <button class="ctrl-btn sub" onclick="supAdj(-25)">−25</button>
+          <button class="ctrl-btn sub" onclick="supAdj(-50)">−50</button>
+          <input type="number" id="sup-custom" class="f-input" style="width:80px;" placeholder="pts">
+          <button class="ctrl-btn" onclick="supCustom()">Set Used</button>
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-top:0.6rem;flex-wrap:wrap;align-items:center;">
+          <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;">Change Limit:</span>
+          <input type="number" id="sup-lim" class="f-input" style="width:80px;" placeholder="pts">
+          <button class="ctrl-btn" onclick="supSetMax()">Set Limit</button>
+        </div>
+      </div>
+
+      <!-- CP PANEL -->
+      <div class="panel reveal d1">
+        <div class="panel-title">Crusade Points</div>
+        <div style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
+          <div>
+            <div class="big-num" id="cp-disp">0</div>
+            <div class="big-lbl">Total CP</div>
+          </div>
+          <div style="flex:1;min-width:200px;">
+            <div class="ctrl-btns" style="margin-top:0;">
+              <button class="ctrl-btn" onclick="cpAdj(3,'Battle Win')">+3 Win</button>
+              <button class="ctrl-btn" onclick="cpAdj(1,'Draw')">+1 Draw</button>
+              <button class="ctrl-btn" onclick="cpAdj(1,'Agenda')">+1 Agenda</button>
+              <button class="ctrl-btn sub" onclick="cpAdj(-1,'Requisition')">−1 Req</button>
+              <button class="ctrl-btn sub" onclick="cpAdj(-2,'Requisition')">−2 Req</button>
+            </div>
+            <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
+              <input type="number" id="cp-n" class="f-input" style="width:70px;" placeholder="n">
+              <input type="text" id="cp-r" class="f-input" placeholder="Reason…">
+              <button class="ctrl-btn" onclick="cpCustom()">Add</button>
+            </div>
+          </div>
+        </div>
+        <!-- CP History -->
+        <div style="margin-top:1.25rem;border-top:1px solid rgba(212,164,32,0.15);padding-top:1rem;">
+          <div style="font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-dim);margin-bottom:0.6rem;">Recent Transactions</div>
+          <ul id="cp-hist" style="list-style:none;max-height:180px;overflow-y:auto;padding:0;"></ul>
+        </div>
+      </div>
+
+      <!-- UNITS -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+        <p class="sec-head" style="margin:0;border:none;padding:0;">Your Units</p>
+        <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+          <button class="btn" onclick="Modal.open('add-unit-modal')"><span>+ Add Unit</span></button>
+          <button class="btn btn-danger" onclick="if(confirm('Remove all units?')){localStorage.removeItem('bastior_roster');location.reload();}"><span>Clear</span></button>
+        </div>
+      </div>
+
+      <div data-tabs>
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="all">All</button>
+          <button class="tab-btn" data-tab="character">Characters</button>
+          <button class="tab-btn" data-tab="battleline">Battleline</button>
+          <button class="tab-btn" data-tab="infantry">Infantry</button>
+          <button class="tab-btn" data-tab="vehicle">Vehicles</button>
+          <button class="tab-btn" data-tab="monster">Monsters</button>
+          <button class="tab-btn" data-tab="other">Other</button>
+        </div>
+        <div class="tab-pane active" data-pane="all"><div id="r-all" class="card-grid"></div></div>
+        <div class="tab-pane" data-pane="character"><div id="r-character" class="card-grid"></div></div>
+        <div class="tab-pane" data-pane="battleline"><div id="r-battleline" class="card-grid"></div></div>
+        <div class="tab-pane" data-pane="infantry"><div id="r-infantry" class="card-grid"></div></div>
+        <div class="tab-pane" data-pane="vehicle"><div id="r-vehicle" class="card-grid"></div></div>
+        <div class="tab-pane" data-pane="monster"><div id="r-monster" class="card-grid"></div></div>
+        <div class="tab-pane" data-pane="other"><div id="r-other" class="card-grid"></div></div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="panel reveal">
+        <div class="panel-title">XP Ranks</div>
+        <div class="stat-row"><span class="stat-key">Battle-Ready</span><span class="stat-val" style="font-size:0.85rem;">0–2 XP</span></div>
+        <div class="stat-row"><span class="stat-key">Battle-Hardened</span><span class="stat-val" style="font-size:0.85rem;">3–5 XP</span></div>
+        <div class="stat-row"><span class="stat-key">Blooded</span><span class="stat-val warning" style="font-size:0.85rem;">6–10 XP</span></div>
+        <div class="stat-row"><span class="stat-key">Heroic</span><span class="stat-val warning" style="font-size:0.85rem;">11–15 XP</span></div>
+        <div class="stat-row"><span class="stat-key">Legendary</span><span class="stat-val ok" style="font-size:0.85rem;">16+ XP</span></div>
+      </div>
+
+      <div class="panel reveal d1">
+        <div class="panel-title">Supply Limit Scale</div>
+        <div class="stat-row"><span class="stat-key">0–5 CP</span><span class="stat-val" style="font-size:0.85rem;">500 pts</span></div>
+        <div class="stat-row"><span class="stat-key">6–10 CP</span><span class="stat-val" style="font-size:0.85rem;">600 pts</span></div>
+        <div class="stat-row"><span class="stat-key">11–20 CP</span><span class="stat-val" style="font-size:0.85rem;">750 pts</span></div>
+        <div class="stat-row"><span class="stat-key">21–30 CP</span><span class="stat-val" style="font-size:0.85rem;">850 pts</span></div>
+        <div class="stat-row"><span class="stat-key">31–50 CP</span><span class="stat-val" style="font-size:0.85rem;">1000 pts</span></div>
+        <div class="stat-row"><span class="stat-key">51+ CP</span><span class="stat-val" style="font-size:0.85rem;">1250 pts</span></div>
+      </div>
+
+      <div class="panel reveal d2">
+        <div class="panel-title">Post-Battle Checklist</div>
+        <ol style="list-style:none;padding:0;margin:0;">
+          <li style="padding:0.45rem 0 0.45rem 1.75rem;border-bottom:1px solid rgba(212,164,32,0.1);font-size:0.92rem;position:relative;"><span style="position:absolute;left:0;color:var(--gold-dim);font-family:var(--font-mono);font-size:0.68rem;">01</span> Determine result &amp; award CP</li>
+          <li style="padding:0.45rem 0 0.45rem 1.75rem;border-bottom:1px solid rgba(212,164,32,0.1);font-size:0.92rem;position:relative;"><span style="position:absolute;left:0;color:var(--gold-dim);font-family:var(--font-mono);font-size:0.68rem;">02</span> Score agendas, award XP</li>
+          <li style="padding:0.45rem 0 0.45rem 1.75rem;border-bottom:1px solid rgba(212,164,32,0.1);font-size:0.92rem;position:relative;"><span style="position:absolute;left:0;color:var(--gold-dim);font-family:var(--font-mono);font-size:0.68rem;">03</span> Roll Battle Scars</li>
+          <li style="padding:0.45rem 0 0.45rem 1.75rem;border-bottom:1px solid rgba(212,164,32,0.1);font-size:0.92rem;position:relative;"><span style="position:absolute;left:0;color:var(--gold-dim);font-family:var(--font-mono);font-size:0.68rem;">04</span> Promote units, award Honours</li>
+          <li style="padding:0.45rem 0 0.45rem 1.75rem;font-size:0.92rem;position:relative;"><span style="position:absolute;left:0;color:var(--gold-dim);font-family:var(--font-mono);font-size:0.68rem;">05</span> Update supply, spend Requisitions</li>
+        </ol>
+      </div>
+
+      <div class="panel reveal d3">
+        <div class="panel-title">Quick Links</div>
+        <ul class="honour-list">
+          <li><a href="battle-log.html">Log a battle →</a></li>
+          <li><a href="agendas.html">Choose agendas →</a></li>
+          <li><a href="honour-roll.html">Battle Scar table →</a></li>
+          <li><a href="tracker.html">Campaign scoreboard →</a></li>
+        </ul>
+      </div>
+    </aside>
   </div>
-  <table class="tbl reveal"><thead><tr><th>Rank</th><th>XP Required</th><th>Battle Honours</th><th>Benefit</th></tr></thead><tbody>
-    <tr><td><span class="tag tag-steel">Battle-Ready</span></td><td class="mono">0 – 2 XP</td><td>0</td><td>Base profile only</td></tr>
-    <tr><td><span class="tag tag-steel">Battle-Hardened</span></td><td class="mono">3 – 5 XP</td><td>1</td><td>+1 CP per battle</td></tr>
-    <tr><td><span class="tag tag-gold">Blooded</span></td><td class="mono">6 – 10 XP</td><td>2</td><td>+1 CP per battle</td></tr>
-    <tr><td><span class="tag tag-gold">Heroic</span></td><td class="mono">11 – 15 XP</td><td>3</td><td>+2 CP per battle</td></tr>
-    <tr><td><span class="tag tag-gold" style="color:var(--gold-pale);">Legendary</span></td><td class="mono">16+ XP</td><td>4</td><td>+2 CP + Hall of Heroes</td></tr>
-  </tbody></table>
 </main>
 
-<!-- MODAL — 10th ed fields -->
+<!-- ADD UNIT MODAL -->
 <div id="add-unit-modal" class="modal-backdrop" style="display:none;">
   <div class="modal-box">
     <div class="modal-title">Add Unit to Crusade Force</div>
@@ -83,7 +199,7 @@
       <div class="f-row"><label class="f-label">Points Cost</label><input class="f-input" id="u-power" type="number" min="1" placeholder="e.g. 100"></div>
     </div>
     <div class="f-row"><label class="f-label">Enhancements &amp; Wargear</label><textarea class="f-input" id="u-equip" rows="2" placeholder="e.g. Plasma pistol, Power fist, Artificer armour" style="resize:vertical;"></textarea></div>
-    <div class="f-row"><label class="f-label">Notes / Narrative</label><textarea class="f-input" id="u-notes" rows="2" placeholder="Crusade history, battle scars, personal traits..." style="resize:vertical;"></textarea></div>
+    <div class="f-row"><label class="f-label">Notes / Narrative</label><textarea class="f-input" id="u-notes" rows="2" placeholder="Battle scars, honours, personal history..." style="resize:vertical;"></textarea></div>
     <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;">
       <button class="btn btn-danger" data-close="add-unit-modal"><span>Cancel</span></button>
       <button class="btn" onclick="submitUnit()"><span>Add to Roster</span></button>
@@ -91,20 +207,82 @@
   </div>
 </div>
 
-<footer><div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div><p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="battle-log.html">Log</a></li></ul></footer>
+<footer><div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div><p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="tracker.html">Campaign Tracker</a></li></ul></footer>
+
 <script src="js/main.js"></script>
 <script>
-const EMPTY = `<div class="card" style="grid-column:1/-1;text-align:center;padding:2.5rem;"><div style="font-family:var(--font-display);font-size:1.4rem;color:var(--gold-dim);margin-bottom:0.5rem;">⚜</div><div style="font-family:var(--font-heading);color:var(--text-dim);font-size:1rem;margin-bottom:0.25rem;">No units yet</div><div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;">Click "Add Unit" to muster your force</div></div>`;
+const EMPTY_MSG = `<div class="card" style="grid-column:1/-1;text-align:center;padding:2.5rem;"><div style="font-family:var(--font-display);font-size:1.4rem;color:var(--gold-dim);margin-bottom:0.5rem;">⚜</div><div style="font-family:var(--font-heading);color:var(--text-dim);font-size:1rem;margin-bottom:0.25rem;">No units yet</div><div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;">Click "Add Unit" to muster your force</div></div>`;
 const RANKS = {'Battle-Ready':'tag-steel','Battle-Hardened':'tag-steel','Blooded':'tag-gold','Heroic':'tag-gold','Legendary':'tag-gold'};
 const KEYWORDS = {character:'Character',battleline:'Battleline',infantry:'Infantry',vehicle:'Vehicle',monster:'Monster',other:'Other'};
 
+/* ---- supply helpers ---- */
+function supAdj(n){
+  const d=window.Tracker.load(); d.supUsed=Math.max(0,d.supUsed+n); window.Tracker.save(d); refreshStats();
+}
+function supCustom(){
+  const n=parseInt(document.getElementById('sup-custom').value); if(isNaN(n))return;
+  const d=window.Tracker.load(); d.supUsed=Math.max(0,n); window.Tracker.save(d);
+  document.getElementById('sup-custom').value=''; refreshStats();
+}
+function supSetMax(){
+  const n=parseInt(document.getElementById('sup-lim').value); if(!n||n<1)return;
+  const d=window.Tracker.load(); d.supMax=n; window.Tracker.save(d);
+  document.getElementById('sup-lim').value=''; refreshStats();
+}
+
+/* ---- CP helpers ---- */
+function cpAdj(n,r){ window.Tracker.cp(n,r); refreshStats(); }
+function cpCustom(){
+  const n=parseInt(document.getElementById('cp-n').value), r=document.getElementById('cp-r').value.trim()||'Manual';
+  if(isNaN(n))return; cpAdj(n,r);
+  document.getElementById('cp-n').value=''; document.getElementById('cp-r').value='';
+}
+
+/* ---- render stats bar + supply + cp history ---- */
+function refreshStats(){
+  const d=window.Tracker.load();
+  const units=window.Roster.all();
+  const battles=window.BattleLog.all();
+  const victories=battles.filter(b=>b.result==='Victory').length;
+
+  document.getElementById('stat-cp').textContent=d.cp;
+  document.getElementById('stat-sup-used').textContent=d.supUsed;
+  document.getElementById('stat-sup-max').textContent=d.supMax;
+  document.getElementById('stat-units').textContent=units.length;
+  document.getElementById('stat-battles').textContent=battles.length;
+  document.getElementById('stat-victories').textContent=victories;
+  document.getElementById('cp-disp').textContent=d.cp;
+
+  const pct=Math.min(100,Math.round(d.supUsed/d.supMax*100));
+  document.getElementById('sup-bar').style.width=pct+'%';
+  document.getElementById('sup-bar').className='bar-fill '+(d.supUsed>d.supMax?'danger':'imperial');
+  document.getElementById('sup-pct').textContent=pct+'%';
+
+  const hist=document.getElementById('cp-hist');
+  if(!d.hist||!d.hist.length){
+    hist.innerHTML='<li style="font-style:italic;color:var(--text-dim);font-size:0.9rem;">No transactions yet.</li>';
+  } else {
+    hist.innerHTML=d.hist.slice(0,25).map(h=>`
+      <li style="display:flex;justify-content:space-between;gap:0.5rem;padding:0.38rem 0;border-bottom:1px solid rgba(212,164,32,0.09);font-size:0.88rem;">
+        <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--gold-bright);flex-shrink:0;">${h.a}</span>
+        <span style="color:var(--text-dim);font-style:italic;flex:1;padding:0 0.5rem;">${h.r||''}</span>
+        <span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);flex-shrink:0;">${new Date(h.t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</span>
+      </li>`).join('');
+  }
+}
+
+/* ---- render unit cards ---- */
 function renderRoster(){
-  const units = window.Roster.all();
-  const cats = {all:units,character:[],battleline:[],infantry:[],vehicle:[],monster:[],other:[]};
-  units.forEach(u=>{if(cats[u.role])cats[u.role].push(u); else cats.other.push(u);});
+  const units=window.Roster.all();
+  const cats={all:units,character:[],battleline:[],infantry:[],vehicle:[],monster:[],other:[]};
+  units.forEach(u=>{ if(cats[u.role])cats[u.role].push(u); else cats.other.push(u); });
   Object.entries(cats).forEach(([k,arr])=>{
     const el=document.getElementById('r-'+k); if(!el)return;
-    if(!arr.length){el.innerHTML=k==='all'&&!units.length?EMPTY:`<div style="padding:2rem;text-align:center;font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;">No units in this category</div>`;return;}
+    if(!arr.length){
+      el.innerHTML=k==='all'&&!units.length ? EMPTY_MSG
+        : `<div style="padding:2rem;text-align:center;font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;">No units in this category</div>`;
+      return;
+    }
     el.innerHTML=arr.map(u=>`
       <div class="unit-card">
         <div class="unit-head">
@@ -120,8 +298,8 @@ function renderRoster(){
           ${u.equip?`<div style="margin-top:0.6rem;font-size:0.95rem;color:var(--text-main);line-height:1.6;"><span style="font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);">Wargear: </span>${u.equip}</div>`:''}
           ${u.notes?`<div style="margin-top:0.4rem;font-size:0.92rem;font-style:italic;color:var(--text-dim);line-height:1.6;">${u.notes}</div>`:''}
           <div style="display:flex;gap:0.4rem;margin-top:1rem;flex-wrap:wrap;">
-            <button class="ctrl-btn" style="font-size:0.62rem;" onclick="addXP(${u.id})">+ Award XP</button>
-            <button class="ctrl-btn sub" style="font-size:0.62rem;" onclick="removeUnit(${u.id})">Remove</button>
+            <button class="ctrl-btn" style="font-size:0.65rem;" onclick="addXP(${u.id})">+ Award XP</button>
+            <button class="ctrl-btn sub" style="font-size:0.65rem;" onclick="removeUnit(${u.id})">Remove</button>
           </div>
         </div>
       </div>`).join('');
@@ -131,26 +309,37 @@ function renderRoster(){
 function submitUnit(){
   const name=document.getElementById('u-name').value.trim();
   if(!name){alert('Please enter a unit name.');return;}
-  window.Roster.add({name,sheet:document.getElementById('u-sheet').value.trim(),role:document.getElementById('u-role').value,power:parseInt(document.getElementById('u-power').value)||0,equip:document.getElementById('u-equip').value.trim(),notes:document.getElementById('u-notes').value.trim()});
+  window.Roster.add({
+    name, sheet:document.getElementById('u-sheet').value.trim(),
+    role:document.getElementById('u-role').value,
+    power:parseInt(document.getElementById('u-power').value)||0,
+    equip:document.getElementById('u-equip').value.trim(),
+    notes:document.getElementById('u-notes').value.trim()
+  });
   Modal.close('add-unit-modal');
   ['u-name','u-sheet','u-equip','u-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  renderRoster();
+  renderRoster(); refreshStats();
 }
 
 function addXP(id){
   const n=parseInt(prompt('XP to award?','1'));
   if(!n||isNaN(n))return;
-  const u=window.Roster.upd(id,{});if(!u)return;
-  const newXP=(u.xp||0)+n,newRank=window.Roster.rank(newXP);
+  const u=window.Roster.upd(id,{}); if(!u)return;
+  const newXP=(u.xp||0)+n, newRank=window.Roster.rank(newXP);
   window.Roster.upd(id,{xp:newXP,rank:newRank});
   renderRoster();
   const toast=document.createElement('div');
-  toast.style.cssText='position:fixed;top:78px;right:20px;z-index:9999;background:var(--plate3);border:1px solid var(--gold-dim);padding:0.8rem 1.3rem;font-family:var(--font-heading);font-size:0.9rem;color:var(--gold-bright);letter-spacing:0.06em;box-shadow:var(--glow-gold);animation:fadeUp .3s ease;';
+  toast.style.cssText='position:fixed;top:78px;right:20px;z-index:9999;background:var(--plate3);border:1px solid var(--gold-dim);padding:0.8rem 1.3rem;font-family:var(--font-heading);font-size:0.9rem;color:var(--gold-bright);letter-spacing:0.06em;box-shadow:var(--glow-gold);';
   toast.textContent=`+${n} XP — ${newRank}`;
-  document.body.appendChild(toast);setTimeout(()=>toast.remove(),2800);
+  document.body.appendChild(toast); setTimeout(()=>toast.remove(),2800);
 }
-function removeUnit(id){if(!confirm('Remove this unit from the roster?'))return;window.Roster.del(id);renderRoster();}
-document.addEventListener('DOMContentLoaded',renderRoster);
+
+function removeUnit(id){
+  if(!confirm('Remove this unit?'))return;
+  window.Roster.del(id); renderRoster(); refreshStats();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ refreshStats(); renderRoster(); });
 </script>
 </body>
 </html>
