@@ -1,142 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Force Roster — Bastior Crusade</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .modal-overlay.is-open { opacity: 1; }
-    .modal-box {
-      background: var(--dark3);
-      border: 1px solid var(--border-bright);
-      max-width: 560px;
-      width: 100%;
-      padding: 2rem;
-      position: relative;
-      box-shadow: var(--shadow-gold), 0 20px 60px rgba(0,0,0,0.9);
-    }
-    .modal-title {
-      font-family: var(--font-heading);
-      font-size: 1rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .form-field { margin-bottom: 1rem; }
-    .form-label {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--text-dim);
-      margin-bottom: 0.35rem;
-    }
-    .form-input, .form-select, .form-textarea {
-      width: 100%;
-      background: var(--dark2);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 0.5rem 0.75rem;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.2s ease;
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      border-color: var(--gold-dim);
-      box-shadow: 0 0 0 2px rgba(200,150,12,0.1);
-    }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-select option { background: var(--dark3); }
-    .tab-group {}
-    .tab-buttons {
-      display: flex;
-      gap: 2px;
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .tab-btn {
-      font-family: var(--font-heading);
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 0.5rem 1rem;
-      background: none;
-      border: 1px solid transparent;
-      border-bottom: none;
-      color: var(--text-dim);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      position: relative;
-      bottom: -1px;
-    }
-    .tab-btn.active {
-      color: var(--gold);
-      border-color: var(--border);
-      background: var(--dark2);
-      border-bottom-color: var(--dark2);
-    }
-    .tab-btn:hover:not(.active) { color: var(--text-main); }
-    .tab-panel { display: none; }
-    .tab-panel.is-first { display: block; }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<nav id="site-nav">
-  <div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="lore.html">Lore</a></li>
-    <li><a href="sector-map.html">Sector Map</a></li>
-    <li><a href="roster.html">Roster</a></li>
-    <li><a href="battle-log.html">Battle Log</a></li>
-    <li><a href="crusade-order.html">Order of Battle</a></li>
-    <li><a href="agendas.html">Agendas</a></li>
-    <li><a href="honour-roll.html">Honours</a></li>
-    <li><a href="rules-ref.html">Rules Ref</a></li>
-    <li><a href="tracker.html">Tracker</a></li>
-  </ul>
-  <button class="nav-toggle"><span></span><span></span><span></span></button>
-</nav>
+<nav id="site-nav"><div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="sector-map.html">Sector Map</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="agendas.html">Agendas</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="rules-ref.html">Rules Ref</a></li><li><a href="tracker.html">Tracker</a></li></ul><button class="nav-toggle"><span></span><span></span><span></span></button></nav>
 
-<div class="page-hero">
-  <div class="corner-tl"></div><div class="corner-tr"></div>
-  <div class="corner-bl"></div><div class="corner-br"></div>
-  <div class="eyebrow">Muster Rolls — Adeptus Administratum</div>
-  <h1>Force Roster</h1>
-  <p class="subtitle">Track your Crusade force, unit experience, battle honours, and crusade boons.</p>
-</div>
+<div class="page-hero"><div class="hero-corner tl"></div><div class="hero-corner tr"></div><div class="hero-corner bl"></div><div class="hero-corner br"></div><p class="hero-eyebrow">Muster Rolls — Adeptus Administratum</p><h1>Force Roster</h1><p class="subtitle">Track your Crusade force, unit experience, battle honours, and ranks.</p></div>
 
 <main>
-  <div class="hive-fleet-ticker mb-4"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span></div>
+  <div class="ticker mb-3"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
 
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
-    <p class="section-title" style="margin:0;border:none;padding:0;">Your Forces</p>
+    <p class="sec-head" style="margin:0;border:none;padding:0;">Your Forces</p>
     <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-      <button class="btn" onclick="Modal.open('add-unit-modal')"><span>+ Add Unit</span></button>
+      <button class="btn" onclick="Modal.open('add-unit-modal')"><span>+ Muster Unit</span></button>
       <button class="btn btn-danger" onclick="if(confirm('Clear all roster data?')){localStorage.removeItem('bastior_roster');location.reload();}"><span>Clear Roster</span></button>
     </div>
   </div>
 
-  <div class="tab-group">
-    <div class="tab-buttons">
+  <div data-tabs>
+    <div class="tab-bar">
       <button class="tab-btn active" data-tab="all">All Units</button>
       <button class="tab-btn" data-tab="hq">HQ</button>
       <button class="tab-btn" data-tab="troops">Troops</button>
@@ -144,197 +30,109 @@
       <button class="tab-btn" data-tab="fast">Fast Attack</button>
       <button class="tab-btn" data-tab="heavy">Heavy Support</button>
     </div>
-
-    <div class="tab-panel is-first" data-tab="all">
-      <div id="roster-all" class="card-grid">
-        <!-- Populated by JS -->
-        <div class="card" style="grid-column:1/-1;text-align:center;padding:3rem;">
-          <div style="font-family:var(--font-heading);font-size:1rem;color:var(--text-dim);margin-bottom:0.5rem">No units mustered yet</div>
-          <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim)">Click "Add Unit" to begin building your crusade force</div>
-        </div>
-      </div>
-    </div>
-    <div class="tab-panel" data-tab="hq"><div id="roster-hq" class="card-grid"></div></div>
-    <div class="tab-panel" data-tab="troops"><div id="roster-troops" class="card-grid"></div></div>
-    <div class="tab-panel" data-tab="elites"><div id="roster-elites" class="card-grid"></div></div>
-    <div class="tab-panel" data-tab="fast"><div id="roster-fast" class="card-grid"></div></div>
-    <div class="tab-panel" data-tab="heavy"><div id="roster-heavy" class="card-grid"></div></div>
+    <div class="tab-pane active" data-pane="all"><div id="r-all" class="card-grid"></div></div>
+    <div class="tab-pane" data-pane="hq"><div id="r-hq" class="card-grid"></div></div>
+    <div class="tab-pane" data-pane="troops"><div id="r-troops" class="card-grid"></div></div>
+    <div class="tab-pane" data-pane="elites"><div id="r-elites" class="card-grid"></div></div>
+    <div class="tab-pane" data-pane="fast"><div id="r-fast" class="card-grid"></div></div>
+    <div class="tab-pane" data-pane="heavy"><div id="r-heavy" class="card-grid"></div></div>
   </div>
 
-  <div class="divider"><span class="divider-icon">✦</span></div>
-
-  <!-- CRUSADE RANK REFERENCE -->
-  <p class="section-title">Experience Ranks</p>
-  <table class="data-table animate-in">
-    <thead>
-      <tr><th>Rank</th><th>XP Required</th><th>Crusade Points Bonus</th><th>Unlocks</th></tr>
-    </thead>
+  <div class="divider"><span>✦</span></div>
+  <p class="sec-head reveal">Experience Ranks</p>
+  <table class="tbl reveal">
+    <thead><tr><th>Rank</th><th>XP</th><th>CP Bonus / Battle</th><th>Honours</th></tr></thead>
     <tbody>
-      <tr><td><span class="badge badge-steel">Battle-Ready</span></td><td class="mono">0–2 XP</td><td>—</td><td>Base abilities</td></tr>
-      <tr><td><span class="badge badge-steel">Battle-Hardened</span></td><td class="mono">3–5 XP</td><td>+1 CP per battle</td><td>1 Battle Honour</td></tr>
-      <tr><td><span class="badge badge-gold">Blooded</span></td><td class="mono">6–10 XP</td><td>+1 CP per battle</td><td>2 Battle Honours</td></tr>
-      <tr><td><span class="badge badge-gold">Heroic</span></td><td class="mono">11–15 XP</td><td>+2 CP per battle</td><td>3 Battle Honours</td></tr>
-      <tr><td><span class="badge badge-gold" style="color:var(--gold-light)">Legendary</span></td><td class="mono">16+ XP</td><td>+2 CP per battle</td><td>4 Battle Honours</td></tr>
+      <tr><td><span class="tag tag-iron">Battle-Ready</span></td><td class="mono">0–2</td><td>—</td><td>Base abilities</td></tr>
+      <tr><td><span class="tag tag-iron">Battle-Hardened</span></td><td class="mono">3–5</td><td>+1 CP</td><td>1 Battle Honour</td></tr>
+      <tr><td><span class="tag tag-brass">Blooded</span></td><td class="mono">6–10</td><td>+1 CP</td><td>2 Battle Honours</td></tr>
+      <tr><td><span class="tag tag-brass">Heroic</span></td><td class="mono">11–15</td><td>+2 CP</td><td>3 Battle Honours</td></tr>
+      <tr><td><span class="tag tag-brass" style="color:var(--brass-pale);">Legendary</span></td><td class="mono">16+</td><td>+2 CP</td><td>4 Battle Honours</td></tr>
     </tbody>
   </table>
 
-  <div class="divider"><span class="divider-icon">✦</span></div>
-
-  <!-- TYRANNIC WAR SPECIAL RULES NOTE -->
-  <div class="alert alert-warning animate-in">
+  <div class="alert alert-hive mt-3 reveal">
     <span class="alert-icon">📋</span>
-    <div>
-      <strong>TYRANNIC WAR CRUSADE NOTE:</strong> Units that earn the <em>Slayer of Monsters</em> battle honour may re-roll wound rolls of 1 against Monsters and Vehicles. Units with <em>Survivors of the Shadow</em> ignore the Shadow in the Warp ability. See <a href="rules-ref.html">Rules Reference</a> for full details.
-    </div>
+    <div><strong>TYRANNIC WAR NOTE:</strong> Units with <em>Slayer of Monsters</em> re-roll wound rolls of 1 vs Monsters &amp; Vehicles. Units with <em>Survivors of the Shadow</em> ignore the Shadow in the Warp ability. See <a href="rules-ref.html">Rules Reference</a>.</div>
   </div>
 </main>
 
-<!-- ADD UNIT MODAL -->
-<div id="add-unit-modal" class="modal-overlay">
+<!-- MODAL -->
+<div id="add-unit-modal" class="modal-backdrop" style="display:none;">
   <div class="modal-box">
     <div class="modal-title">Muster New Unit</div>
-    <div class="form-grid">
-      <div class="form-field">
-        <label class="form-label">Unit Name / Designation</label>
-        <input class="form-input" id="u-name" placeholder="e.g. Squad Valerian" type="text">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Datasheet</label>
-        <input class="form-input" id="u-sheet" placeholder="e.g. Tactical Squad" type="text">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Battlefield Role</label>
-        <select class="form-select" id="u-role">
-          <option value="hq">HQ</option>
-          <option value="troops">Troops</option>
-          <option value="elites">Elites</option>
-          <option value="fast">Fast Attack</option>
-          <option value="heavy">Heavy Support</option>
-          <option value="dedicated">Dedicated Transport</option>
-          <option value="lord">Lord of War</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label class="form-label">Power Rating</label>
-        <input class="form-input" id="u-power" type="number" min="1" max="30" placeholder="5">
-      </div>
+    <div class="f-grid">
+      <div class="f-row"><label class="f-label">Unit Name / Designation</label><input class="f-input" id="u-name" placeholder="e.g. Squad Valerian" type="text"></div>
+      <div class="f-row"><label class="f-label">Datasheet</label><input class="f-input" id="u-sheet" placeholder="e.g. Tactical Squad" type="text"></div>
+      <div class="f-row"><label class="f-label">Battlefield Role</label><select class="f-select" id="u-role"><option value="hq">HQ</option><option value="troops">Troops</option><option value="elites">Elites</option><option value="fast">Fast Attack</option><option value="heavy">Heavy Support</option><option value="dedicated">Dedicated Transport</option></select></div>
+      <div class="f-row"><label class="f-label">Power Rating</label><input class="f-input" id="u-power" type="number" min="1" max="30" placeholder="5"></div>
     </div>
-    <div class="form-field">
-      <label class="form-label">Equipment / Loadout Notes</label>
-      <textarea class="form-textarea" id="u-equip" rows="2" placeholder="e.g. Boltguns, Plasma gun, Power sword on sergeant"></textarea>
-    </div>
-    <div class="form-field">
-      <label class="form-label">Starting Battle Honours / Notes</label>
-      <textarea class="form-textarea" id="u-notes" rows="2" placeholder="Any special rules, traits, or notes..."></textarea>
-    </div>
+    <div class="f-row"><label class="f-label">Equipment / Loadout</label><textarea class="f-input" id="u-equip" rows="2" placeholder="e.g. Boltguns, Plasma gun, Power sword on sergeant" style="resize:vertical;"></textarea></div>
+    <div class="f-row"><label class="f-label">Notes</label><textarea class="f-input" id="u-notes" rows="2" placeholder="Special rules, traits, notes..." style="resize:vertical;"></textarea></div>
     <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;">
-      <button class="btn btn-danger" data-modal-close="add-unit-modal"><span>Cancel</span></button>
+      <button class="btn btn-danger" data-close="add-unit-modal"><span>Cancel</span></button>
       <button class="btn" onclick="submitUnit()"><span>Muster Unit</span></button>
     </div>
   </div>
 </div>
 
-<footer>
-  <div class="footer-seal">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div>
-  <p class="footer-text">For the glory of the Emperor and the preservation of Mankind.</p>
-  <ul class="footer-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="crusade-order.html">Order of Battle</a></li>
-    <li><a href="honour-roll.html">Honours</a></li>
-    <li><a href="battle-log.html">Log</a></li>
-  </ul>
-</footer>
+<footer><div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div><p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="battle-log.html">Log</a></li></ul></footer>
 <script src="js/main.js"></script>
 <script>
-  function renderRoster() {
-    const units = window.RosterManager.getAll();
-    const containers = { all: 'roster-all', hq: 'roster-hq', troops: 'roster-troops', elites: 'roster-elites', fast: 'roster-fast', heavy: 'roster-heavy' };
-    const empty = `<div class="card" style="text-align:center;padding:2rem;"><div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim)">No units in this category</div></div>`;
+const EMPTY_MSG = `<div class="card" style="grid-column:1/-1;text-align:center;padding:2.5rem;"><div style="font-family:var(--font-display);font-size:1.2rem;color:var(--brass-dim);margin-bottom:0.5rem;">⚜</div><div style="font-family:var(--font-heading);color:var(--text-dim);margin-bottom:0.25rem;">No units mustered</div><div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);">Click "Muster Unit" to begin</div></div>`;
+const RANK_CLASSES = {Legendary:'tag-brass',Heroic:'tag-brass',Blooded:'tag-brass','Battle-Hardened':'tag-iron','Battle-Ready':'tag-iron'};
 
-    Object.entries(containers).forEach(([key, id]) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const filtered = key === 'all' ? units : units.filter(u => u.role === key);
-      if (!filtered.length) { el.innerHTML = key === 'all' && !units.length ? `<div class="card" style="grid-column:1/-1;text-align:center;padding:3rem;"><div style="font-family:var(--font-heading);color:var(--text-dim);margin-bottom:0.5rem">No units mustered yet</div><div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim)">Click "Add Unit" to begin</div></div>` : empty; return; }
-      el.innerHTML = filtered.map(u => `
-        <div class="unit-card animate-in">
-          <div class="unit-card-header">
-            <div>
-              <div class="unit-name">${u.name || 'Unnamed'}</div>
-              <div class="unit-type">${u.sheet || '—'} · PR ${u.power || '?'}</div>
-            </div>
-            <div>
-              <span class="badge ${u.rank === 'Legendary' ? 'badge-gold' : u.rank === 'Heroic' ? 'badge-gold' : u.rank === 'Blooded' ? 'badge-gold' : 'badge-steel'}">${u.rank}</span>
-            </div>
-          </div>
-          <div class="unit-card-body">
-            <div class="stat-row"><span class="stat-label">Experience</span><span class="stat-value warning">${u.xp} XP</span></div>
-            <div class="stat-row"><span class="stat-label">Role</span><span class="stat-value">${u.role ? u.role.toUpperCase() : '—'}</span></div>
-            ${u.equip ? `<div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-dim)">${u.equip}</div>` : ''}
-            ${u.notes ? `<div style="margin-top:0.4rem;font-size:0.78rem;font-style:italic;color:var(--text-dim)">${u.notes}</div>` : ''}
-            <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
-              <button class="btn" style="font-size:0.6rem;padding:0.3rem 0.7rem;" onclick="addXP(${u.id})"><span>+XP</span></button>
-              <button class="btn btn-danger" style="font-size:0.6rem;padding:0.3rem 0.7rem;" onclick="removeUnit(${u.id})"><span>Remove</span></button>
-            </div>
+function renderRoster(){
+  const units = window.Roster.all();
+  const sets = {all:units,hq:[],troops:[],elites:[],fast:[],heavy:[]};
+  units.forEach(u=>{if(sets[u.role])sets[u.role].push(u);});
+  Object.entries(sets).forEach(([k,arr])=>{
+    const el=document.getElementById('r-'+k);if(!el)return;
+    if(!arr.length){el.innerHTML=k==='all'&&!units.length?EMPTY_MSG:`<div class="card" style="text-align:center;padding:2rem;"><div style="font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);">No units in this category</div></div>`;return;}
+    el.innerHTML=arr.map(u=>`
+      <div class="unit-card">
+        <div class="unit-head">
+          <div><div class="unit-name">${u.name||'Unnamed'}</div><div class="unit-type">${u.sheet||'—'} &nbsp;·&nbsp; PR ${u.power||'?'}</div></div>
+          <span class="tag ${RANK_CLASSES[u.rank]||'tag-iron'}">${u.rank}</span>
+        </div>
+        <div class="unit-body">
+          <div class="stat-row"><span class="stat-key">Experience</span><span class="stat-val warning">${u.xp} XP</span></div>
+          <div class="stat-row"><span class="stat-key">Role</span><span class="stat-val">${(u.role||'—').toUpperCase()}</span></div>
+          ${u.equip?`<div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-dim);">${u.equip}</div>`:''}
+          ${u.notes?`<div style="margin-top:0.35rem;font-size:0.78rem;font-style:italic;color:var(--text-faint);">${u.notes}</div>`:''}
+          <div style="display:flex;gap:0.4rem;margin-top:0.9rem;flex-wrap:wrap;">
+            <button class="btn" style="font-size:0.55rem;padding:0.28rem 0.7rem;clip-path:none;" onclick="addXP(${u.id})"><span>+ XP</span></button>
+            <button class="btn btn-danger" style="font-size:0.55rem;padding:0.28rem 0.7rem;clip-path:none;" onclick="removeUnit(${u.id})"><span>Remove</span></button>
           </div>
         </div>
-      `).join('');
-    });
-  }
-
-  function submitUnit() {
-    const name = document.getElementById('u-name').value.trim();
-    if (!name) { alert('Please enter a unit name.'); return; }
-    window.RosterManager.add({
-      name,
-      sheet: document.getElementById('u-sheet').value.trim(),
-      role: document.getElementById('u-role').value,
-      power: parseInt(document.getElementById('u-power').value) || 0,
-      equip: document.getElementById('u-equip').value.trim(),
-      notes: document.getElementById('u-notes').value.trim(),
-    });
-    Modal.close('add-unit-modal');
-    document.getElementById('u-name').value = '';
-    document.getElementById('u-sheet').value = '';
-    document.getElementById('u-equip').value = '';
-    document.getElementById('u-notes').value = '';
-    renderRoster();
-  }
-
-  function addXP(id) {
-    const n = parseInt(prompt('How many XP to award?', '1'));
-    if (!n || isNaN(n)) return;
-    const u = window.RosterManager.update(id, {});
-    if (!u) return;
-    const newXP = (u.xp || 0) + n;
-    const newRank = window.RosterManager.rankFromXP(newXP);
-    window.RosterManager.update(id, { xp: newXP, rank: newRank });
-    renderRoster();
-    const notif = document.createElement('div');
-    notif.style.cssText = `position:fixed;top:80px;right:20px;z-index:9999;background:var(--dark3);border:1px solid var(--gold-dim);padding:0.8rem 1.2rem;font-family:var(--font-heading);font-size:0.85rem;color:var(--gold-light);letter-spacing:0.06em;box-shadow:var(--shadow-gold);`;
-    notif.textContent = `+${n} XP — Now ${newRank}`;
-    document.body.appendChild(notif);
-    setTimeout(() => notif.remove(), 3000);
-  }
-
-  function removeUnit(id) {
-    if (!confirm('Remove this unit from the roster?')) return;
-    window.RosterManager.remove(id);
-    renderRoster();
-  }
-
-  // Tab switching
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => { p.style.display='none'; p.classList.remove('is-first'); });
-      btn.classList.add('active');
-      const panel = document.querySelector(`[data-tab="${btn.dataset.tab}"]`);
-      if (panel) panel.style.display = 'block';
-    });
+      </div>`).join('');
   });
+}
 
-  document.addEventListener('DOMContentLoaded', renderRoster);
+function submitUnit(){
+  const name=document.getElementById('u-name').value.trim();
+  if(!name){alert('Please enter a unit name.');return;}
+  window.Roster.add({name,sheet:document.getElementById('u-sheet').value.trim(),role:document.getElementById('u-role').value,power:parseInt(document.getElementById('u-power').value)||0,equip:document.getElementById('u-equip').value.trim(),notes:document.getElementById('u-notes').value.trim()});
+  Modal.close('add-unit-modal');
+  ['u-name','u-sheet','u-equip','u-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderRoster();
+}
+
+function addXP(id){
+  const n=parseInt(prompt('XP to award?','1'));
+  if(!n||isNaN(n))return;
+  const u=window.Roster.upd(id,{});if(!u)return;
+  const newXP=(u.xp||0)+n,newRank=window.Roster.rank(newXP);
+  window.Roster.upd(id,{xp:newXP,rank:newRank});
+  renderRoster();
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;top:72px;right:20px;z-index:9999;background:var(--ink4);border:1px solid var(--brass-dim);padding:0.75rem 1.2rem;font-family:var(--font-heading);font-size:0.85rem;color:var(--brass-bright);letter-spacing:0.06em;box-shadow:var(--glow-brass);animation:fadeUp 0.3s ease;';
+  el.textContent=`+${n} XP — ${newRank}`;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),2800);
+}
+
+function removeUnit(id){if(!confirm('Remove this unit?'))return;window.Roster.del(id);renderRoster();}
+document.addEventListener('DOMContentLoaded',renderRoster);
 </script>
 </body>
 </html>
