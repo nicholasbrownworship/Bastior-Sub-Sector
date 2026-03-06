@@ -1,226 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honour Roll — Bastior Crusade</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<nav id="site-nav">
-  <div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="lore.html">Lore</a></li>
-    <li><a href="sector-map.html">Sector Map</a></li>
-    <li><a href="roster.html">Roster</a></li>
-    <li><a href="battle-log.html">Battle Log</a></li>
-    <li><a href="crusade-order.html">Order of Battle</a></li>
-    <li><a href="agendas.html">Agendas</a></li>
-    <li><a href="honour-roll.html">Honours</a></li>
-    <li><a href="rules-ref.html">Rules Ref</a></li>
-    <li><a href="tracker.html">Tracker</a></li>
-  </ul>
-  <button class="nav-toggle"><span></span><span></span><span></span></button>
-</nav>
-
+<nav id="site-nav"><div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="sector-map.html">Sector Map</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="agendas.html">Agendas</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="rules-ref.html">Rules Ref</a></li><li><a href="tracker.html">Tracker</a></li></ul><button class="nav-toggle"><span></span><span></span><span></span></button></nav>
 <div class="page-hero">
-  <div class="corner-tl"></div><div class="corner-tr"></div>
-  <div class="corner-bl"></div><div class="corner-br"></div>
-  <div class="eyebrow">Liber Honorum — The Eternal Record</div>
+  <div class="hero-corner tl"></div><div class="hero-corner tr"></div><div class="hero-corner bl"></div><div class="hero-corner br"></div>
+  <p class="hero-eyebrow">Battle Distinctions — Liber Heroica</p>
   <h1>Honour Roll</h1>
-  <p class="subtitle">The deeds of glory and the scars of battle — a complete record of all Honours earned in the Bastior campaign.</p>
+  <p class="subtitle">Battle Honours earned in the defence of Bastior, and the scars left behind.</p>
+  <div class="hero-rule"><span>✦</span></div>
 </div>
-
-<main>
-  <div class="hive-fleet-ticker mb-4"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span></div>
-
-  <!-- SEARCH -->
-  <div style="margin-bottom:1.5rem;">
-    <input type="text" id="honour-search" class="form-input" style="background:var(--dark2);border:1px solid var(--border);color:var(--text-main);padding:0.5rem 1rem;font-family:var(--font-body);font-size:0.9rem;outline:none;width:100%;max-width:400px;" placeholder="Search honours, units, players..." oninput="filterTable('honour-search','honour-table')">
+<main><div class="ticker mb-3"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
+  <div style="margin-bottom:1.5rem;max-width:420px;">
+    <label class="f-label">Search Honours</label>
+    <input type="text" id="hon-search" class="f-input" placeholder="Type to search by name, type, or effect…" oninput="filterTable('hon-search','hon-table')">
   </div>
 
-  <p class="section-title animate-in">Battle Honours</p>
-  <p class="lore-text animate-in" style="margin-bottom:1.5rem;">Battle Honours represent hard-won experience and exceptional deeds. Each Honour grants a tangible benefit on the battlefield — a permanent reminder that this unit has faced the Great Devourer and prevailed.</p>
-
-  <table class="data-table animate-in" id="honour-table">
-    <thead>
-      <tr>
-        <th>Honour Name</th>
-        <th>Type</th>
-        <th>Effect</th>
-        <th>How Earned</th>
-      </tr>
-    </thead>
+  <p class="sec-head reveal">Battle Honours Reference</p>
+  <div style="overflow-x:auto;">
+  <table class="tbl reveal" id="hon-table">
+    <thead><tr><th>Honour</th><th>Type</th><th>Effect</th><th>How Earned</th></tr></thead>
     <tbody>
-      <!-- TYRANNIC WAR HONOURS -->
-      <tr>
-        <td><strong>Slayer of Monsters</strong></td>
-        <td><span class="badge badge-hive">Tyrannic War</span></td>
-        <td>Re-roll wound rolls of 1 against Monsters and Vehicles</td>
-        <td>Complete <em>Slayer of Monsters</em> agenda</td>
-      </tr>
-      <tr>
-        <td><strong>Survivors of the Shadow</strong></td>
-        <td><span class="badge badge-hive">Tyrannic War</span></td>
-        <td>Ignore Shadow in the Warp ability</td>
-        <td>Complete <em>Survivors of the Shadow</em> agenda (Psykers only)</td>
-      </tr>
-      <tr>
-        <td><strong>Alien Hunters</strong></td>
-        <td><span class="badge badge-hive">Tyrannic War</span></td>
-        <td>+1 to hit rolls against Tyranids in the shooting phase</td>
-        <td>Destroy 5+ Tyranid units across campaign</td>
-      </tr>
-      <tr>
-        <td><strong>Iron Resolve</strong></td>
-        <td><span class="badge badge-hive">Tyrannic War</span></td>
-        <td>This unit automatically passes Battle-shock tests caused by Tyranid abilities</td>
-        <td>Survive 3+ battles without fleeing</td>
-      </tr>
-      <tr>
-        <td><strong>Cordon Defender</strong></td>
-        <td><span class="badge badge-hive">Tyrannic War</span></td>
-        <td>While within 3" of a friendly objective, +1 to saving throws</td>
-        <td>Complete <em>Hold the Cordon</em> agenda twice</td>
-      </tr>
-      <tr>
-        <td><strong>Bio-Hunter</strong></td>
-        <td><span class="badge badge-hive">Tyrannic War</span></td>
-        <td>Wound rolls of 6 against Monsters cause D3 mortal wounds in addition to normal damage</td>
-        <td>Destroy a Tyranid Monster character</td>
-      </tr>
-
-      <!-- UNIVERSAL HONOURS -->
-      <tr>
-        <td><strong>Legendary Fighter</strong></td>
-        <td><span class="badge badge-gold">Universal</span></td>
-        <td>Once per battle, this unit may fight twice in the Fight phase</td>
-        <td>Reach Legendary rank (16+ XP)</td>
-      </tr>
-      <tr>
-        <td><strong>Veteran Warriors</strong></td>
-        <td><span class="badge badge-gold">Universal</span></td>
-        <td>Add 1 to Advance and Charge rolls</td>
-        <td>Reach Blooded rank (6+ XP)</td>
-      </tr>
-      <tr>
-        <td><strong>Marksmen</strong></td>
-        <td><span class="badge badge-gold">Universal</span></td>
-        <td>Improve AP of ranged weapons by 1</td>
-        <td>Destroy 10+ models with ranged attacks across campaign</td>
-      </tr>
-      <tr>
-        <td><strong>Fierce Fighters</strong></td>
-        <td><span class="badge badge-gold">Universal</span></td>
-        <td>Improve AP of melee weapons by 1</td>
-        <td>Destroy 10+ models in melee across campaign</td>
-      </tr>
-      <tr>
-        <td><strong>Stalwart</strong></td>
-        <td><span class="badge badge-gold">Universal</span></td>
-        <td>+1 wound to each model in unit (max +3)</td>
-        <td>Survive 5+ consecutive battles</td>
-      </tr>
-      <tr>
-        <td><strong>Headhunters</strong></td>
-        <td><span class="badge badge-gold">Universal</span></td>
-        <td>+1 damage when targeting Characters</td>
-        <td>Destroy 3+ enemy Characters across campaign</td>
-      </tr>
-
-      <!-- BATTLE SCARS (shown here for reference) -->
-      <tr>
-        <td><strong>Battle-Weary ⚠</strong></td>
-        <td><span class="badge badge-blood">Battle Scar</span></td>
-        <td>-1 to Advance rolls. Remove after earning 2+ XP in future battles.</td>
-        <td>Destroyed in battle (roll result)</td>
-      </tr>
-      <tr>
-        <td><strong>Devastated ⚠</strong></td>
-        <td><span class="badge badge-blood">Battle Scar</span></td>
-        <td>-1 to hit rolls in the shooting phase. Remove after winning a battle.</td>
-        <td>Destroyed in battle (roll result)</td>
-      </tr>
-      <tr>
-        <td><strong>Scarred ⚠</strong></td>
-        <td><span class="badge badge-blood">Battle Scar</span></td>
-        <td>-1 model in unit (minimum 1). Remove after a battle where unit earned 2+ XP.</td>
-        <td>Destroyed in battle (roll result)</td>
-      </tr>
-      <tr>
-        <td><strong>Haunted by the Hive ⚠</strong></td>
-        <td><span class="badge badge-blood">Battle Scar</span></td>
-        <td>-2 to Ld characteristic. Never removed — the screaming never truly stops.</td>
-        <td>Destroyed by Shadow in the Warp effect</td>
-      </tr>
+      <tr><td><strong>Slayer of Monsters</strong></td><td><span class="tag tag-hive">Tyrannic War</span></td><td>Re-roll wound rolls of 1 vs Monsters and Vehicles</td><td>Complete <em>Slayer of Monsters</em> agenda</td></tr>
+      <tr><td><strong>Survivors of the Shadow</strong></td><td><span class="tag tag-hive">Tyrannic War</span></td><td>Permanently immune to Shadow in the Warp ability</td><td>Complete <em>Survivors of the Shadow</em> agenda (Psyker units only)</td></tr>
+      <tr><td><strong>Alien Hunters</strong></td><td><span class="tag tag-hive">Tyrannic War</span></td><td>+1 to hit rolls vs Tyranid units in the Shooting phase</td><td>Destroy 5+ Tyranid units across the campaign</td></tr>
+      <tr><td><strong>Iron Resolve</strong></td><td><span class="tag tag-hive">Tyrannic War</span></td><td>Auto-pass Battle-shock tests caused by Tyranid special abilities</td><td>Survive 3+ consecutive battles without falling back</td></tr>
+      <tr><td><strong>Cordon Defender</strong></td><td><span class="tag tag-hive">Tyrannic War</span></td><td>+1 to Saving Throws while within 3" of a friendly objective marker</td><td>Complete <em>Hold the Cordon</em> agenda twice</td></tr>
+      <tr><td><strong>Bio-Hunter</strong></td><td><span class="tag tag-hive">Tyrannic War</span></td><td>Unmodified wound rolls of 6 vs Monsters cause D3 additional mortal wounds</td><td>Destroy a named Tyranid Monster character</td></tr>
+      <tr><td><strong>Legendary Fighter</strong></td><td><span class="tag tag-gold">Universal</span></td><td>Once per battle, this unit may fight twice in the Fight phase</td><td>Reach Legendary rank (16+ XP)</td></tr>
+      <tr><td><strong>Veteran Warriors</strong></td><td><span class="tag tag-gold">Universal</span></td><td>+1 to Advance and Charge rolls</td><td>Reach Blooded rank (6+ XP)</td></tr>
+      <tr><td><strong>Marksmen</strong></td><td><span class="tag tag-gold">Universal</span></td><td>Improve the AP of all ranged weapons by 1</td><td>Destroy 10+ models with ranged attacks across the campaign</td></tr>
+      <tr><td><strong>Fierce Fighters</strong></td><td><span class="tag tag-gold">Universal</span></td><td>Improve the AP of all melee weapons by 1</td><td>Destroy 10+ models in melee across the campaign</td></tr>
+      <tr><td><strong>Stalwart</strong></td><td><span class="tag tag-gold">Universal</span></td><td>+1 Wound to each model in unit (max +3 total)</td><td>Survive 5+ consecutive battles without being destroyed</td></tr>
+      <tr><td><strong>Headhunters</strong></td><td><span class="tag tag-gold">Universal</span></td><td>+1 to Damage characteristic of all weapons when targeting Characters</td><td>Destroy 3+ enemy Characters across the campaign</td></tr>
+      <tr><td><strong>Battle-Weary ⚠</strong></td><td><span class="tag tag-blood">Battle Scar</span></td><td>Subtract 1 from Advance rolls. Removed after this unit earns 2+ XP in future battles.</td><td>D6 roll: 2 on the Battle Scar table</td></tr>
+      <tr><td><strong>Devastated ⚠</strong></td><td><span class="tag tag-blood">Battle Scar</span></td><td>Subtract 1 from hit rolls in the Shooting phase. Removed after a battle your force wins.</td><td>D6 roll: 4 on the Battle Scar table</td></tr>
+      <tr><td><strong>Scarred ⚠</strong></td><td><span class="tag tag-blood">Battle Scar</span></td><td>Subtract 1 from this unit's Toughness characteristic. Removed after earning 3+ XP.</td><td>D6 roll: 5 on the Battle Scar table</td></tr>
+      <tr><td><strong>Haunted by the Hive ⚠</strong></td><td><span class="tag tag-blood">Battle Scar</span></td><td>Permanently −2 Leadership. Cannot benefit from friendly Aura abilities. <em>Never removed.</em></td><td>D6 roll: 6 on the Battle Scar table</td></tr>
     </tbody>
   </table>
-
-  <div class="divider"><span class="divider-icon">✦</span></div>
-
-  <p class="section-title animate-in">Battle Scar Table</p>
-  <p class="lore-text animate-in" style="margin-bottom:1.5rem;">When a unit is destroyed in battle, roll on this table to determine what lasting scar they carry — testament to the ferocity of the fighting in the Bastior Sub-Sector.</p>
-
-  <table class="data-table animate-in">
-    <thead>
-      <tr><th>D6 Roll</th><th>Battle Scar</th><th>Effect</th></tr>
-    </thead>
-    <tbody>
-      <tr><td class="mono">1</td><td>Decimated</td><td>Remove D3 models from the unit (min 1). If a single model, reduce Wounds by 1 (min 1).</td></tr>
-      <tr><td class="mono">2</td><td>Battle-Weary</td><td>-1 to Advance rolls. Remove after earning 2+ XP.</td></tr>
-      <tr><td class="mono">3</td><td>Haunted</td><td>-1 to Battle-shock tests. Remove after a battle in which the unit did not fall back.</td></tr>
-      <tr><td class="mono">4</td><td>Devastated</td><td>-1 to hit in shooting phase. Remove after winning a battle.</td></tr>
-      <tr><td class="mono">5</td><td>Scarred</td><td>-1 to Toughness characteristic. Remove after earning 3+ XP.</td></tr>
-      <tr><td class="mono">6</td><td>Haunted by the Hive</td><td>Permanently -2 Ld. Additionally, this unit cannot be selected to benefit from any friendly Aura ability for the rest of the campaign.</td></tr>
-    </tbody>
-  </table>
-
-  <div class="divider"><span class="divider-icon">✦</span></div>
-
-  <p class="section-title animate-in">Campaign Hall of Heroes</p>
-  <div class="alert alert-info animate-in">
-    <span class="alert-icon">⚜</span>
-    <div>The Hall of Heroes will be populated as units achieve Legendary status during the campaign. Any unit reaching 16+ XP earns a permanent entry in this register.</div>
   </div>
 
-  <div id="hall-of-heroes" class="card-grid animate-in">
-    <div class="card" style="text-align:center;padding:2.5rem;grid-column:1/-1;">
-      <div style="font-size:2rem;color:var(--gold-dim);margin-bottom:0.5rem;">⚜</div>
-      <div style="font-family:var(--font-heading);color:var(--text-dim);font-size:1rem;margin-bottom:0.25rem;">The Hall Awaits Its Heroes</div>
-      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);">No units have yet reached Legendary status. Go forth and earn glory.</div>
+  <div class="divider"><span>✦</span></div>
+  <p class="sec-head reveal">Battle Scar Table — Roll D6 when a unit is destroyed</p>
+  <table class="tbl reveal"><thead><tr><th>D6</th><th>Battle Scar</th><th>Effect</th><th>Recovery</th></tr></thead><tbody>
+    <tr><td class="mono" style="color:var(--gold-bright);font-weight:700;">1</td><td>Decimated</td><td>Remove D3 models from the unit (minimum 1). If it is a single-model unit, reduce its Wounds by 1 (minimum 1).</td><td>No recovery needed</td></tr>
+    <tr><td class="mono" style="color:var(--gold-bright);font-weight:700;">2</td><td>Battle-Weary</td><td>−1 to Advance rolls.</td><td>Earn 2+ XP in future battles</td></tr>
+    <tr><td class="mono" style="color:var(--gold-bright);font-weight:700;">3</td><td>Haunted</td><td>−1 to Battle-shock tests.</td><td>Survive a battle without falling back</td></tr>
+    <tr><td class="mono" style="color:var(--gold-bright);font-weight:700;">4</td><td>Devastated</td><td>−1 to hit rolls in Shooting phase.</td><td>Your force wins a battle</td></tr>
+    <tr><td class="mono" style="color:var(--gold-bright);font-weight:700;">5</td><td>Scarred</td><td>−1 Toughness.</td><td>Earn 3+ XP in future battles</td></tr>
+    <tr><td class="mono" style="color:var(--blood-bright);font-weight:700;">6</td><td>Haunted by the Hive</td><td>Permanently −2 Leadership. Cannot benefit from friendly Aura abilities for the rest of the campaign. Cannot be removed.</td><td>—</td></tr>
+  </tbody></table>
+
+  <div class="divider"><span>✦</span></div>
+  <p class="sec-head reveal">Hall of Heroes — Legendary Units (16+ XP)</p>
+  <div id="hall-of-heroes" class="card-grid reveal">
+    <div class="card" style="grid-column:1/-1;text-align:center;padding:3rem;">
+      <div style="font-size:3rem;color:var(--gold-dim);margin-bottom:0.75rem;">⚜</div>
+      <div style="font-family:var(--font-display);font-size:1.1rem;color:var(--text-dim);margin-bottom:0.4rem;">The Hall Awaits Its Heroes</div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-faint);letter-spacing:0.15em;">No units have yet reached Legendary status. Lead them to glory.</div>
     </div>
   </div>
 </main>
-
-<footer>
-  <div class="footer-seal">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div>
-  <p class="footer-text">For the glory of the Emperor and the preservation of Mankind.</p>
-  <ul class="footer-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="roster.html">Roster</a></li>
-    <li><a href="agendas.html">Agendas</a></li>
-    <li><a href="rules-ref.html">Rules Ref</a></li>
-  </ul>
-</footer>
-<script src="js/main.js"></script>
-<script>
-  // Populate Hall of Heroes from roster
-  document.addEventListener('DOMContentLoaded', () => {
-    const units = window.RosterManager.getAll().filter(u => u.xp >= 16);
-    const el = document.getElementById('hall-of-heroes');
-    if (units.length) {
-      el.innerHTML = units.map(u => `
-        <div class="card">
-          <div class="card-meta"><span class="badge badge-gold">Legendary</span></div>
-          <div class="card-title">${u.name}</div>
-          <div class="stat-row"><span class="stat-label">Datasheet</span><span class="stat-value">${u.sheet||'—'}</span></div>
-          <div class="stat-row"><span class="stat-label">Experience</span><span class="stat-value warning">${u.xp} XP</span></div>
-          <div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-dim);">${u.notes||''}</div>
-        </div>
-      `).join('');
-    }
-  });
-</script>
+<footer><div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div><p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="roster.html">Roster</a></li><li><a href="tracker.html">Tracker</a></li><li><a href="rules-ref.html">Rules Ref</a></li></ul></footer>
+<script src="js/main.js"></script><script>document.addEventListener("DOMContentLoaded",()=>{const u=window.Roster.all().filter(x=>x.xp>=16);const el=document.getElementById("hall-of-heroes");if(u.length){el.innerHTML=u.map(x=>`<div class="card"><div class="card-label"><span class="tag tag-gold">Legendary</span></div><div class="card-title">${x.name}</div><div class="stat-row"><span class="stat-key">Datasheet</span><span class="stat-val">${x.sheet||"—"}</span></div><div class="stat-row"><span class="stat-key">Experience</span><span class="stat-val warning">${x.xp} XP</span></div>${x.notes?`<p style="font-size:0.92rem;color:var(--text-dim);margin-top:0.5rem;">${x.notes}</p>`:""}</div>`).join("");}});</script>
 </body>
 </html>
