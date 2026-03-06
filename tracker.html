@@ -7,165 +7,299 @@
 </head>
 <body>
 <nav id="site-nav"><div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="sector-map.html">Sector Map</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="agendas.html">Agendas</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="rules-ref.html">Rules Ref</a></li><li><a href="tracker.html">Tracker</a></li></ul><button class="nav-toggle"><span></span><span></span><span></span></button></nav>
+
 <div class="page-hero">
   <div class="hero-corner tl"></div><div class="hero-corner tr"></div><div class="hero-corner bl"></div><div class="hero-corner br"></div>
-  <p class="hero-eyebrow">Administratum — Resource Oversight</p>
+  <p class="hero-eyebrow">Administratum Strategic Overview — 999.M41</p>
   <h1>Campaign Tracker</h1>
-  <p class="subtitle">Track Crusade Points, Supply, in-game CP, unit wounds, and roll dice — all in one place.</p>
+  <p class="subtitle">Campaign turn, world control, all players' standing, and in-game tools.</p>
   <div class="hero-rule"><span>✦</span></div>
 </div>
-<main><div class="ticker mb-3"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-bottom:3rem;">
 
-    <!-- CRUSADE POINTS -->
-    <div class="panel reveal" style="margin:0;">
-      <div class="panel-title">Crusade Points</div>
-      <div class="big-num cp-live" id="cp-disp">0</div>
-      <div class="big-lbl">Total Campaign CP</div>
-      <div class="ctrl-btns">
-        <button class="ctrl-btn" onclick="cpAdj(1,'Earned')">+1</button>
-        <button class="ctrl-btn" onclick="cpAdj(2,'Earned')">+2</button>
-        <button class="ctrl-btn" onclick="cpAdj(3,'Battle Win')">+3 Win</button>
-        <button class="ctrl-btn sub" onclick="cpAdj(-1,'Requisition')">−1</button>
-        <button class="ctrl-btn sub" onclick="cpAdj(-2,'Requisition')">−2</button>
-      </div>
-      <div style="display:flex;gap:0.5rem;margin-top:0.85rem;">
-        <input type="number" id="cp-n" class="f-input" style="width:72px;" placeholder="n">
-        <input type="text"   id="cp-r" class="f-input" placeholder="Reason…">
-        <button class="ctrl-btn" onclick="cpCustom()">Add</button>
+<main>
+  <div class="ticker mb-3"><span class="ticker-text" id="ticker-msg">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
+
+  <!-- CAMPAIGN TURN + TOP STATS -->
+  <div style="display:grid;grid-template-columns:auto 1fr;gap:2px;background:rgba(212,164,32,0.18);border:1px solid rgba(212,164,32,0.28);margin-bottom:2.5rem;" class="reveal">
+    <!-- Big turn display -->
+    <div style="background:var(--plate2);padding:1.5rem 2.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:180px;border-right:1px solid rgba(212,164,32,0.18);">
+      <div style="font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.3em;color:var(--blood-bright);margin-bottom:0.3rem;">Campaign Turn</div>
+      <div style="font-family:var(--font-display);font-size:5rem;line-height:1;color:var(--gold-bright);text-shadow:var(--glow-gold);" id="turn-disp">1</div>
+      <div style="display:flex;gap:0.4rem;margin-top:0.75rem;">
+        <button class="ctrl-btn sub" onclick="turnAdj(-1)">−</button>
+        <button class="ctrl-btn" onclick="turnAdj(1)">+</button>
       </div>
     </div>
-
-    <!-- SUPPLY -->
-    <div class="panel reveal d1" style="margin:0;">
-      <div class="panel-title">Supply Limit</div>
-      <div style="display:flex;gap:1rem;align-items:baseline;">
-        <div><div class="big-num sup-used-live" id="sup-used-disp">0</div><div class="big-lbl">Used PL</div></div>
-        <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--text-dim);">/</div>
-        <div><div class="big-num sup-max-live" id="sup-max-disp" style="font-size:2.8rem;color:var(--bone);">50</div><div class="big-lbl">Limit</div></div>
-      </div>
-      <div class="bar-wrap"><div class="bar-track"><div class="bar-fill imperial" id="sup-bar" style="width:0%"></div></div></div>
-      <div class="ctrl-btns">
-        <button class="ctrl-btn" onclick="supAdj(5)">+5 PL</button>
-        <button class="ctrl-btn" onclick="supAdj(1)">+1 PL</button>
-        <button class="ctrl-btn sub" onclick="supAdj(-5)">−5 PL</button>
-        <button class="ctrl-btn sub" onclick="supAdj(-1)">−1 PL</button>
-      </div>
-      <div style="display:flex;gap:0.5rem;margin-top:0.85rem;">
-        <input type="number" id="sup-lim" class="f-input" placeholder="Set limit…">
-        <button class="ctrl-btn" onclick="supSetMax()">Set</button>
-      </div>
-    </div>
-
-    <!-- IN-GAME CP -->
-    <div class="panel reveal d2" style="margin:0;">
-      <div class="panel-title">In-Game Command Points</div>
-      <div class="big-num ig-live" id="ig-disp">6</div>
-      <div class="big-lbl">CP Remaining This Battle</div>
-      <div class="ctrl-btns">
-        <button class="ctrl-btn" onclick="igAdj(1)">+1</button>
-        <button class="ctrl-btn sub" onclick="igAdj(-1)">−1</button>
-        <button class="ctrl-btn sub" onclick="igAdj(-2)">−2</button>
-        <button class="ctrl-btn sub" onclick="igAdj(-3)">−3</button>
-        <button class="ctrl-btn" onclick="igReset(6)" style="color:var(--steel-light);border-color:rgba(90,101,120,0.4);">Reset 6</button>
-      </div>
-      <p style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);margin-top:0.9rem;text-transform:uppercase;letter-spacing:0.08em;line-height:1.5;">Resets each battle. Does not affect your campaign CP total.</p>
-    </div>
-
-    <!-- WOUND COUNTER -->
-    <div class="panel reveal d3" style="margin:0;">
-      <div class="panel-title">Unit Wound Counter</div>
-      <div class="big-num w-live" id="w-disp">10</div>
-      <div class="big-lbl">Wounds Remaining</div>
-      <div class="bar-wrap"><div class="bar-track"><div class="bar-fill danger" id="w-bar" style="width:100%"></div></div></div>
-      <div class="ctrl-btns">
-        <button class="ctrl-btn sub" onclick="wAdj(-1)">−1</button>
-        <button class="ctrl-btn sub" onclick="wAdj(-2)">−2</button>
-        <button class="ctrl-btn sub" onclick="wAdj(-3)">−3</button>
-        <button class="ctrl-btn" onclick="wAdj(1)">+1</button>
-      </div>
-      <div style="display:flex;gap:0.5rem;margin-top:0.85rem;">
-        <input type="number" id="w-max" class="f-input" placeholder="Set max wounds…">
-        <button class="ctrl-btn" onclick="wSetMax()">Set</button>
-      </div>
+    <!-- World status grid -->
+    <div style="background:var(--plate2);display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:rgba(212,164,32,0.12);" id="world-strip">
+      <!-- filled by JS -->
     </div>
   </div>
 
-  <!-- DICE ROLLER -->
-  <div class="divider"><span>✦</span></div>
-  <p class="sec-head reveal">Dice Roller</p>
-  <div class="panel reveal">
-    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.4rem;">
-      <button class="ctrl-btn" onclick="rollDice(6,1)">D6</button>
-      <button class="ctrl-btn" onclick="rollDice(6,2)">2D6</button>
-      <button class="ctrl-btn" onclick="rollDice(6,3)">3D6</button>
-      <button class="ctrl-btn" onclick="rollDice(6,4)">4D6</button>
-      <button class="ctrl-btn" onclick="rollDice(6,6)">6D6</button>
-      <button class="ctrl-btn" onclick="rollDice(3,1)">D3</button>
-      <button class="ctrl-btn" onclick="rollDice(3,2)">2D3</button>
-      <button class="ctrl-btn" onclick="rollD66()">D66</button>
-    </div>
-    <div id="dice-result" style="min-height:64px;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
-      <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;">Select a dice type above</span>
-    </div>
-  </div>
+  <div class="two-col">
+    <div>
 
-  <!-- BATTLE SCAR ROLLER -->
-  <div class="divider"><span>✦</span></div>
-  <p class="sec-head reveal">Battle Scar Roller</p>
-  <div class="panel reveal">
-    <p style="margin-bottom:1rem;">Roll when a unit is destroyed. The result determines any lasting wound it carries into future battles.</p>
-    <button class="ctrl-btn" onclick="rollScar()">Roll Battle Scar (D6)</button>
-    <div id="scar-result" style="display:none;margin-top:1.25rem;"></div>
-  </div>
+      <!-- WORLD CONTROL -->
+      <p class="sec-head reveal">World Control Status</p>
+      <div class="alert alert-warn reveal">
+        <span class="alert-icon">🗺</span>
+        <div>Click a world's status to cycle it: <strong>Held → Contested → Besieged → Fallen → Consumed</strong>. Changes are saved automatically.</div>
+      </div>
+      <div id="world-cards" class="card-grid reveal"></div>
 
-  <!-- CP HISTORY -->
-  <div class="divider"><span>✦</span></div>
-  <p class="sec-head reveal">Crusade Point History</p>
-  <div class="panel reveal">
-    <ul id="cp-hist" style="list-style:none;max-height:300px;overflow-y:auto;padding:0;"></ul>
-    <button class="ctrl-btn sub" style="margin-top:0.85rem;font-size:0.62rem;" onclick="clearHist()">Clear History</button>
+      <div class="divider"><span>✦</span></div>
+
+      <!-- PLAYER ARMIES -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+        <p class="sec-head" style="margin:0;border:none;padding:0;">Player Armies</p>
+        <button class="btn" onclick="Modal.open('add-player-modal')"><span>+ Add Army</span></button>
+      </div>
+
+      <div class="alert alert-info reveal" style="margin-bottom:1.5rem;">
+        <span class="alert-icon">ℹ</span>
+        <div>Each player manages their own detailed roster on <a href="roster.html">roster.html</a>. Add armies here to track campaign-level standing — CP totals, win/loss records, and faction. When you add a login system later, each card will sync to that player's roster automatically.</div>
+      </div>
+
+      <div id="player-cards" class="card-grid"></div>
+
+    </div>
+
+    <!-- SIDEBAR: in-game tools -->
+    <aside class="sidebar">
+
+      <div class="panel reveal">
+        <div class="panel-title">⚔ In-Game CP</div>
+        <div class="big-num" id="ig-disp">6</div>
+        <div class="big-lbl">CP This Battle</div>
+        <div class="ctrl-btns">
+          <button class="ctrl-btn" onclick="igAdj(1)">+1</button>
+          <button class="ctrl-btn sub" onclick="igAdj(-1)">−1</button>
+          <button class="ctrl-btn sub" onclick="igAdj(-2)">−2</button>
+          <button class="ctrl-btn sub" onclick="igAdj(-3)">−3</button>
+        </div>
+        <button class="ctrl-btn" style="width:100%;margin-top:0.6rem;text-align:center;" onclick="igReset()">Reset to 6</button>
+        <p style="font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);margin-top:0.75rem;text-transform:uppercase;letter-spacing:0.08em;line-height:1.5;">Resets each battle. Does not affect campaign CP on the Roster.</p>
+      </div>
+
+      <div class="panel reveal d1">
+        <div class="panel-title">🎲 Dice Roller</div>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;">
+          <button class="ctrl-btn" onclick="rollDice(6,1)">D6</button>
+          <button class="ctrl-btn" onclick="rollDice(6,2)">2D6</button>
+          <button class="ctrl-btn" onclick="rollDice(6,3)">3D6</button>
+          <button class="ctrl-btn" onclick="rollDice(6,6)">6D6</button>
+          <button class="ctrl-btn" onclick="rollDice(3,1)">D3</button>
+          <button class="ctrl-btn" onclick="rollD66()">D66</button>
+        </div>
+        <div id="dice-result" style="min-height:54px;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+          <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;">Pick a die above</span>
+        </div>
+      </div>
+
+      <div class="panel reveal d2">
+        <div class="panel-title">🩸 Battle Scar Roller</div>
+        <p style="font-size:0.95rem;margin-bottom:0.9rem;">Roll when a unit is destroyed after the battle.</p>
+        <button class="ctrl-btn" style="width:100%;text-align:center;" onclick="rollScar()">Roll D6</button>
+        <div id="scar-result" style="display:none;margin-top:1rem;"></div>
+      </div>
+
+      <div class="panel reveal d3">
+        <div class="panel-title">Quick Links</div>
+        <ul class="honour-list">
+          <li><a href="roster.html">Your personal roster →</a></li>
+          <li><a href="battle-log.html">Log a battle →</a></li>
+          <li><a href="agendas.html">Choose agendas →</a></li>
+          <li><a href="sector-map.html">Interactive map →</a></li>
+        </ul>
+      </div>
+
+    </aside>
   </div>
 </main>
-<footer><div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div><p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="roster.html">Roster</a></li><li><a href="tracker.html">Tracker</a></li><li><a href="rules-ref.html">Rules Ref</a></li></ul></footer>
-<script src="js/main.js"></script><script>
-const SCARS=[
-  {n:"Decimated",    fx:"Remove D3 models (min 1). Single-model unit: −1 Wound (min 1)."},
-  {n:"Battle-Weary", fx:"−1 to Advance rolls. Removed after earning 2+ XP in future battles."},
-  {n:"Haunted",      fx:"−1 to Battle-shock tests. Removed after a battle in which the unit did not fall back."},
-  {n:"Devastated",   fx:"−1 to hit rolls in the Shooting phase. Removed after your force wins a battle."},
-  {n:"Scarred",      fx:"−1 Toughness. Removed after earning 3+ XP in future battles."},
-  {n:"Haunted by the Hive", fx:"Permanently −2 Leadership. Cannot benefit from friendly Aura abilities for the rest of the campaign. Cannot be removed."},
+
+<!-- ADD PLAYER MODAL -->
+<div id="add-player-modal" class="modal-backdrop" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title">Add Player Army</div>
+    <div class="f-grid">
+      <div class="f-row"><label class="f-label">Player Name</label><input class="f-input" id="p-player" placeholder="e.g. Marcus" type="text"></div>
+      <div class="f-row"><label class="f-label">Force Name</label><input class="f-input" id="p-name" placeholder="e.g. Iron Vanguard" type="text"></div>
+      <div class="f-row"><label class="f-label">Faction</label><input class="f-input" id="p-faction" placeholder="e.g. Space Marines" type="text"></div>
+      <div class="f-row"><label class="f-label">Starting CP</label><input class="f-input" id="p-cp" type="number" min="0" value="0" placeholder="0"></div>
+    </div>
+    <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;">
+      <button class="btn btn-danger" data-close="add-player-modal"><span>Cancel</span></button>
+      <button class="btn" onclick="submitPlayer()"><span>Add Army</span></button>
+    </div>
+  </div>
+</div>
+
+<footer><div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div><p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="sector-map.html">Map</a></li></ul></footer>
+
+<script src="js/main.js"></script>
+<script>
+/* ---- world definitions ---- */
+const WORLDS = [
+  {id:'bastior',  name:'Bastior Prime', type:'Forge World'},
+  {id:'morthix',  name:'Morthix IV',    type:'Industrial'},
+  {id:'pentarch', name:'Pentarch',      type:'Agri World'},
+  {id:'vethanus', name:'Vethanus Stn.', type:'Void Station'},
+  {id:'rhokethis',name:'Rho-Kethis',    type:'Colony'},
+  {id:'ostria',   name:'Ostria Reach',  type:'Hive World'},
+  {id:'calyx',    name:'Calyx Secundus',type:'Civilised'},
 ];
+const STATUS_CYCLE = ['Held','Contested','Besieged','Fallen','Consumed'];
+const STATUS_CLASS  = {Held:'ok',Contested:'warning',Besieged:'danger',Fallen:'danger',Consumed:'danger'};
+const STATUS_COLOR  = {Held:'var(--hive-bright)',Contested:'var(--gold-bright)',Besieged:'var(--blood-pale)',Fallen:'var(--blood-bright)',Consumed:'var(--hive-bright)'};
 
-function cpAdj(n,r){window.Tracker.cp(n,r);}
-function cpCustom(){const n=parseInt(document.getElementById("cp-n").value),r=document.getElementById("cp-r").value.trim()||"Manual";if(isNaN(n))return;cpAdj(n,r);document.getElementById("cp-n").value="";document.getElementById("cp-r").value="";}
-function supAdj(n){const d=window.Tracker.load();d.supUsed=Math.max(0,d.supUsed+n);window.Tracker.save(d);window.Tracker.render();}
-function supSetMax(){const n=parseInt(document.getElementById("sup-lim").value);if(!n||n<1)return;const d=window.Tracker.load();d.supMax=n;window.Tracker.save(d);window.Tracker.render();document.getElementById("sup-lim").value="";}
-function igAdj(n){const d=window.Tracker.load();d.ig=Math.max(0,d.ig+n);window.Tracker.save(d);window.Tracker.render();}
-function igReset(n){const d=window.Tracker.load();d.ig=n;window.Tracker.save(d);window.Tracker.render();}
-function wAdj(n){const d=window.Tracker.load();d.w=Math.min(d.wMax,Math.max(0,d.w+n));window.Tracker.save(d);window.Tracker.render();}
-function wSetMax(){const n=parseInt(document.getElementById("w-max").value);if(!n||n<1)return;const d=window.Tracker.load();d.wMax=n;d.w=n;window.Tracker.save(d);window.Tracker.render();document.getElementById("w-max").value="";}
-function clearHist(){if(!confirm("Clear all CP history?"))return;const d=window.Tracker.load();d.hist=[];window.Tracker.save(d);window.Tracker.render();}
+/* ---- campaign state stored separately from tracker ---- */
+function loadCampaign(){
+  try{ return JSON.parse(localStorage.getItem('bastior_campaign'))||{}; } catch(e){ return {}; }
+}
+function saveCampaign(d){ localStorage.setItem('bastior_campaign', JSON.stringify(d)); }
 
+function getWorldStatus(id){
+  const d=loadCampaign();
+  const defaults={bastior:'Held',morthix:'Contested',pentarch:'Held',vethanus:'Besieged',rhokethis:'Besieged',ostria:'Fallen',calyx:'Consumed'};
+  return d.worlds&&d.worlds[id] ? d.worlds[id] : (defaults[id]||'Held');
+}
+function cycleWorldStatus(id){
+  const d=loadCampaign(); if(!d.worlds)d.worlds={};
+  const cur=getWorldStatus(id), idx=STATUS_CYCLE.indexOf(cur);
+  d.worlds[id]=STATUS_CYCLE[(idx+1)%STATUS_CYCLE.length];
+  saveCampaign(d); renderWorlds();
+}
+
+function getTurn(){ return loadCampaign().turn||1; }
+function turnAdj(n){
+  const d=loadCampaign(); d.turn=Math.max(1,(d.turn||1)+n);
+  saveCampaign(d); document.getElementById('turn-disp').textContent=d.turn;
+  renderWorlds();
+}
+
+/* ---- render world strip (top bar) + cards ---- */
+function renderWorlds(){
+  const strip=document.getElementById('world-strip');
+  const cards=document.getElementById('world-cards');
+
+  strip.innerHTML=WORLDS.map(w=>{
+    const s=getWorldStatus(w.id);
+    return `<div style="background:var(--plate2);padding:1rem 0.75rem;text-align:center;cursor:pointer;" onclick="cycleWorldStatus('${w.id}')">
+      <div style="font-family:var(--font-mono);font-size:0.58rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-dim);margin-bottom:0.25rem;">${w.name}</div>
+      <div style="font-family:var(--font-heading);font-size:0.75rem;font-weight:700;color:${STATUS_COLOR[s]};">${s}</div>
+    </div>`;
+  }).join('');
+
+  cards.innerHTML=WORLDS.map(w=>{
+    const s=getWorldStatus(w.id);
+    const cls=STATUS_CLASS[s]||'danger';
+    return `<div class="card" style="cursor:pointer;" onclick="cycleWorldStatus('${w.id}')">
+      <div class="card-label">${w.type}</div>
+      <div class="card-title">${w.name}</div>
+      <div class="stat-row" style="margin-top:0.5rem;"><span class="stat-key">Status</span><span class="stat-val ${cls}">${s}</span></div>
+      <div style="margin-top:0.75rem;font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;">Click to advance status →</div>
+    </div>`;
+  }).join('');
+}
+
+/* ---- player armies ---- */
+function loadPlayers(){
+  try{ return JSON.parse(localStorage.getItem('bastior_players'))||[]; } catch(e){ return []; }
+}
+function savePlayers(arr){ localStorage.setItem('bastior_players', JSON.stringify(arr)); }
+
+function renderPlayers(){
+  const players=loadPlayers();
+  const el=document.getElementById('player-cards');
+  if(!players.length){
+    el.innerHTML=`<div class="card" style="grid-column:1/-1;text-align:center;padding:2.5rem;">
+      <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--gold-dim);margin-bottom:0.5rem;">⚜</div>
+      <div style="font-family:var(--font-heading);color:var(--text-dim);font-size:1rem;margin-bottom:0.25rem;">No armies registered yet</div>
+      <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;">Click "Add Army" to register players</div>
+    </div>`;
+    return;
+  }
+  el.innerHTML=players.map((p,i)=>`
+    <div class="card">
+      <div class="card-label"><span class="tag tag-gold">${p.player||'Player'}</span></div>
+      <div class="card-title">${p.name||'Unnamed Force'}</div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">${p.faction||'Unknown Faction'}</div>
+      <div class="stat-row"><span class="stat-key">Crusade Points</span><span class="stat-val warning">${p.cp||0} CP</span></div>
+      <div class="stat-row"><span class="stat-key">Wins</span><span class="stat-val ok">${p.wins||0}</span></div>
+      <div class="stat-row"><span class="stat-key">Losses</span><span class="stat-val danger">${p.losses||0}</span></div>
+      <div style="display:flex;gap:0.4rem;margin-top:1rem;flex-wrap:wrap;">
+        <button class="ctrl-btn" style="font-size:0.62rem;" onclick="playerCP(${i},1)">+1 CP</button>
+        <button class="ctrl-btn" style="font-size:0.62rem;" onclick="playerCP(${i},3)">+3 Win</button>
+        <button class="ctrl-btn sub" style="font-size:0.62rem;" onclick="playerCP(${i},-1)">−1 CP</button>
+        <button class="ctrl-btn" style="font-size:0.62rem;" onclick="playerWin(${i})">Log Win</button>
+        <button class="ctrl-btn sub" style="font-size:0.62rem;" onclick="playerLoss(${i})">Log Loss</button>
+        <button class="ctrl-btn sub" style="font-size:0.62rem;" onclick="removePlayer(${i})">Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+function submitPlayer(){
+  const player=document.getElementById('p-player').value.trim();
+  const name=document.getElementById('p-name').value.trim();
+  if(!player&&!name){alert('Enter a player or force name.');return;}
+  const arr=loadPlayers();
+  arr.push({player,name,faction:document.getElementById('p-faction').value.trim(),cp:parseInt(document.getElementById('p-cp').value)||0,wins:0,losses:0});
+  savePlayers(arr); Modal.close('add-player-modal'); renderPlayers();
+  ['p-player','p-name','p-faction'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('p-cp').value='0';
+}
+function playerCP(i,n){ const arr=loadPlayers(); arr[i].cp=Math.max(0,(arr[i].cp||0)+n); savePlayers(arr); renderPlayers(); }
+function playerWin(i){ const arr=loadPlayers(); arr[i].wins=(arr[i].wins||0)+1; arr[i].cp=(arr[i].cp||0)+3; savePlayers(arr); renderPlayers(); }
+function playerLoss(i){ const arr=loadPlayers(); arr[i].losses=(arr[i].losses||0)+1; savePlayers(arr); renderPlayers(); }
+function removePlayer(i){ if(!confirm('Remove this army?'))return; const arr=loadPlayers(); arr.splice(i,1); savePlayers(arr); renderPlayers(); }
+
+/* ---- in-game CP ---- */
+function igLoad(){ try{ return parseInt(localStorage.getItem('bastior_ig_cp'))||6; }catch(e){return 6;} }
+function igSave(n){ localStorage.setItem('bastior_ig_cp',n); }
+function igAdj(n){ const v=Math.max(0,igLoad()+n); igSave(v); document.getElementById('ig-disp').textContent=v; }
+function igReset(){ igSave(6); document.getElementById('ig-disp').textContent=6; }
+
+/* ---- dice ---- */
 function rollDice(s,c){
   const rs=Array.from({length:c},()=>Math.floor(Math.random()*s)+1);
   const tot=rs.reduce((a,b)=>a+b,0);
-  document.getElementById("dice-result").innerHTML=
-    rs.map(v=>`<div class="dice-pip rolling">${v}</div>`).join("")+
-    (c>1?`<div style="font-family:var(--font-heading);font-size:1.3rem;color:var(--bone);margin-left:0.5rem;">= <span style="color:var(--gold-bright);">${tot}</span></div>`:"");
+  document.getElementById('dice-result').innerHTML=
+    rs.map(v=>`<div class="dice-pip rolling">${v}</div>`).join('')+
+    (c>1?`<div style="font-family:var(--font-heading);font-size:1.3rem;color:var(--text-bright);margin-left:0.5rem;">= <span style="color:var(--gold-bright);">${tot}</span></div>`:'');
 }
 function rollD66(){
-  const t=Math.floor(Math.random()*6)+1,u=Math.floor(Math.random()*6)+1;
-  document.getElementById("dice-result").innerHTML=
-    `<div class="dice-pip rolling">${t}</div><div class="dice-pip rolling">${u}</div><div style="font-family:var(--font-heading);font-size:1.3rem;color:var(--bone);margin-left:0.5rem;">= <span style="color:var(--gold-bright);">${t}${u}</span></div>`;
+  const t=Math.floor(Math.random()*6)+1, u=Math.floor(Math.random()*6)+1;
+  document.getElementById('dice-result').innerHTML=
+    `<div class="dice-pip rolling">${t}</div><div class="dice-pip rolling">${u}</div><div style="font-family:var(--font-heading);font-size:1.3rem;color:var(--text-bright);margin-left:0.5rem;">= <span style="color:var(--gold-bright);">${t}${u}</span></div>`;
 }
+
+/* ---- battle scar ---- */
+const SCARS=[
+  {n:'Decimated',          fx:'Remove D3 models (min 1). Single-model unit: −1 Wound (min 1).'},
+  {n:'Battle-Weary',       fx:'−1 to Advance rolls. Removed after earning 2+ XP in future battles.'},
+  {n:'Haunted',            fx:'−1 to Battle-shock tests. Removed after a battle in which the unit did not fall back.'},
+  {n:'Devastated',         fx:'−1 to hit rolls in Shooting phase. Removed after your force wins a battle.'},
+  {n:'Scarred',            fx:'−1 Toughness. Removed after earning 3+ XP in future battles.'},
+  {n:'Haunted by the Hive',fx:'Permanently −2 Leadership. Cannot benefit from friendly Aura abilities. Cannot be removed.'},
+];
 function rollScar(){
-  const r=Math.floor(Math.random()*6),s=SCARS[r];
-  const el=document.getElementById("scar-result");
-  el.style.display="block";
-  el.innerHTML=`<div style="background:rgba(122,24,24,0.1);border:1px solid rgba(204,32,32,0.35);padding:1.1rem 1.3rem;"><div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--blood-bright);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.35rem;">Roll: ${r+1}</div><div style="font-family:var(--font-heading);font-size:1.15rem;font-weight:700;color:var(--bone);margin-bottom:0.4rem;">${s.n}</div><div style="font-size:0.95rem;color:var(--text-main);line-height:1.65;">${s.fx}</div></div>`;
+  const r=Math.floor(Math.random()*6), s=SCARS[r];
+  const el=document.getElementById('scar-result');
+  el.style.display='block';
+  el.innerHTML=`<div style="background:rgba(138,28,28,0.12);border:1px solid rgba(224,48,48,0.35);padding:1rem 1.2rem;">
+    <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--blood-bright);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.3rem;">Roll: ${r+1}</div>
+    <div style="font-family:var(--font-heading);font-size:1.1rem;font-weight:700;color:var(--text-bright);margin-bottom:0.35rem;">${s.n}</div>
+    <div style="font-size:0.95rem;color:var(--text-main);line-height:1.65;">${s.fx}</div>
+  </div>`;
 }
+
+/* ---- init ---- */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('turn-disp').textContent=getTurn();
+  document.getElementById('ig-disp').textContent=igLoad();
+  renderWorlds();
+  renderPlayers();
+});
 </script>
 </body>
 </html>
