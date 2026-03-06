@@ -2,170 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Campaign Tracker — Bastior Crusade</title>
+  <title>Order of Battle — Bastior Crusade</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <nav id="site-nav"><div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="lore.html">Lore</a></li><li><a href="sector-map.html">Sector Map</a></li><li><a href="roster.html">Roster</a></li><li><a href="battle-log.html">Battle Log</a></li><li><a href="crusade-order.html">Order of Battle</a></li><li><a href="agendas.html">Agendas</a></li><li><a href="honour-roll.html">Honours</a></li><li><a href="rules-ref.html">Rules Ref</a></li><li><a href="tracker.html">Tracker</a></li></ul><button class="nav-toggle"><span></span><span></span><span></span></button></nav>
 <div class="page-hero">
   <div class="hero-corner tl"></div><div class="hero-corner tr"></div><div class="hero-corner bl"></div><div class="hero-corner br"></div>
-  <p class="hero-eyebrow">Administratum — Resource Oversight</p>
-  <h1>Campaign Tracker</h1>
-  <p class="subtitle">Track Crusade Points, Supply, in-game CP, unit wounds, and roll dice — all in one place.</p>
+  <p class="hero-eyebrow">Muster Rolls — Adeptus Administratum</p>
+  <h1>Order of Battle</h1>
+  <p class="subtitle">Registered Crusade forces, campaign special rules, and supply limits.</p>
   <div class="hero-rule"><span>✦</span></div>
 </div>
 <main><div class="ticker mb-3"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span><div class="ticker-sweep"></div></div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-bottom:3rem;">
-
-    <!-- CRUSADE POINTS -->
-    <div class="panel reveal" style="margin:0;">
-      <div class="panel-title">Crusade Points</div>
-      <div class="big-num cp-live" id="cp-disp">0</div>
-      <div class="big-lbl">Total Campaign CP</div>
-      <div class="ctrl-btns">
-        <button class="ctrl-btn" onclick="cpAdj(1,'Earned')">+1</button>
-        <button class="ctrl-btn" onclick="cpAdj(2,'Earned')">+2</button>
-        <button class="ctrl-btn" onclick="cpAdj(3,'Battle Win')">+3 Win</button>
-        <button class="ctrl-btn sub" onclick="cpAdj(-1,'Requisition')">−1</button>
-        <button class="ctrl-btn sub" onclick="cpAdj(-2,'Requisition')">−2</button>
-      </div>
-      <div style="display:flex;gap:0.5rem;margin-top:0.85rem;">
-        <input type="number" id="cp-n" class="f-input" style="width:72px;" placeholder="n">
-        <input type="text"   id="cp-r" class="f-input" placeholder="Reason…">
-        <button class="ctrl-btn" onclick="cpCustom()">Add</button>
-      </div>
+  <p class="sec-head reveal">Registered Crusade Forces</p>
+  <div class="alert alert-warn reveal"><span class="alert-icon">📋</span><div>Edit this page to fill in your players' force cards. Replace the bracketed placeholders with your actual army names, factions, and stats.</div></div>
+  <div class="card-grid">
+    <div class="card reveal">
+      <div class="card-label"><span class="tag tag-gold">Player 1</span></div>
+      <div class="card-title">[ Force Name Here ]</div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">[ Faction — e.g. Space Marines / Astra Militarum ]</div>
+      <div class="stat-row"><span class="stat-key">Crusade Points</span><span class="stat-val warning">0 CP</span></div>
+      <div class="stat-row"><span class="stat-key">Supply Used</span><span class="stat-val">0 / 500 pts</span></span></div>
+      <div class="stat-row"><span class="stat-key">Battles Played</span><span class="stat-val">0</span></div>
+      <div class="stat-row"><span class="stat-key">Victories</span><span class="stat-val ok">0</span></div>
+      <div class="bar-wrap mt-2"><div class="bar-labels"><span>Supply Used</span><span>0%</span></div><div class="bar-track"><div class="bar-fill imperial" style="width:0%"></div></div></div>
+      <p style="font-style:italic;font-size:0.95rem;color:var(--text-dim);margin-top:0.9rem;">[ Add your force description and special character here ]</p>
     </div>
-
-    <!-- SUPPLY -->
-    <div class="panel reveal d1" style="margin:0;">
-      <div class="panel-title">Supply Limit</div>
-      <div style="display:flex;gap:1rem;align-items:baseline;">
-        <div><div class="big-num sup-used-live" id="sup-used-disp">0</div><div class="big-lbl">Used PL</div></div>
-        <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--text-dim);">/</div>
-        <div><div class="big-num sup-max-live" id="sup-max-disp" style="font-size:2.8rem;color:var(--bone);">50</div><div class="big-lbl">Limit</div></div>
-      </div>
-      <div class="bar-wrap"><div class="bar-track"><div class="bar-fill imperial" id="sup-bar" style="width:0%"></div></div></div>
-      <div class="ctrl-btns">
-        <button class="ctrl-btn" onclick="supAdj(5)">+5 PL</button>
-        <button class="ctrl-btn" onclick="supAdj(1)">+1 PL</button>
-        <button class="ctrl-btn sub" onclick="supAdj(-5)">−5 PL</button>
-        <button class="ctrl-btn sub" onclick="supAdj(-1)">−1 PL</button>
-      </div>
-      <div style="display:flex;gap:0.5rem;margin-top:0.85rem;">
-        <input type="number" id="sup-lim" class="f-input" placeholder="Set limit…">
-        <button class="ctrl-btn" onclick="supSetMax()">Set</button>
-      </div>
+    <div class="card reveal d1">
+      <div class="card-label"><span class="tag tag-gold">Player 2</span></div>
+      <div class="card-title">[ Force Name Here ]</div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">[ Faction ]</div>
+      <div class="stat-row"><span class="stat-key">Crusade Points</span><span class="stat-val warning">0 CP</span></div>
+      <div class="stat-row"><span class="stat-key">Supply Used</span><span class="stat-val">0 / 500 pts</span></span></div>
+      <div class="stat-row"><span class="stat-key">Battles Played</span><span class="stat-val">0</span></div>
+      <div class="stat-row"><span class="stat-key">Victories</span><span class="stat-val ok">0</span></div>
+      <div class="bar-wrap mt-2"><div class="bar-labels"><span>Supply Used</span><span>0%</span></div><div class="bar-track"><div class="bar-fill imperial" style="width:0%"></div></div></div>
+      <p style="font-style:italic;font-size:0.95rem;color:var(--text-dim);margin-top:0.9rem;">[ Add your force description here ]</p>
     </div>
-
-    <!-- IN-GAME CP -->
-    <div class="panel reveal d2" style="margin:0;">
-      <div class="panel-title">In-Game Command Points</div>
-      <div class="big-num ig-live" id="ig-disp">6</div>
-      <div class="big-lbl">CP Remaining This Battle</div>
-      <div class="ctrl-btns">
-        <button class="ctrl-btn" onclick="igAdj(1)">+1</button>
-        <button class="ctrl-btn sub" onclick="igAdj(-1)">−1</button>
-        <button class="ctrl-btn sub" onclick="igAdj(-2)">−2</button>
-        <button class="ctrl-btn sub" onclick="igAdj(-3)">−3</button>
-        <button class="ctrl-btn" onclick="igReset(6)" style="color:var(--steel-light);border-color:rgba(90,101,120,0.4);">Reset 6</button>
-      </div>
-      <p style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);margin-top:0.9rem;text-transform:uppercase;letter-spacing:0.08em;line-height:1.5;">Resets each battle. Does not affect your campaign CP total.</p>
-    </div>
-
-    <!-- WOUND COUNTER -->
-    <div class="panel reveal d3" style="margin:0;">
-      <div class="panel-title">Unit Wound Counter</div>
-      <div class="big-num w-live" id="w-disp">10</div>
-      <div class="big-lbl">Wounds Remaining</div>
-      <div class="bar-wrap"><div class="bar-track"><div class="bar-fill danger" id="w-bar" style="width:100%"></div></div></div>
-      <div class="ctrl-btns">
-        <button class="ctrl-btn sub" onclick="wAdj(-1)">−1</button>
-        <button class="ctrl-btn sub" onclick="wAdj(-2)">−2</button>
-        <button class="ctrl-btn sub" onclick="wAdj(-3)">−3</button>
-        <button class="ctrl-btn" onclick="wAdj(1)">+1</button>
-      </div>
-      <div style="display:flex;gap:0.5rem;margin-top:0.85rem;">
-        <input type="number" id="w-max" class="f-input" placeholder="Set max wounds…">
-        <button class="ctrl-btn" onclick="wSetMax()">Set</button>
-      </div>
+    <div class="card reveal d2">
+      <div class="card-label"><span class="tag tag-hive">Player 3</span></div>
+      <div class="card-title">[ Force Name Here ]</div>
+      <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">[ Faction — e.g. Tyranids ]</div>
+      <div class="stat-row"><span class="stat-key">Crusade Points</span><span class="stat-val warning">0 CP</span></div>
+      <div class="stat-row"><span class="stat-key">Supply Used</span><span class="stat-val">0 / 500 pts</span></span></div>
+      <div class="stat-row"><span class="stat-key">Battles Played</span><span class="stat-val">0</span></div>
+      <div class="stat-row"><span class="stat-key">Victories</span><span class="stat-val ok">0</span></div>
+      <div class="bar-wrap mt-2"><div class="bar-labels"><span>Supply Used</span><span>0%</span></div><div class="bar-track"><div class="bar-fill tyranid" style="width:0%"></div></div></div>
+      <p style="font-style:italic;font-size:0.95rem;color:var(--text-dim);margin-top:0.9rem;">[ Add force description here ]</p>
     </div>
   </div>
 
-  <!-- DICE ROLLER -->
   <div class="divider"><span>✦</span></div>
-  <p class="sec-head reveal">Dice Roller</p>
-  <div class="panel reveal">
-    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.4rem;">
-      <button class="ctrl-btn" onclick="rollDice(6,1)">D6</button>
-      <button class="ctrl-btn" onclick="rollDice(6,2)">2D6</button>
-      <button class="ctrl-btn" onclick="rollDice(6,3)">3D6</button>
-      <button class="ctrl-btn" onclick="rollDice(6,4)">4D6</button>
-      <button class="ctrl-btn" onclick="rollDice(6,6)">6D6</button>
-      <button class="ctrl-btn" onclick="rollDice(3,1)">D3</button>
-      <button class="ctrl-btn" onclick="rollDice(3,2)">2D3</button>
-      <button class="ctrl-btn" onclick="rollD66()">D66</button>
-    </div>
-    <div id="dice-result" style="min-height:64px;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
-      <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;">Select a dice type above</span>
-    </div>
-  </div>
+  <p class="sec-head reveal">Supply Limit by Crusade Points</p>
+  <table class="tbl reveal"><thead><tr><th>Crusade Points</th><th>Supply Limit</th><th>Increase</th></tr></thead><tbody>
+    <tr><td class="mono">0 – 5 CP</td><td class="mono">500 pts</td><td>Starting limit</td></tr>
+    <tr><td class="mono">6 – 10 CP</td><td class="mono">600 pts</td><td>+100 pts</td></tr>
+    <tr><td class="mono">11 – 20 CP</td><td class="mono">750 pts</td><td>+150 pts</td></tr>
+    <tr><td class="mono">21 – 30 CP</td><td class="mono">850 pts</td><td>+100 pts</td></tr>
+    <tr><td class="mono">31 – 50 CP</td><td class="mono">1000 pts</td><td>+150 pts</td></tr>
+    <tr><td class="mono">51+ CP</td><td class="mono">1250 pts</td><td>+250 pts</td></tr>
+  </tbody></table>
 
-  <!-- BATTLE SCAR ROLLER -->
   <div class="divider"><span>✦</span></div>
-  <p class="sec-head reveal">Battle Scar Roller</p>
-  <div class="panel reveal">
-    <p style="margin-bottom:1rem;">Roll when a unit is destroyed. The result determines any lasting wound it carries into future battles.</p>
-    <button class="ctrl-btn" onclick="rollScar()">Roll Battle Scar (D6)</button>
-    <div id="scar-result" style="display:none;margin-top:1.25rem;"></div>
-  </div>
-
-  <!-- CP HISTORY -->
-  <div class="divider"><span>✦</span></div>
-  <p class="sec-head reveal">Crusade Point History</p>
-  <div class="panel reveal">
-    <ul id="cp-hist" style="list-style:none;max-height:300px;overflow-y:auto;padding:0;"></ul>
-    <button class="ctrl-btn sub" style="margin-top:0.85rem;font-size:0.62rem;" onclick="clearHist()">Clear History</button>
+  <p class="sec-head reveal">Campaign Special Rules</p>
+  <div class="two-col">
+    <div>
+      <div class="panel reveal">
+        <div class="panel-title">🧬 Tyranid Faction Rules</div>
+        <h3 class="lore-sh" style="margin-top:0;">Endless Swarm</h3>
+        <p>When a Tyranid unit with 5+ models is destroyed, roll a D6. On a 5+, the unit returns at the start of the next battle round with D3 models, placed within 6" of a table edge.</p>
+        <h3 class="lore-sh">Synaptic Adaptation</h3>
+        <p>After each battle, the Tyranid player may swap one unit's Crusade Boon for a different one from the Adaptive Physiology list (see Rules Reference).</p>
+        <h3 class="lore-sh">Biomass Harvest</h3>
+        <p>At the end of each battle, the Tyranid player gains +1 CP for each enemy unit completely destroyed during the battle, to a maximum of +3 CP.</p>
+      </div>
+      <div class="panel reveal d1">
+        <div class="panel-title">⚜ Imperial Faction Rules</div>
+        <h3 class="lore-sh" style="margin-top:0;">Defenders of Humanity</h3>
+        <p>Imperial units gain +1 to Battle-shock tests while within 6" of an objective marker. This stacks with other modifiers.</p>
+        <h3 class="lore-sh">Last Stand</h3>
+        <p>Once per battle, when an Imperial unit would be destroyed, roll a D6. On a 6, that unit instead survives with 1 model remaining at 1 Wound. May not be used by Titanic units.</p>
+        <h3 class="lore-sh">Crusade of Faith</h3>
+        <p>Imperial forces earn +1 bonus CP (not added to roster total) whenever they complete a narrative Agenda in full. This bonus may be spent immediately on Stratagems.</p>
+      </div>
+    </div>
+    <aside class="sidebar">
+      <div class="panel reveal">
+        <div class="panel-title">Requisition Costs</div>
+        <div class="stat-row"><span class="stat-key">Resupply</span><span class="stat-val">1 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Fresh Recruits</span><span class="stat-val">1 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Rearm &amp; Resupply</span><span class="stat-val">1 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Choosing Agendas</span><span class="stat-val">0 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Field Promotion</span><span class="stat-val">1 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Specialist Reinforcement</span><span class="stat-val">2 CP</span></div>
+        <div class="stat-row"><span class="stat-key">Lord of War permit</span><span class="stat-val">3 CP</span></div>
+      </div>
+      <div class="panel reveal d1">
+        <div class="panel-title">Current Tracker</div>
+        <div class="stat-row"><span class="stat-key">Your CP</span><span class="stat-val warning"><span class="cp-live">0</span></span></div>
+        <div class="stat-row"><span class="stat-key">Supply Used</span><span class="stat-val"><span class="sup-used-live">0</span> PL</span></div>
+        <div class="stat-row"><span class="stat-key">Supply Limit</span><span class="stat-val"><span class="sup-max-live">50</span> PL</span></div>
+        <div style="margin-top:1rem;"><a href="tracker.html" class="btn" style="width:100%;text-align:center;display:block;clip-path:none;padding:0.6rem;font-size:0.7rem;"><span>Open Tracker →</span></a></div>
+      </div>
+    </aside>
   </div>
 </main>
 <footer><div class="footer-title">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div><p class="footer-tagline">For the glory of the Emperor and the preservation of Mankind.</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="roster.html">Roster</a></li><li><a href="tracker.html">Tracker</a></li><li><a href="rules-ref.html">Rules Ref</a></li></ul></footer>
-<script src="js/main.js"></script><script>
-const SCARS=[
-  {n:"Decimated",    fx:"Remove D3 models (min 1). Single-model unit: −1 Wound (min 1)."},
-  {n:"Battle-Weary", fx:"−1 to Advance rolls. Removed after earning 2+ XP in future battles."},
-  {n:"Haunted",      fx:"−1 to Battle-shock tests. Removed after a battle in which the unit did not fall back."},
-  {n:"Devastated",   fx:"−1 to hit rolls in the Shooting phase. Removed after your force wins a battle."},
-  {n:"Scarred",      fx:"−1 Toughness. Removed after earning 3+ XP in future battles."},
-  {n:"Haunted by the Hive", fx:"Permanently −2 Leadership. Cannot benefit from friendly Aura abilities for the rest of the campaign. Cannot be removed."},
-];
-
-function cpAdj(n,r){window.Tracker.cp(n,r);}
-function cpCustom(){const n=parseInt(document.getElementById("cp-n").value),r=document.getElementById("cp-r").value.trim()||"Manual";if(isNaN(n))return;cpAdj(n,r);document.getElementById("cp-n").value="";document.getElementById("cp-r").value="";}
-function supAdj(n){const d=window.Tracker.load();d.supUsed=Math.max(0,d.supUsed+n);window.Tracker.save(d);window.Tracker.render();}
-function supSetMax(){const n=parseInt(document.getElementById("sup-lim").value);if(!n||n<1)return;const d=window.Tracker.load();d.supMax=n;window.Tracker.save(d);window.Tracker.render();document.getElementById("sup-lim").value="";}
-function igAdj(n){const d=window.Tracker.load();d.ig=Math.max(0,d.ig+n);window.Tracker.save(d);window.Tracker.render();}
-function igReset(n){const d=window.Tracker.load();d.ig=n;window.Tracker.save(d);window.Tracker.render();}
-function wAdj(n){const d=window.Tracker.load();d.w=Math.min(d.wMax,Math.max(0,d.w+n));window.Tracker.save(d);window.Tracker.render();}
-function wSetMax(){const n=parseInt(document.getElementById("w-max").value);if(!n||n<1)return;const d=window.Tracker.load();d.wMax=n;d.w=n;window.Tracker.save(d);window.Tracker.render();document.getElementById("w-max").value="";}
-function clearHist(){if(!confirm("Clear all CP history?"))return;const d=window.Tracker.load();d.hist=[];window.Tracker.save(d);window.Tracker.render();}
-
-function rollDice(s,c){
-  const rs=Array.from({length:c},()=>Math.floor(Math.random()*s)+1);
-  const tot=rs.reduce((a,b)=>a+b,0);
-  document.getElementById("dice-result").innerHTML=
-    rs.map(v=>`<div class="dice-pip rolling">${v}</div>`).join("")+
-    (c>1?`<div style="font-family:var(--font-heading);font-size:1.3rem;color:var(--bone);margin-left:0.5rem;">= <span style="color:var(--gold-bright);">${tot}</span></div>`:"");
-}
-function rollD66(){
-  const t=Math.floor(Math.random()*6)+1,u=Math.floor(Math.random()*6)+1;
-  document.getElementById("dice-result").innerHTML=
-    `<div class="dice-pip rolling">${t}</div><div class="dice-pip rolling">${u}</div><div style="font-family:var(--font-heading);font-size:1.3rem;color:var(--bone);margin-left:0.5rem;">= <span style="color:var(--gold-bright);">${t}${u}</span></div>`;
-}
-function rollScar(){
-  const r=Math.floor(Math.random()*6),s=SCARS[r];
-  const el=document.getElementById("scar-result");
-  el.style.display="block";
-  el.innerHTML=`<div style="background:rgba(122,24,24,0.1);border:1px solid rgba(204,32,32,0.35);padding:1.1rem 1.3rem;"><div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--blood-bright);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.35rem;">Roll: ${r+1}</div><div style="font-family:var(--font-heading);font-size:1.15rem;font-weight:700;color:var(--bone);margin-bottom:0.4rem;">${s.n}</div><div style="font-size:0.95rem;color:var(--text-main);line-height:1.65;">${s.fx}</div></div>`;
-}
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>
