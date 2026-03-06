@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rules Reference — Bastior Crusade</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .rules-block {
+      background: linear-gradient(160deg, var(--dark4) 0%, var(--dark2) 100%);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .rules-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    }
+    .rules-name {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      margin-bottom: 0.2rem;
+    }
+    .rules-sub {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+    .rules-body {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+    .key-term {
+      font-family: var(--font-heading);
+      color: var(--bone);
+      font-style: normal;
+    }
+    details summary {
+      cursor: pointer;
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      list-style: none;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    details summary::after { content: '▾'; font-size: 0.9rem; color: var(--gold-dim); }
+    details[open] summary::after { content: '▴'; }
+    details summary::-webkit-details-marker { display: none; }
+    details .details-body { padding: 1rem 0; }
+  </style>
+</head>
+<body>
+<nav id="site-nav">
+  <div class="nav-brand">Bastior Sub-Sector<span>Tyrannic War Crusade</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="lore.html">Lore</a></li>
+    <li><a href="sector-map.html">Sector Map</a></li>
+    <li><a href="roster.html">Roster</a></li>
+    <li><a href="battle-log.html">Battle Log</a></li>
+    <li><a href="crusade-order.html">Order of Battle</a></li>
+    <li><a href="agendas.html">Agendas</a></li>
+    <li><a href="honour-roll.html">Honours</a></li>
+    <li><a href="rules-ref.html">Rules Ref</a></li>
+    <li><a href="tracker.html">Tracker</a></li>
+  </ul>
+  <button class="nav-toggle"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="corner-tl"></div><div class="corner-tr"></div>
+  <div class="corner-bl"></div><div class="corner-br"></div>
+  <div class="eyebrow">Tactical Codex — Crusade Supplement Reference</div>
+  <h1>Rules Reference</h1>
+  <p class="subtitle">A quick-reference guide to the Tyrannic War Crusade special rules, post-battle sequence, and campaign mechanics.</p>
+</div>
+
+<main>
+  <div class="hive-fleet-ticker mb-4"><span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span></div>
+
+  <div class="content-grid">
+    <div>
+
+      <p class="section-title animate-in">Tyrannic War Special Rules</p>
+
+      <div class="rules-block animate-in">
+        <div class="rules-name">Shadow in the Warp</div>
+        <div class="rules-sub">Tyranid Special Rule — Passive Aura</div>
+        <div class="rules-body">
+          <p>While a friendly unit with this ability is on the battlefield, all enemy units that are not <span class="key-term">Chaos</span> or <span class="key-term">Tyranids</span> suffer the following effects:</p>
+          <ul class="honour-list">
+            <li>Each time a Psychic ability is used by an enemy unit within 18" of any friendly unit with this ability, subtract 1 from the Psychic test.</li>
+            <li>Subtract 1 from the Battle-shock test of all enemy units on the battlefield.</li>
+            <li>Enemy units cannot use Stratagems that cost 3+ CP while within 12" of any friendly unit with this ability.</li>
+          </ul>
+          <p style="margin-top:0.75rem;font-style:italic;color:var(--text-dim);">Note: Units with the <em>Survivors of the Shadow</em> battle honour are immune to all effects of Shadow in the Warp.</p>
+        </div>
+      </div>
+
+      <div class="rules-block animate-in">
+        <div class="rules-name">Synaptic Link</div>
+        <div class="rules-sub">Tyranid Special Rule — Synapse Keyword</div>
+        <div class="rules-body">
+          <p>Tyranid units within 12" of a friendly unit with the <span class="key-term">Synapse</span> keyword gain the following benefits:</p>
+          <ul class="honour-list">
+            <li>Automatically pass Battle-shock tests.</li>
+            <li>Do not suffer the penalties of Battle-shock while within range.</li>
+            <li>Re-roll charge rolls of 1 when within range of a Synapse unit.</li>
+          </ul>
+          <p style="margin-top:0.75rem;font-style:italic;color:var(--text-dim);">Without Synapse nearby, Tyranid units become unpredictable — they may still fight, but the Hive Mind's iron control slips.</p>
+        </div>
+      </div>
+
+      <div class="rules-block animate-in">
+        <div class="rules-name">Instinctive Behaviour</div>
+        <div class="rules-sub">Tyranid Special Rule — Out of Synapse</div>
+        <div class="rules-body">
+          <p>If a Tyranid unit without the <span class="key-term">Synapse</span> keyword is not within 12" of a friendly Synapse unit at the start of its Movement phase, roll D6:</p>
+          <div class="threat-bar" style="margin:0.75rem 0;">
+            <table class="data-table" style="margin:0;">
+              <thead><tr><th>Roll</th><th>Behaviour</th><th>Effect</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">1–2</td><td>Lurk</td><td>Unit must move toward the nearest cover. Cannot shoot this turn.</td></tr>
+                <tr><td class="mono">3–4</td><td>Feed</td><td>Unit must move toward the nearest enemy unit. Can only use melee attacks.</td></tr>
+                <tr><td class="mono">5–6</td><td>Normal</td><td>Unit acts normally this turn.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="rules-block animate-in">
+        <div class="rules-name">Hyper-Adaptive Biology</div>
+        <div class="rules-sub">Tyrannic War Crusade Rule — Post-Battle</div>
+        <div class="rules-body">
+          <p>After each battle, Tyranid players may roll once on the <span class="key-term">Adaptive Physiology</span> table for one unit that survived. Roll D6:</p>
+          <table class="data-table" style="margin:0.75rem 0 0;">
+            <thead><tr><th>Roll</th><th>Adaptation</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">1</td><td>Enhanced Armour</td><td>+1 to all saving throws (max 2+)</td></tr>
+              <tr><td class="mono">2</td><td>Acid Blood</td><td>When wounded in melee, attacker suffers 1 mortal wound on a 6</td></tr>
+              <tr><td class="mono">3</td><td>Regeneration</td><td>Regain 1 lost wound each Command phase</td></tr>
+              <tr><td class="mono">4</td><td>Hyper-Senses</td><td>Ranged attacks ignore cover</td></tr>
+              <tr><td class="mono">5</td><td>Crushing Claws</td><td>+1 Strength to all melee weapons</td></tr>
+              <tr><td class="mono">6</td><td>Adaptive Camouflage</td><td>Unit has Stealth ability permanently</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="divider"><span class="divider-icon">✦</span></div>
+
+      <p class="section-title animate-in">Post-Battle Sequence</p>
+      <p class="lore-text animate-in" style="margin-bottom:1.5rem;">After every battle in the Bastior Campaign, complete the following steps in order:</p>
+
+      <div style="counter-reset: step-counter;">
+        <div class="rules-block animate-in" style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--gold-dim);flex-shrink:0;line-height:1;">1</div>
+          <div>
+            <div class="rules-name" style="font-size:0.9rem;">Mark Casualties</div>
+            <div class="rules-body">For each unit that was destroyed, roll on the Battle Scar table. Record any scars earned. Note: units with <em>Survivors of the Shadow</em> re-roll results of 6 on this table.</div>
+          </div>
+        </div>
+        <div class="rules-block animate-in" style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--gold-dim);flex-shrink:0;line-height:1;">2</div>
+          <div>
+            <div class="rules-name" style="font-size:0.9rem;">Award XP</div>
+            <div class="rules-body">
+              Award XP as follows:
+              <ul class="honour-list" style="margin-top:0.5rem;">
+                <li>+1 XP to all units that participated in the battle</li>
+                <li>+1 XP to all units that completed an Agenda task</li>
+                <li>+2 XP to units that destroyed an enemy unit</li>
+                <li>+3 XP to the unit that destroyed the enemy Warlord</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="rules-block animate-in" style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--gold-dim);flex-shrink:0;line-height:1;">3</div>
+          <div>
+            <div class="rules-name" style="font-size:0.9rem;">Gain Battle Honours</div>
+            <div class="rules-body">For each unit that increased in rank, consult the Battle Honours table and award the appropriate honour. The player may choose from the options available to the new rank.</div>
+          </div>
+        </div>
+        <div class="rules-block animate-in" style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--gold-dim);flex-shrink:0;line-height:1;">4</div>
+          <div>
+            <div class="rules-name" style="font-size:0.9rem;">Earn Crusade Points</div>
+            <div class="rules-body">
+              The <em>winner</em> earns Crusade Points as follows:
+              <ul class="honour-list" style="margin-top:0.5rem;">
+                <li>+3 CP for winning the battle</li>
+                <li>+1 CP for each completed Agenda (max 2)</li>
+                <li>+1 CP for destroying the enemy Warlord</li>
+              </ul>
+              The <em>loser</em> earns: +1 CP (consolation) +1 CP for each completed Agenda (max 1)
+            </div>
+          </div>
+        </div>
+        <div class="rules-block animate-in" style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--gold-dim);flex-shrink:0;line-height:1;">5</div>
+          <div>
+            <div class="rules-name" style="font-size:0.9rem;">Make Requisitions</div>
+            <div class="rules-body">Spend Crusade Points on Requisitions. Update your Order of Battle, Supply Used, and Crusade Point totals. Record everything in the Battle Log.</div>
+          </div>
+        </div>
+        <div class="rules-block animate-in" style="display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--gold-dim);flex-shrink:0;line-height:1;">6</div>
+          <div>
+            <div class="rules-name" style="font-size:0.9rem;">Update the Campaign Map</div>
+            <div class="rules-body">Record the battle result on the Sector Map. If a narrative event was triggered, consult the Campaign Event table and apply the result to the affected system.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"><span class="divider-icon">✦</span></div>
+
+      <p class="section-title animate-in">Requisitions</p>
+      <table class="data-table animate-in">
+        <thead><tr><th>Requisition</th><th>CP Cost</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Resupply</strong></td><td class="mono">1 CP</td><td>Add a new unit to your Order of Battle (within Supply Limit)</td></tr>
+          <tr><td><strong>Fresh Recruits</strong></td><td class="mono">1 CP</td><td>Restore a destroyed unit with no XP or Battle Scars</td></tr>
+          <tr><td><strong>Specialist Reinforcement</strong></td><td class="mono">2 CP</td><td>Restore a destroyed unit retaining all XP and Honours</td></tr>
+          <tr><td><strong>Field Promotion</strong></td><td class="mono">1 CP</td><td>Transfer a Battle Honour from one unit to another</td></tr>
+          <tr><td><strong>Equipment Upgrade</strong></td><td class="mono">1 CP</td><td>Permanently modify a unit's wargear (must be legal)</td></tr>
+          <tr><td><strong>Ancient Grudge</strong></td><td class="mono">2 CP</td><td>Remove one Battle Scar from a unit</td></tr>
+          <tr><td><strong>Tyranid Biomass (Tyranids only)</strong></td><td class="mono">1 CP</td><td>Roll on the Adaptive Physiology table for one additional unit</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <aside class="sidebar">
+      <div class="panel animate-in">
+        <div class="panel-title">Quick Reference</div>
+        <div class="stat-row"><span class="stat-label">Battle-Ready</span><span class="stat-value mono">0–2 XP</span></div>
+        <div class="stat-row"><span class="stat-label">Battle-Hardened</span><span class="stat-value mono">3–5 XP</span></div>
+        <div class="stat-row"><span class="stat-label">Blooded</span><span class="stat-value warning mono">6–10 XP</span></div>
+        <div class="stat-row"><span class="stat-label">Heroic</span><span class="stat-value warning mono">11–15 XP</span></div>
+        <div class="stat-row"><span class="stat-label">Legendary</span><span class="stat-value warning mono">16+ XP</span></div>
+      </div>
+      <div class="panel animate-in animate-in-delay-1">
+        <div class="panel-title">CP Earned per Battle</div>
+        <div class="stat-row"><span class="stat-label">Winner</span><span class="stat-value success">+3 CP base</span></div>
+        <div class="stat-row"><span class="stat-label">Per Agenda (max 2)</span><span class="stat-value success">+1 CP</span></div>
+        <div class="stat-row"><span class="stat-label">Kill Warlord</span><span class="stat-value success">+1 CP</span></div>
+        <div class="stat-row"><span class="stat-label">Loser (consolation)</span><span class="stat-value">+1 CP</span></div>
+        <div class="stat-row"><span class="stat-label">Loser Agenda (max 1)</span><span class="stat-value">+1 CP</span></div>
+      </div>
+      <div class="panel animate-in animate-in-delay-2">
+        <div class="panel-title">Useful Links</div>
+        <ul class="honour-list">
+          <li><a href="agendas.html">All Agendas →</a></li>
+          <li><a href="honour-roll.html">Battle Honours →</a></li>
+          <li><a href="crusade-order.html">Supply Rules →</a></li>
+          <li><a href="tracker.html">CP Tracker →</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-seal">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div>
+  <p class="footer-text">For the glory of the Emperor and the preservation of Mankind.</p>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="agendas.html">Agendas</a></li>
+    <li><a href="honour-roll.html">Honours</a></li>
+    <li><a href="tracker.html">Tracker</a></li>
+  </ul>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bastior Sub-Sector — Tyrannic War Crusade</title>
+  <meta name="description" content="Crusade campaign hub for the Bastior Sub-Sector — Tyrannic Wars supplement for Warhammer 40,000.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* INDEX-SPECIFIC STYLES */
+    .home-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .home-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(139,0,0,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 30% 70%, rgba(26,42,10,0.15) 0%, transparent 45%),
+        radial-gradient(ellipse at 70% 80%, rgba(200,150,12,0.06) 0%, transparent 40%);
+    }
+    .aquila-art {
+      font-size: 3rem;
+      color: var(--gold-dim);
+      opacity: 0.6;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 0 20px rgba(200,150,12,0.3));
+    }
+    .home-sector-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--blood-bright);
+      margin-bottom: 1.2rem;
+    }
+    .home-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 5rem);
+      color: var(--gold);
+      text-shadow: 0 0 60px rgba(200,150,12,0.4), 0 4px 8px rgba(0,0,0,0.9);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.04em;
+    }
+    .home-subtitle {
+      font-family: var(--font-display);
+      font-size: clamp(0.9rem, 2vw, 1.4rem);
+      color: var(--gold-dim);
+      letter-spacing: 0.1em;
+      margin-bottom: 2rem;
+    }
+    .home-tagline {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      max-width: 600px;
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+    }
+    .home-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      max-width: 900px;
+      margin: 0 auto 4rem;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .home-nav-cell {
+      background: var(--dark2);
+      padding: 1.5rem 1.25rem;
+      text-align: left;
+      transition: all 0.3s ease;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+    .home-nav-cell::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(200,150,12,0.04);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .home-nav-cell:hover { background: var(--dark3); }
+    .home-nav-cell:hover::before { opacity: 1; }
+    .home-nav-cell:hover .hnc-icon { color: var(--gold-light); transform: scale(1.1); }
+    .hnc-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--gold-dim);
+      transition: all 0.3s ease;
+      display: block;
+    }
+    .hnc-title {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 0.25rem;
+    }
+    .hnc-desc {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+    .home-ticker-wrap { width: 100%; max-width: 900px; margin: 0 auto; }
+    .status-strip {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+    .status-item {
+      text-align: center;
+    }
+    .status-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--gold);
+      line-height: 1;
+      text-shadow: var(--shadow-gold);
+    }
+    .status-lbl {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-top: 0.25rem;
+    }
+    .lore-card {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: linear-gradient(135deg, var(--dark3) 0%, var(--dark2) 100%);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+    }
+    .lore-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    }
+  </style>
+</head>
+<body>
+
+<nav id="site-nav">
+  <div class="nav-brand">
+    Bastior Sub-Sector
+    <span>Tyrannic War Crusade</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="lore.html">Lore</a></li>
+    <li><a href="sector-map.html">Sector Map</a></li>
+    <li><a href="roster.html">Roster</a></li>
+    <li><a href="battle-log.html">Battle Log</a></li>
+    <li><a href="crusade-order.html">Order of Battle</a></li>
+    <li><a href="agendas.html">Agendas</a></li>
+    <li><a href="honour-roll.html">Honours</a></li>
+    <li><a href="rules-ref.html">Rules Ref</a></li>
+    <li><a href="tracker.html">Tracker</a></li>
+  </ul>
+  <button class="nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<section class="home-hero">
+  <div class="home-sector-tag animate-in">Segmentum Ultima — Bastior Sub-Sector — Active Crusade</div>
+  <div class="aquila-art animate-in animate-in-delay-1">⚜</div>
+  <h1 class="home-title animate-in animate-in-delay-1">Bastior<br>Sub-Sector</h1>
+  <div class="home-subtitle animate-in animate-in-delay-2">Tyrannic War Crusade</div>
+  <p class="home-tagline animate-in animate-in-delay-3">
+    The shadow has fallen. Hive Fleet Leviathan presses its tendrils into the Bastior Sub-Sector. Worlds burn and silence screams across the Warp. Hold the line, soldier — the Emperor's light must not go out here.
+  </p>
+
+  <div class="home-ticker-wrap animate-in animate-in-delay-4">
+    <div class="hive-fleet-ticker">
+      <span class="ticker-text">SHADOW IN THE WARP DETECTED — ASTROPATHIC CHOIR DISRUPTED</span>
+    </div>
+  </div>
+
+  <div class="status-strip animate-in animate-in-delay-4">
+    <div class="status-item">
+      <div class="status-num" id="home-cp"><span class="cp-live">0</span></div>
+      <div class="status-lbl">Crusade Points</div>
+    </div>
+    <div class="status-item">
+      <div class="status-num">7</div>
+      <div class="status-lbl">Star Systems</div>
+    </div>
+    <div class="status-item">
+      <div class="status-num text-blood">3</div>
+      <div class="status-lbl">Fallen Worlds</div>
+    </div>
+    <div class="status-item">
+      <div class="status-num text-hive">4</div>
+      <div class="status-lbl">Active Fronts</div>
+    </div>
+  </div>
+
+  <nav class="home-nav-grid animate-in">
+    <a href="lore.html" class="home-nav-cell">
+      <span class="hnc-icon">📜</span>
+      <div class="hnc-title">Sub-Sector Lore</div>
+      <div class="hnc-desc">History & background</div>
+    </a>
+    <a href="sector-map.html" class="home-nav-cell">
+      <span class="hnc-icon">🗺</span>
+      <div class="hnc-title">Sector Map</div>
+      <div class="hnc-desc">System control status</div>
+    </a>
+    <a href="roster.html" class="home-nav-cell">
+      <span class="hnc-icon">⚔</span>
+      <div class="hnc-title">Force Roster</div>
+      <div class="hnc-desc">Units & datasheets</div>
+    </a>
+    <a href="battle-log.html" class="home-nav-cell">
+      <span class="hnc-icon">📖</span>
+      <div class="hnc-title">Battle Log</div>
+      <div class="hnc-desc">Campaign history</div>
+    </a>
+    <a href="crusade-order.html" class="home-nav-cell">
+      <span class="hnc-icon">🛡</span>
+      <div class="hnc-title">Order of Battle</div>
+      <div class="hnc-desc">Armies & factions</div>
+    </a>
+    <a href="agendas.html" class="home-nav-cell">
+      <span class="hnc-icon">🎯</span>
+      <div class="hnc-title">Agendas</div>
+      <div class="hnc-desc">Campaign objectives</div>
+    </a>
+    <a href="honour-roll.html" class="home-nav-cell">
+      <span class="hnc-icon">🏅</span>
+      <div class="hnc-title">Honour Roll</div>
+      <div class="hnc-desc">Battle honours earned</div>
+    </a>
+    <a href="rules-ref.html" class="home-nav-cell">
+      <span class="hnc-icon">📋</span>
+      <div class="hnc-title">Rules Reference</div>
+      <div class="hnc-desc">Tyrannic War rules</div>
+    </a>
+    <a href="tracker.html" class="home-nav-cell">
+      <span class="hnc-icon">🎲</span>
+      <div class="hnc-title">Campaign Tracker</div>
+      <div class="hnc-desc">Points & resources</div>
+    </a>
+  </nav>
+</section>
+
+<section style="border-top:1px solid var(--border); padding: 4rem 2rem;">
+  <div class="lore-card animate-in">
+    <p class="section-title">Situation Report</p>
+    <p class="lore-text drop-cap">In the dying years of the 41st Millennium, the Bastior Sub-Sector faces its most terrible trial. What began as scattered vanguard organisms has swelled into a full tendril of Hive Fleet Leviathan. Three agri-worlds have already fallen silent, their biomass rendered down to feed the ever-hungry fleet.</p>
+    <p class="lore-text">The Imperial forces — Space Marines, Astra Militarum regiments, and the valiant forces of the Adeptus Mechanicus — have established a defence cordon centred on the forge world of Bastior Prime. But the Tyranid advance is relentless, guided by a synaptic intelligence that seems to learn from every Imperial stratagem.</p>
+
+    <blockquote class="scripture">
+      "There is no negotiation with the Great Devourer. There is only the choice between dying quickly and dying slowly. We choose neither — we choose to hold."
+      <cite>— Lord Commander Valdris Hemmont, Bastior Defence Cordon</cite>
+    </blockquote>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:1rem; margin-top:1.5rem;">
+      <div>
+        <div class="stat-label">Threat Level</div>
+        <div style="margin-top:0.3rem">
+          <div class="threat-bar-track"><div class="threat-bar-fill danger" style="width:78%"></div></div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--blood-bright);margin-top:0.2rem">CRITICAL — 78%</div>
+      </div>
+      <div>
+        <div class="stat-label">Imperial Control</div>
+        <div style="margin-top:0.3rem">
+          <div class="threat-bar-track"><div class="threat-bar-fill imperial" style="width:44%"></div></div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--gold);margin-top:0.2rem">CONTESTED — 44%</div>
+      </div>
+      <div>
+        <div class="stat-label">Hive Biomass</div>
+        <div style="margin-top:0.3rem">
+          <div class="threat-bar-track"><div class="threat-bar-fill tyranid" style="width:62%"></div></div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--tyranid-green);margin-top:0.2rem">GROWING — 62%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-seal">Bastior Sub-Sector — Segmentum Ultima — 999.M41</div>
+  <p class="footer-text">For the glory of the Emperor and the preservation of Mankind, we stand against the Devourer of Worlds.</p>
+  <ul class="footer-links">
+    <li><a href="lore.html">Lore</a></li>
+    <li><a href="sector-map.html">Map</a></li>
+    <li><a href="roster.html">Roster</a></li>
+    <li><a href="battle-log.html">Log</a></li>
+    <li><a href="tracker.html">Tracker</a></li>
+  </ul>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
