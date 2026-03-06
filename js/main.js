@@ -161,7 +161,7 @@ window.BattleLog = {
 /* ---- TRACKER ---- */
 window.Tracker = {
   KEY: 'bastior_tracker',
-  def()   { return {cp:0,supUsed:0,supMax:50,ig:6,w:10,wMax:10,hist:[]}; },
+  def()   { return {cp:0,supUsed:0,supMax:500,ig:6,w:10,wMax:10,hist:[]}; },
   load()  { try{return JSON.parse(localStorage.getItem(this.KEY))||this.def();}catch{return this.def();} },
   save(d) { try{localStorage.setItem(this.KEY,JSON.stringify(d));}catch{} },
   log(d,a,r){ d.hist.unshift({a,r,t:Date.now()}); if(d.hist.length>80)d.hist.pop(); },
